@@ -2,7 +2,9 @@
 
 import NavWrapper from '@/components/nav-wrapper'
 import { HomeHero } from '@/components/home-hero'
-import Component from '@/components/products-overview'
+import ProductsOverview from '@/components/products-overview'
+import { Faqs } from '@/components/faqs'
+import { Footer } from '@/components/footer'
 
 export default function Home() {
   return (
@@ -12,7 +14,9 @@ export default function Home() {
       </div>
       <main className="pt-24">
         <HomeHero />
-        <Component />
+        <ProductsOverview />
+        <Faqs />
+        <Footer />
       </main>
     </>
   );
