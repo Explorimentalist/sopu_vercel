@@ -53,13 +53,13 @@ export default function Nav() {
                     className="cursor-pointer"
                     onSelect={() => setLanguage("EN")}
                   >
-                    English (UK) 🇬🇧
+                    English (UK)
                   </MenubarItem>
                   <MenubarItem
                     className="cursor-pointer"
                     onSelect={() => setLanguage("ES")}
                   >
-                    Español (ES) 🇪🇸
+                    Español (ES)
                   </MenubarItem>
                 </MenubarContent>
               </MenubarMenu>
@@ -71,7 +71,7 @@ export default function Nav() {
                 <MenubarTrigger className="cursor-pointer font-medium data-[state=open]:bg-gray-100">
                   {currency}
                 </MenubarTrigger>
-                <MenubarContent align="end" className="min-w-[140px] font-sans">
+                <MenubarContent align="end" className="min-w-[140px] font-sans bg-white">
                   <MenubarItem
                     className="cursor-pointer"
                     onSelect={() => setCurrency("GBP")}

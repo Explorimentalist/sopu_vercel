@@ -18,35 +18,11 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
   const [currency, setCurrency] = useState<'EUR' | 'GBP'>('GBP')
   const [exchangeRate, setExchangeRate] = useState(1)
 
-  // Detect user's location and set initial currency
-  useEffect(() => {
-    const detectLocation = async () => {
-      try {
-        const response = await fetch('https://api.ipapi.com/check?access_key=YOUR_IPAPI_KEY')
-        const data = await response.json()
-        
-        // Set currency based on country
-        if (data.continent_code === 'EU' && data.country_code !== 'GB') {
-          setCurrency('EUR')
-        } else {
-          setCurrency('GBP')
-        }
-      } catch (error) {
-        console.error('Error detecting location:', error)
-        // Default to GBP if location detection fails
-        setCurrency('GBP')
-      }
-    }
-
-    detectLocation()
-  }, [])
-
-  // Fetch and cache exchange rates
   useEffect(() => {
     const fetchExchangeRate = async () => {
       try {
-        // Check localStorage for cached rate
-        const cached = localStorage.getItem('exchangeRateCache')
+        // Check cache first
+        const cached = localStorage.getItem('exchangeRate')
         if (cached) {
           const { rate, timestamp } = JSON.parse(cached)
           if (Date.now() - timestamp < CACHE_DURATION) {
@@ -55,41 +31,34 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
           }
         }
 
-        // Fetch new rate if cache is invalid or missing
+        // Fetch new rate if cache is invalid
         const response = await fetch(
           `https://v6.exchangerate-api.com/v6/${EXCHANGE_API_KEY}/latest/GBP`
         )
         const data = await response.json()
-
+        
         if (data.result === 'success') {
-          const newRate = data.conversion_rates.EUR
-          setExchangeRate(newRate)
-          
+          const rate = data.conversion_rates.EUR
+          setExchangeRate(rate)
           // Cache the new rate
-          localStorage.setItem('exchangeRateCache', JSON.stringify({
-            rate: newRate,
+          localStorage.setItem('exchangeRate', JSON.stringify({
+            rate,
             timestamp: Date.now()
           }))
         }
       } catch (error) {
         console.error('Error fetching exchange rate:', error)
-        // Use fallback rate if API call fails
-        setExchangeRate(1.17) // Fallback EUR/GBP rate
       }
     }
 
     fetchExchangeRate()
-  }, []) // Only run on mount
+  }, [])
 
   const formatPrice = (price: number) => {
-    if (!price) return '£0.00'
-    
     const finalPrice = currency === 'EUR' ? price * exchangeRate : price
     return new Intl.NumberFormat('en-GB', {
       style: 'currency',
       currency: currency,
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2
     }).format(finalPrice)
   }
 
