@@ -10,7 +10,9 @@ export default function Home() {
   return (
     <>
       <div className="fixed top-0 left-0 right-0 z-50">
-        <NavWrapper />
+        <header>
+          <NavWrapper />
+        </header>
       </div>
       <main className="pt-24">
         <HomeHero />

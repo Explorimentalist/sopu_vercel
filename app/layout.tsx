@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inknut_Antiqua, Noto_Sans } from 'next/font/google'
 import "./globals.css";
+import { CartProvider } from "@/context/cart-context"
 
 const inknutAntiqua = Inknut_Antiqua({
   subsets: ['latin'],
@@ -27,7 +28,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inknutAntiqua.variable} ${notoSans.variable} antialiased`}>
-        {children}
+        <CartProvider>
+          {children}
+        </CartProvider>
       </body>
     </html>
   );
