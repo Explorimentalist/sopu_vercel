@@ -5,6 +5,7 @@ import Image from "next/image"
 import { Minus, Plus, ShoppingCart, X } from "lucide-react"
 import { useCart } from "@/context/cart-context"
 import type { CartItem } from "@/context/cart-context"
+import { useCurrency } from "@/context/currency-context"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -18,6 +19,7 @@ import {
 
 export function CartSidebarComponent() {
   const { items, updateQuantity, removeItem } = useCart()
+  const { formatPrice } = useCurrency()
 
   const getVariantDisplay = (item: CartItem) => {
     console.log('Cart Item:', item)
@@ -117,7 +119,7 @@ export function CartSidebarComponent() {
                         </Button>
                       </div>
                       <p className="font-medium">
-                        £{(item.price * item.quantity).toFixed(2)}
+                        {formatPrice(item.price * item.quantity)}
                       </p>
                     </div>
                   </div>
@@ -131,7 +133,7 @@ export function CartSidebarComponent() {
             <div className="mb-4 flex items-center justify-between">
               <span className="text-base font-medium">Subtotal</span>
               <span className="text-base font-medium">
-                £{subtotal.toFixed(2)}
+                {formatPrice(subtotal)}
               </span>
             </div>
           )}

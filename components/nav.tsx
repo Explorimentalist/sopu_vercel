@@ -10,9 +10,11 @@ import {
   MenubarTrigger,
   Menubar,
 } from "@/components/ui/menubar"
+import { useCurrency } from "@/context/currency-context"
 
 export default function Nav() {
   const [language, setLanguage] = React.useState("EN")
+  const { currency, setCurrency } = useCurrency()
 
   return (
     <div className="w-full px-4 py-6">
@@ -58,6 +60,29 @@ export default function Nav() {
                     onSelect={() => setLanguage("ES")}
                   >
                     Español (ES) 🇪🇸
+                  </MenubarItem>
+                </MenubarContent>
+              </MenubarMenu>
+            </Menubar>
+
+            {/* Add Currency Selector */}
+            <Menubar className="border-none bg-transparent ml-2">
+              <MenubarMenu>
+                <MenubarTrigger className="cursor-pointer font-medium data-[state=open]:bg-gray-100">
+                  {currency}
+                </MenubarTrigger>
+                <MenubarContent align="end" className="min-w-[140px] font-sans">
+                  <MenubarItem
+                    className="cursor-pointer"
+                    onSelect={() => setCurrency("GBP")}
+                  >
+                    British Pound (£)
+                  </MenubarItem>
+                  <MenubarItem
+                    className="cursor-pointer"
+                    onSelect={() => setCurrency("EUR")}
+                  >
+                    Euro (€)
                   </MenubarItem>
                 </MenubarContent>
               </MenubarMenu>

@@ -3,6 +3,7 @@
 import * as React from "react"
 import { ChevronDown, Ruler, User, Languages } from "lucide-react"
 import { useCart } from "@/context/cart-context"
+import { useCurrency } from "@/context/currency-context"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -85,6 +86,7 @@ function ProductOption({ type, label, options, selected, onSelect }: ProductOpti
 export function ProductBarComponent({ name, price, options = [], onAddToCart }: ProductBarProps) {
   const [selections, setSelections] = React.useState<Record<string, string>>({})
   const { addItem } = useCart()
+  const { formatPrice } = useCurrency()
 
   const handleSelect = (type: string, value: string) => {
     setSelections((prev) => ({ ...prev, [type]: value }))
@@ -127,7 +129,7 @@ export function ProductBarComponent({ name, price, options = [], onAddToCart }: 
     <div className="flex h-full w-full flex-col bg-white p-6">
       <div className="mb-6">
         <h1 className="text-2xl font-normal">{name}</h1>
-        <p className="mt-2 text-xl">£{price}</p>
+        <p className="mt-2 text-xl">{formatPrice(price)}</p>
       </div>
 
       {options.map((option) => (

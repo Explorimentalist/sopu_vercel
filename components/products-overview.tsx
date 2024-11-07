@@ -3,7 +3,7 @@
 import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
-import React from "react"
+import { useCurrency } from "@/context/currency-context"
 
 interface Product {
   id: number
@@ -51,36 +51,7 @@ const products: Product[] = [
 
 export default function ProductsOverview() {
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null)
-  const [currency, setCurrency] = useState<'EUR' | 'GBP'>('GBP')
-  const [exchangeRate, setExchangeRate] = useState(1)
-
-  // Fetch exchange rate and set currency based on location
-  React.useEffect(() => {
-    const fetchExchangeRate = async () => {
-      try {
-        const response = await fetch('https://v6.exchangerate-api.com/v6/c4d2dd40d761cfd3916721bcY/latest/GBP')
-        const data = await response.json()
-        setExchangeRate(data.conversion_rates.EUR)
-        
-        // Get user's location and set currency
-        const userLocation = await fetch('https://api.ipapi.com/api/check?access_key=YOUR_API_KEY')
-        const locationData = await userLocation.json()
-        setCurrency(locationData.continent_code === 'EU' ? 'EUR' : 'GBP')
-      } catch (error) {
-        console.error('Error fetching exchange rate:', error)
-      }
-    }
-
-    fetchExchangeRate()
-  }, [])
-
-  const formatPrice = (price: number) => {
-    const finalPrice = currency === 'EUR' ? price * exchangeRate : price
-    return new Intl.NumberFormat('en-GB', {
-      style: 'currency',
-      currency: currency,
-    }).format(finalPrice)
-  }
+  const { formatPrice } = useCurrency()
 
   return (
     <div className="mx-auto grid max-w-7xl gap-8 px-4 md:grid-cols-2 font-sans">
