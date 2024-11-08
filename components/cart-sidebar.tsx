@@ -19,7 +19,7 @@ import {
 
 export function CartSidebarComponent() {
   const { items, updateQuantity, removeItem } = useCart()
-  const { formatPrice } = useCurrency()
+  const { formatPrice, currency, exchangeRate } = useCurrency()
 
   const getVariantDisplay = (item: CartItem) => {
     console.log('Cart Item:', item)
@@ -42,7 +42,30 @@ export function CartSidebarComponent() {
     return variants.join(', ')
   }
 
-  const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0)
+  const subtotal = items.reduce((sum, item) => {
+    const itemPrice = currency === 'EUR' ? item.price * exchangeRate : item.price
+    return sum + itemPrice * item.quantity
+  }, 0)
+
+  const handleCheckout = async () => {
+    try {
+      setIsProcessing(true);
+      
+      const stripe = await getStripe();
+      
+      if (!stripe) {
+        throw new Error('Stripe failed to initialize');
+      }
+
+      // ... rest of the checkout logic remains the same
+    } catch (error) {
+      console.error("Checkout error:", error);
+      // Add user feedback here
+      alert("Payment initialization failed. Please try again.");
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   return (
     <Sheet>
@@ -140,7 +163,10 @@ export function CartSidebarComponent() {
           <p className="mb-4 text-center text-sm text-gray-500">
             Shipping & taxes calculated at checkout
           </p>
-          <Button className="w-full bg-black text-white hover:bg-gray-800">
+          <Button 
+            className="w-full bg-black text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed" 
+            disabled={items.length === 0}
+          >
             CHECKOUT
           </Button>
         </div>

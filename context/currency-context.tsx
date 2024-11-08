@@ -48,11 +48,13 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
         }
       } catch (error) {
         console.error('Error fetching exchange rate:', error)
+        // Fallback to a default rate if API fails
+        setExchangeRate(1.17) // Example fallback rate
       }
     }
 
     fetchExchangeRate()
-  }, [])
+  }, []) // Only fetch on component mount
 
   const formatPrice = (price: number) => {
     const finalPrice = currency === 'EUR' ? price * exchangeRate : price
@@ -63,7 +65,12 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <CurrencyContext.Provider value={{ currency, exchangeRate, formatPrice, setCurrency }}>
+    <CurrencyContext.Provider value={{ 
+      currency, 
+      exchangeRate, // Make sure to expose exchangeRate
+      formatPrice, 
+      setCurrency 
+    }}>
       {children}
     </CurrencyContext.Provider>
   )
