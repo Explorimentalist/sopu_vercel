@@ -13,15 +13,16 @@ const CurrencyContext = createContext<CurrencyContextType | undefined>(undefined
 
 const CACHE_DURATION = 1000 * 60 * 60 // 1 hour
 const EXCHANGE_API_KEY = process.env.NEXT_PUBLIC_EXCHANGE_RATE_API_KEY
+const DEFAULT_RATE = 1.17 // Fallback EUR/GBP rate
 
 export function CurrencyProvider({ children }: { children: React.ReactNode }) {
   const [currency, setCurrency] = useState<'EUR' | 'GBP'>('GBP')
-  const [exchangeRate, setExchangeRate] = useState(1)
+  const [exchangeRate, setExchangeRate] = useState(DEFAULT_RATE)
 
   useEffect(() => {
     const fetchExchangeRate = async () => {
       try {
-        // Check cache first
+        // Try to get cached rate first
         const cached = localStorage.getItem('exchangeRate')
         if (cached) {
           const { rate, timestamp } = JSON.parse(cached)
@@ -31,25 +32,50 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
           }
         }
 
-        // Fetch new rate if cache is invalid
+        // Check if we have an API key
+        if (!EXCHANGE_API_KEY) {
+          console.warn('Exchange rate API key not found')
+          return
+        }
+
+        // Fetch new rate
         const response = await fetch(
-          `https://v6.exchangerate-api.com/v6/${EXCHANGE_API_KEY}/latest/GBP`
+          `https://v6.exchangerate-api.com/v6/${EXCHANGE_API_KEY}/pair/GBP/EUR`
         )
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+
         const data = await response.json()
         
-        if (data.result === 'success') {
-          const rate = data.conversion_rates.EUR
+        if (data.result === 'success' && data.conversion_rate) {
+          const rate = data.conversion_rate
           setExchangeRate(rate)
+          
           // Cache the new rate
           localStorage.setItem('exchangeRate', JSON.stringify({
             rate,
             timestamp: Date.now()
           }))
+        } else {
+          throw new Error('Invalid API response format')
         }
       } catch (error) {
         console.error('Error fetching exchange rate:', error)
-        // Fallback to a default rate if API fails
-        setExchangeRate(1.17) // Example fallback rate
+        
+        // Try to get the last cached rate even if expired
+        try {
+          const cached = localStorage.getItem('exchangeRate')
+          if (cached) {
+            const { rate } = JSON.parse(cached)
+            setExchangeRate(rate)
+            return
+          }
+        } catch (e) {
+          // If everything fails, use default rate
+          setExchangeRate(DEFAULT_RATE)
+        }
       }
     }
 
@@ -57,17 +83,27 @@ export function CurrencyProvider({ children }: { children: React.ReactNode }) {
   }, []) // Only fetch on component mount
 
   const formatPrice = (price: number) => {
-    const finalPrice = currency === 'EUR' ? price * exchangeRate : price
+    // Ensure price is a number
+    const numericPrice = Number(price)
+    if (isNaN(numericPrice)) {
+      console.warn('Invalid price provided to formatPrice:', price)
+      return '---'
+    }
+
+    const finalPrice = currency === 'EUR' ? numericPrice * exchangeRate : numericPrice
+    
     return new Intl.NumberFormat('en-GB', {
       style: 'currency',
       currency: currency,
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
     }).format(finalPrice)
   }
 
   return (
     <CurrencyContext.Provider value={{ 
       currency, 
-      exchangeRate, // Make sure to expose exchangeRate
+      exchangeRate,
       formatPrice, 
       setCurrency 
     }}>
