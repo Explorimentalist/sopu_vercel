@@ -6,6 +6,8 @@ import { Minus, Plus, ShoppingCart, X } from "lucide-react"
 import { useCart } from "@/context/cart-context"
 import type { CartItem } from "@/context/cart-context"
 import { useCurrency } from "@/context/currency-context"
+import { useState } from 'react'
+import getStripe from '@/lib/getStripe'
 
 import { Button } from "@/components/ui/button"
 import {
@@ -20,6 +22,7 @@ import {
 export function CartSidebarComponent() {
   const { items, updateQuantity, removeItem } = useCart()
   const { formatPrice, currency, exchangeRate } = useCurrency()
+  const [isProcessing, setIsProcessing] = useState(false)
 
   const getVariantDisplay = (item: CartItem) => {
     console.log('Cart Item:', item)
@@ -49,23 +52,59 @@ export function CartSidebarComponent() {
 
   const handleCheckout = async () => {
     try {
-      setIsProcessing(true);
-      
-      const stripe = await getStripe();
-      
-      if (!stripe) {
-        throw new Error('Stripe failed to initialize');
+      setIsProcessing(true)
+
+      // Format line items
+      const lineItems = items.map(item => ({
+        name: item.name,
+        price: Number((currency === 'EUR' ? item.price * exchangeRate : item.price).toFixed(2)),
+        quantity: item.quantity,
+        image: item.image || null,
+      }))
+
+      // Log what we're sending
+      console.log('Sending to checkout:', {
+        items: lineItems,
+        currency: currency.toLowerCase()
+      })
+
+      const response = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          items: lineItems,
+          currency: currency.toLowerCase(),
+        }),
+      })
+
+      const data = await response.json()
+      console.log('Checkout response:', data)
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Checkout failed')
       }
 
-      // ... rest of the checkout logic remains the same
-    } catch (error) {
-      console.error("Checkout error:", error);
-      // Add user feedback here
-      alert("Payment initialization failed. Please try again.");
+      const stripe = await getStripe()
+      if (!stripe) {
+        throw new Error('Failed to load Stripe')
+      }
+
+      const { error } = await stripe.redirectToCheckout({
+        sessionId: data.id,
+      })
+
+      if (error) {
+        throw error
+      }
+    } catch (error: any) {
+      console.error('Checkout error:', error)
+      alert(error.message || 'Payment initialization failed. Please try again.')
     } finally {
-      setIsProcessing(false);
+      setIsProcessing(false)
     }
-  };
+  }
 
   return (
     <Sheet>
@@ -165,9 +204,10 @@ export function CartSidebarComponent() {
           </p>
           <Button 
             className="w-full bg-black text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed" 
-            disabled={items.length === 0}
+            disabled={items.length === 0 || isProcessing}
+            onClick={handleCheckout}
           >
-            CHECKOUT
+            {isProcessing ? 'Processing...' : 'CHECKOUT'}
           </Button>
         </div>
       </SheetContent>
