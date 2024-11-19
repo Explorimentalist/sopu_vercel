@@ -12,18 +12,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     setOrigin(window.location.origin)
   }, [])
 
-  if (!origin) return null // Don't render until we have the origin
+  if (!origin) return null
 
   return (
     <USCProvider
       mode="payment"
       cartMode="client-only"
       stripe={stripeKey}
-      successUrl={`${origin}/success`}
+      successUrl={`${origin}/checkout/success`}
       cancelUrl={`${origin}/`}
       currency="USD"
       billingAddressCollection={true}
       shouldPersist={true}
+      persistKey="sopu-cart-items"
       language="en-US"
     >
       {children}

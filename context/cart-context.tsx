@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useState } from 'react'
+import React, { createContext, useContext, useState, useEffect } from 'react'
 
 export interface CartItem {
   id: string
@@ -25,8 +25,27 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined)
 
+const CART_STORAGE_KEY = 'sopu-cart-items'
+
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([])
+
+  // Load cart items from localStorage on mount
+  useEffect(() => {
+    const savedItems = localStorage.getItem(CART_STORAGE_KEY)
+    if (savedItems) {
+      try {
+        setItems(JSON.parse(savedItems))
+      } catch (error) {
+        console.error('Error loading cart items:', error)
+      }
+    }
+  }, [])
+
+  // Save cart items to localStorage whenever they change
+  useEffect(() => {
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items))
+  }, [items])
 
   const addItem = (newItem: CartItem) => {
     setItems(currentItems => {
