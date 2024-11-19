@@ -1,22 +1,17 @@
 'use client'
 
 import Link from 'next/link'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { useCart } from '@/context/cart-context'
 import NavWrapper from '@/components/nav-wrapper'
 
 export default function CheckoutSuccessPage() {
   const { clearCart } = useCart()
-  const [cleared, setCleared] = useState(false)
 
   useEffect(() => {
-    try {
-      clearCart()
-      setCleared(true)
-    } catch (error) {
-      console.error('Error clearing cart:', error)
-    }
-  }, [clearCart])
+    // Clear cart only once when component mounts
+    clearCart()
+  }, []) // Remove clearCart from dependencies to prevent re-runs
 
   return (
     <>

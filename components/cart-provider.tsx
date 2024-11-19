@@ -20,7 +20,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       cartMode="client-only"
       stripe={stripeKey}
       successUrl={`${origin}/success`}
-      cancelUrl={`${origin}/cart`}
+      cancelUrl={`${origin}/`}
       currency="USD"
       billingAddressCollection={true}
       shouldPersist={true}

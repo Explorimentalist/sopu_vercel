@@ -106,17 +106,24 @@ export function CartSidebarComponent() {
     }
   }
 
+  // Calculate total quantity
+  const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0)
+
   return (
     <Sheet>
       <SheetTrigger asChild>
-        <Button variant="outline" size="icon" className="relative">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="relative"
+          aria-label="Open cart"
+        >
           <ShoppingCart className="h-5 w-5" />
-          {items.length > 0 && (
-            <span className="absolute -right-2 -top-2 h-5 w-5 rounded-full bg-red-500 text-xs text-white flex items-center justify-center">
-              {items.length}
+          {totalQuantity > 0 && (
+            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-black text-xs text-white">
+              {totalQuantity}
             </span>
           )}
-          <span className="sr-only">Open cart</span>
         </Button>
       </SheetTrigger>
       <SheetContent className="flex w-full flex-col border-l px-0 sm:max-w-md">

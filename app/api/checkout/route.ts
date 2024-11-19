@@ -56,7 +56,7 @@ export async function POST(req: Request) {
     console.log('Creating Stripe session with:', {
       lineItems,
       successUrl: `${origin}/checkout/success`,
-      cancelUrl: `${origin}/cart`
+      cancelUrl: `${origin}/`
     })
 
     const session = await stripe.checkout.sessions.create({
@@ -64,7 +64,7 @@ export async function POST(req: Request) {
       line_items: lineItems,
       mode: 'payment',
       success_url: `${origin}/checkout/success`,
-      cancel_url: `${origin}/cart`,
+      cancel_url: `${origin}/`,
     })
 
     console.log('Session created:', session.id)

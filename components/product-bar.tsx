@@ -122,6 +122,7 @@ export function ProductBarComponent({ name, price, options = [], onAddToCart }: 
     }
 
     addItem(cartItem)
+    setSelections({})
     onAddToCart()
   }
 
