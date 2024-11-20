@@ -3,15 +3,13 @@ console.log('ENV check:', {
   pubKey: process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.slice(0, 8) + '...'
 })
 import { NextResponse } from 'next/server'
-import { stripe } from '@/lib/stripe'
+import { createCheckoutSession } from '@/lib/stripe'
+import type { ShippingAddress } from '@/types/shipping'
 
 export async function POST(req: Request) {
   try {
     const body = await req.json()
     const origin = req.headers.get('origin') || 'http://localhost:3001'
-    
-    // Debug logging
-    console.log('Request body:', body)
     
     if (!body.items?.length) {
       return NextResponse.json(
@@ -29,13 +27,11 @@ export async function POST(req: Request) {
       )
     }
 
-    // Create line items with validation and absolute URLs
     const lineItems = items.map((item: any) => {
       if (!item.name || !item.price || !item.quantity) {
         throw new Error(`Invalid item data: ${JSON.stringify(item)}`)
       }
 
-      // Convert relative image URLs to absolute URLs
       const imageUrl = item.image?.startsWith('/')
         ? `${origin}${item.image}`
         : item.image
@@ -53,29 +49,16 @@ export async function POST(req: Request) {
       }
     })
 
-    console.log('Creating Stripe session with:', {
+    const session = await createCheckoutSession({
       lineItems,
-      successUrl: `${origin}/checkout/success`,
-      cancelUrl: `${origin}/`
+      currency: currency.toLowerCase(),
+      successUrl: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancelUrl: `${origin}/checkout/cancel`,
     })
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ['card'],
-      line_items: lineItems,
-      mode: 'payment',
-      success_url: `${origin}/checkout/success`,
-      cancel_url: `${origin}/`,
-    })
-
-    console.log('Session created:', session.id)
     return NextResponse.json({ id: session.id })
   } catch (error: any) {
-    console.error('Detailed checkout error:', {
-      message: error.message,
-      type: error.type,
-      stack: error.stack
-    })
-    
+    console.error('Checkout error:', error)
     return NextResponse.json(
       { error: error.message || 'Checkout creation failed' },
       { status: error.statusCode || 400 }
