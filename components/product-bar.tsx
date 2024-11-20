@@ -36,6 +36,10 @@ interface ProductBarProps {
     type: OptionType
     label: string
     options: Option[]
+    dependsOn?: {
+      type: OptionType
+      values: Record<string, Option[]>
+    }
   }[]
   onAddToCart: () => void
 }
@@ -126,6 +130,15 @@ export function ProductBarComponent({ name, price, options = [], onAddToCart }: 
     onAddToCart()
   }
 
+  const getFilteredOptions = (option: ProductBarProps['options'][0]) => {
+    if (!option.dependsOn) return option.options
+
+    const parentValue = selections[option.dependsOn.type]
+    if (!parentValue) return []
+
+    return option.dependsOn.values[parentValue] || option.options
+  }
+
   return (
     <div className="flex h-full w-full flex-col bg-white p-6">
       <div className="mb-6">
@@ -138,9 +151,22 @@ export function ProductBarComponent({ name, price, options = [], onAddToCart }: 
           key={option.type}
           type={option.type}
           label={option.label}
-          options={option.options}
+          options={getFilteredOptions(option)}
           selected={selections[option.type]}
-          onSelect={(value) => handleSelect(option.type, value)}
+          onSelect={(value) => {
+            handleSelect(option.type, value)
+            if (options.some(opt => opt.dependsOn?.type === option.type)) {
+              setSelections(prev => {
+                const newSelections = { ...prev, [option.type]: value }
+                options.forEach(opt => {
+                  if (opt.dependsOn?.type === option.type) {
+                    delete newSelections[opt.type]
+                  }
+                })
+                return newSelections
+              })
+            }
+          }}
         />
       ))}
 

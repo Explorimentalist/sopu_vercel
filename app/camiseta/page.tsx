@@ -5,6 +5,21 @@ import NavWrapper from "@/components/nav-wrapper"
 import { Footer } from "@/components/footer"
 
 export default function CamisetaPage() {
+  const adultSizes = [
+    { id: "1", label: "S", value: "s" },
+    { id: "2", label: "M", value: "m" },
+    { id: "3", label: "L", value: "l" },
+    { id: "4", label: "XL", value: "xl" },
+    { id: "5", label: "XXL", value: "xxl" },
+  ]
+
+  const kidsSizes = [
+    { id: "6", label: "2T", value: "2t" },
+    { id: "7", label: "3T", value: "3t" },
+    { id: "8", label: "4T", value: "4t" },
+    { id: "9", label: "5T", value: "5t" },
+  ]
+
   return (
     <>
       <div className="fixed top-0 left-0 right-0 z-50">
@@ -52,13 +67,15 @@ export default function CamisetaPage() {
               {
                 type: "size",
                 label: "Talla",
-                options: [
-                  { id: "1", label: "S", value: "s" },
-                  { id: "2", label: "M", value: "m" },
-                  { id: "3", label: "L", value: "l" },
-                  { id: "4", label: "XL", value: "xl" },
-                  { id: "5", label: "XXL", value: "xxl" },
-                ],
+                options: [], // Empty default options
+                dependsOn: {
+                  type: "gender",
+                  values: {
+                    male: adultSizes,
+                    female: adultSizes,
+                    kids: kidsSizes,
+                  }
+                }
               },
             ]}
             onAddToCart={() => alert("Added to cart")}
