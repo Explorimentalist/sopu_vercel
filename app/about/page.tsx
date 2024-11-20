@@ -2,6 +2,7 @@
 
 import NavWrapper from "@/components/nav-wrapper"
 import { AboutHero } from "@/components/about-hero"
+import { Footer } from '@/components/footer'
 import Image from "next/image"
 
 export default function AboutPage() {
@@ -70,6 +71,7 @@ export default function AboutPage() {
             </p>
           </div>
         </section>
+        <Footer />
       </main>
     </>
   )

@@ -1,6 +1,7 @@
 'use client'
 
 import { ProductBarComponent } from "@/components/product-bar"
+import { Footer } from "@/components/footer" 
 import NavWrapper from "@/components/nav-wrapper"
 
 export default function CalendarioPage() {
@@ -36,10 +37,8 @@ export default function CalendarioPage() {
                 type: "language",
                 label: "Variante lingüística",
                 options: [
-                  { id: "1", label: "Bènga", value: "benga" },
-                  { id: "2", label: "Bapuku", value: "bapuku" },
-                  { id: "3", label: "Kombe", value: "kombe" },
-                  { id: "4", label: "One", value: "one" },
+                  { id: "1", label: "Kombe", value: "kombe" },
+                  { id: "2", label: "Basèki", value: "baseki" },
                 ],
               },
               {
@@ -55,6 +54,7 @@ export default function CalendarioPage() {
           />
         </div>
       </div>
+      <Footer/>
     </>
   )
 }

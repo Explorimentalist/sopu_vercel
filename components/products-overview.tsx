@@ -26,7 +26,7 @@ const products: Product[] = [
   {
     id: 2,
     name: "Calendario Ndowéyé",
-    tag: "Digital o Impreso",
+    tag: "Kombe o Basèki",
     price: 15,
     image: "/images/products/calendario/calendarioA3_2.png",
     hoverImage: "/images/products/calendario/calendarioA4_1.png",

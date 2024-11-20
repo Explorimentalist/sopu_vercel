@@ -117,31 +117,34 @@ export function Footer() {
         {/* Legal Section */}
         <div className="flex flex-col items-center gap-6 border-t border-white/10 pt-8">
           <div className="flex flex-wrap items-center justify-center gap-4 text-sm text-gray-400">
-            <span>© 2024 Sopu. All rights reserved.</span>
+            <span>© 2024 Sópu. All rights reserved.</span>
             <span className="h-1 w-1 rounded-full bg-gray-700" />
             <Link
-              href="/privacy"
+              href="https://mighty-smoke-371.notion.site/Pol-tica-de-Privacidad-1436536706648087a616c01bfa8b9b5d?pvs=4"
               className="transition-colors hover:text-gray-300"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Privacy Policy
+              Política de Privacidad
             </Link>
             <span className="h-1 w-1 rounded-full bg-gray-700" />
             <Link
-              href="/terms"
+              href="https://mighty-smoke-371.notion.site/Pol-tica-de-devoluciones-14365367066480e1a58cd3bec04b98db?pvs=4"
               className="transition-colors hover:text-gray-300"
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Terms of Service
+              Política de devoluciones
             </Link>
             <span className="h-1 w-1 rounded-full bg-gray-700" />
-            <button
+            <Link
+              href="https://mighty-smoke-371.notion.site/Pol-tica-de-Cookies-1446536706648062a963d1db9b14516a?pvs=4"
               className="transition-colors hover:text-gray-300"
-              onClick={() => {
-                // Add your cookies settings logic here
-                console.log("Open cookies settings")
-              }}
+              target="_blank"
+              rel="noopener noreferrer"
             >
-              Cookies Settings
-            </button>
+              Política de Cookies
+            </Link>
           </div>
         </div>
       </div>

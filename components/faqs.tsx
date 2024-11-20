@@ -10,62 +10,131 @@ import {
 export function Faqs() {
   return (
     <div className="mx-auto w-full max-w-3xl px-4 py-12 font-sans">
-      <h1 className="mb-8 text-5xl font-bold">FAQ</h1>
+      <h1 className="mb-8 text-5xl font-bold">Preguntas Frecuentes (FAQs)</h1>
       <Accordion type="single" collapsible className="w-full">
         <AccordionItem value="item-1" className="w-full border-b border-t-0 px-0">
           <AccordionTrigger className="text-xl font-normal hover:no-underline [&[data-state=open]>div>svg]:rotate-180 flex w-full">
-            <div className="flex-1 text-left">What are your services like?</div>
+            <div className="flex-1 text-left">¿Qué productos ofrece Sópu?</div>
           </AccordionTrigger>
           <AccordionContent className="text-base leading-relaxed pr-4">
-            Our services are designed to be welcoming and inclusive. We focus on creating a meaningful
-            experience through worship, community, and practical teaching that relates to everyday life.
+            <p>Sópu ofrece una selección exclusiva de productos Ndowéÿé:</p>
+            <ul className="list-disc pl-6 mt-2">
+              <li>Camisetas para hombres, mujeres (tallas S a XXL) y niños (tallas 2T a 5T)</li>
+              <li>Calendarios en formato impreso y digital para el año 2025, disponibles en los tamaños DINA3 y DINA4</li>
+              <li>Libros infantiles en Ndowéÿé, disponibles a través de Amazon</li>
+            </ul>
           </AccordionContent>
         </AccordionItem>
 
         <AccordionItem value="item-2" className="w-full border-t-0 px-0">
           <AccordionTrigger className="text-xl font-normal hover:no-underline [&[data-state=open]>div>svg]:rotate-180 flex w-full">
-            <div className="flex-1 text-left">What will happen when I visit for the first time?</div>
+            <div className="flex-1 text-left">¿En qué idiomas están disponibles los productos?</div>
           </AccordionTrigger>
           <AccordionContent className="text-base leading-relaxed pr-4">
-            When you arrive, you'll be greeted by our welcome team who will help you get oriented.
-            You can expect a warm welcome, engaging service, and the opportunity to connect with others.
+            Los productos están disponibles en Ndowéÿé y Español.
           </AccordionContent>
         </AccordionItem>
 
         <AccordionItem value="item-3" className="w-full border-t-0 px-0">
           <AccordionTrigger className="text-xl font-normal hover:no-underline [&[data-state=open]>div>svg]:rotate-180 flex w-full">
-            <div className="flex-1 text-left">What do I wear?</div>
+            <div className="flex-1 text-left">¿Qué opciones lingüísticas tienen los calendarios?</div>
           </AccordionTrigger>
           <AccordionContent className="text-base leading-relaxed pr-4">
-            Come as you are! We maintain a casual and comfortable atmosphere. Wear what makes you
-            feel comfortable and ready to engage with the community.
+            Los calendarios están disponibles en las variantes lingüísticas Basèki y Kombe.
           </AccordionContent>
         </AccordionItem>
 
         <AccordionItem value="item-4" className="w-full border-t-0 px-0">
           <AccordionTrigger className="text-xl font-normal hover:no-underline [&[data-state=open]>div>svg]:rotate-180 flex w-full">
-            <div className="flex-1 text-left">What&apos;s the vibe like?</div>
+            <div className="flex-1 text-left">¿Puedo personalizar los productos?</div>
           </AccordionTrigger>
           <AccordionContent className="text-base leading-relaxed pr-4">
-            <p className="mb-4">
-              If you&apos;re too big to serve then you are too small to lead. We believe the greatest
-              leadership is service to others.
-            </p>
-            <p>
-              Every leader is a servant first. From the parking lot to the pulpit, everyone serves.
-              Every role is different but they are all important.
-            </p>
+            No, actualmente los productos no son personalizables.
           </AccordionContent>
         </AccordionItem>
 
         <AccordionItem value="item-5" className="w-full border-t-0 px-0">
           <AccordionTrigger className="text-xl font-normal hover:no-underline [&[data-state=open]>div>svg]:rotate-180 flex w-full">
-            <div className="flex-1 text-left">What do you offer for middle and high schoolers?</div>
+            <div className="flex-1 text-left">¿Sópu realiza envíos internacionales?</div>
           </AccordionTrigger>
           <AccordionContent className="text-base leading-relaxed pr-4">
-            We have dedicated programs for middle and high school students that include engaging
-            activities, meaningful discussions, and opportunities to build lasting friendships in a
-            safe and supportive environment.
+            Sí, realizamos envíos a países europeos, incluyendo Reino Unido y España.
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="item-6" className="w-full border-t-0 px-0">
+          <AccordionTrigger className="text-xl font-normal hover:no-underline [&[data-state=open]>div>svg]:rotate-180 flex w-full">
+            <div className="flex-1 text-left">¿Qué métodos de envío utilizan?</div>
+          </AccordionTrigger>
+          <AccordionContent className="text-base leading-relaxed pr-4">
+            El envío estándar es la opción predeterminada. Si desea un método diferente, por favor contáctenos.
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="item-7" className="w-full border-t-0 px-0">
+          <AccordionTrigger className="text-xl font-normal hover:no-underline [&[data-state=open]>div>svg]:rotate-180 flex w-full">
+            <div className="flex-1 text-left">¿Cómo puedo comprar los libros en Amazon?</div>
+          </AccordionTrigger>
+          <AccordionContent className="text-base leading-relaxed pr-4">
+            En nuestra tienda encontrará un enlace directo para adquirir los libros a través de Amazon.
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="item-8" className="w-full border-t-0 px-0">
+          <AccordionTrigger className="text-xl font-normal hover:no-underline [&[data-state=open]>div>svg]:rotate-180 flex w-full">
+            <div className="flex-1 text-left">¿Puedo rastrear mi pedido?</div>
+          </AccordionTrigger>
+          <AccordionContent className="text-base leading-relaxed pr-4">
+            Actualmente no ofrecemos un sistema de rastreo para los pedidos.
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="item-9" className="w-full border-t-0 px-0">
+          <AccordionTrigger className="text-xl font-normal hover:no-underline [&[data-state=open]>div>svg]:rotate-180 flex w-full">
+            <div className="flex-1 text-left">¿Cuáles son las formas de pago aceptadas?</div>
+          </AccordionTrigger>
+          <AccordionContent className="text-base leading-relaxed pr-4">
+            Aceptamos pagos internacionales a través de Stripe.
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="item-10" className="w-full border-t-0 px-0">
+          <AccordionTrigger className="text-xl font-normal hover:no-underline [&[data-state=open]>div>svg]:rotate-180 flex w-full">
+            <div className="flex-1 text-left">¿Tendré que pagar impuestos o aranceles si vivo en España?</div>
+          </AccordionTrigger>
+          <AccordionContent className="text-base leading-relaxed pr-4">
+            Sí, los productos enviados desde el Reino Unido a España pueden estar sujetos a impuestos o aranceles. Los costos específicos dependen de las normativas locales y del transportista.
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="item-11" className="w-full border-t-0 px-0">
+          <AccordionTrigger className="text-xl font-normal hover:no-underline [&[data-state=open]>div>svg]:rotate-180 flex w-full">
+            <div className="flex-1 text-left">¿Qué hago si recibo un producto dañado?</div>
+          </AccordionTrigger>
+          <AccordionContent className="text-base leading-relaxed pr-4">
+            <p>Si recibe un producto dañado, puede:</p>
+            <ol className="list-decimal pl-6 mt-2">
+              <li>Solicitar un cambio, cubriendo usted los costos de envío</li>
+              <li>Pedir un reembolso parcial enviándonos fotos del producto dañado como evidencia</li>
+            </ol>
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="item-12" className="w-full border-t-0 px-0">
+          <AccordionTrigger className="text-xl font-normal hover:no-underline [&[data-state=open]>div>svg]:rotate-180 flex w-full">
+            <div className="flex-1 text-left">¿Puedo devolver un producto?</div>
+          </AccordionTrigger>
+          <AccordionContent className="text-base leading-relaxed pr-4">
+            Sí, puede devolver un producto dentro de las 2 semanas posteriores a su recepción, siempre y cuando esté en su empaque original y en buen estado. Los costos de devolución serán cubiertos por el cliente.
+          </AccordionContent>
+        </AccordionItem>
+
+        <AccordionItem value="item-13" className="w-full border-t-0 px-0">
+          <AccordionTrigger className="text-xl font-normal hover:no-underline [&[data-state=open]>div>svg]:rotate-180 flex w-full">
+            <div className="flex-1 text-left">¿Cómo puedo contactar a Sópu?</div>
+          </AccordionTrigger>
+          <AccordionContent className="text-base leading-relaxed pr-4">
+            Puede enviarnos un correo electrónico utilizando el formulario de contacto en nuestra página web. Su mensaje será reenviado automáticamente a nuestro correo: brianoko@gmail.com.
           </AccordionContent>
         </AccordionItem>
       </Accordion>

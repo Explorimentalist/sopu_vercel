@@ -2,6 +2,7 @@
 
 import { ProductBarComponent } from "@/components/product-bar"
 import NavWrapper from "@/components/nav-wrapper"
+import { Footer } from "@/components/footer"
 
 export default function CamisetaPage() {
   return (
@@ -64,6 +65,8 @@ export default function CamisetaPage() {
           />
         </div>
       </div>
+
+      <Footer/>
     </>
   )
 }
