@@ -82,20 +82,20 @@ export function CookieConsent() {
         <div className="mt-6 flex flex-col gap-2">
           <Button 
             onClick={handleAcceptAll} 
-            className="w-full bg-green-600 hover:bg-green-700 text-white"
+            className="w-full bg-black hover:bg-gray-800 text-white transition-colors"
           >
             Aceptar Todo
           </Button>
           <Button 
             onClick={handleRejectAll} 
-            className="w-full bg-red-600 hover:bg-red-700 text-white"
+            className="w-full bg-gray-200 hover:bg-gray-300 text-gray-800 transition-colors"
           >
             Rechazar Todo
           </Button>
           <Button 
             onClick={handleCustomize} 
             variant="outline" 
-            className="w-full"
+            className="w-full border-gray-300 hover:bg-gray-100 hover:border-gray-400 transition-all"
           >
             Personalizar Preferencias
           </Button>

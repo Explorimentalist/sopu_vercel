@@ -30,22 +30,22 @@ export default function CamisetaPage() {
         <div className="w-full md:w-[70%] p-4">
           {/* Add your product images/content here */}
           <div className="h-fit bg-gray-100">
-            <img src="/images/products/camiseta/camiseta1.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto rounded-lg" />
+            <img src="/images/products/camiseta/camiseta1.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto" />
           </div>
-          <div className="h-fit bg-gray-100 rounded-lg">
-            <img src="/images/products/camiseta/camiseta2.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto rounded-lg" />
+          <div className="h-fit bg-gray-100">
+            <img src="/images/products/camiseta/camiseta2.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto" />
           </div>
-          <div className="h-fit bg-gray-100 rounded-lg">
-            <img src="/images/products/camiseta/camiseta3.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto rounded-lg" />
+          <div className="h-fit bg-gray-100">
+            <img src="/images/products/camiseta/camiseta3.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto" />
           </div>
-          <div className="h-fit bg-gray-100 rounded-lg">
-            <img src="/images/products/camiseta/camiseta4.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto rounded-lg" />
+          <div className="h-fit bg-gray-100">
+            <img src="/images/products/camiseta/camiseta4.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto" />
           </div>
-          <div className="h-fit bg-gray-100 rounded-lg">
-            <img src="/images/products/camiseta/camiseta5.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto rounded-lg" />
+          <div className="h-fit bg-gray-100">
+            <img src="/images/products/camiseta/camiseta5.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto" />
           </div>
-          <div className="h-fit bg-gray-100 rounded-lg">
-            <img src="/images/products/camiseta/camiseta6.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto rounded-lg" />
+          <div className="h-fit bg-gray-100">
+            <img src="/images/products/camiseta/camiseta6.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto" />
           </div>
         </div>
 

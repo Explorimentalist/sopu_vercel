@@ -14,16 +14,16 @@ export default function CalendarioPage() {
         {/* Main Content Area */}
         <div className="w-full md:w-[70%] p-4">
           <div className="h-fit bg-gray-100">
-            <img src="/images/products/calendario/calendarioA3_1.png" alt="Calendario Ndowéyé" className="w-full h-auto rounded-lg" />
+            <img src="/images/products/calendario/calendarioA3_1.png" alt="Calendario Ndowéyé" className="w-full h-auto" />
           </div>
-          <div className="h-fit bg-gray-100 rounded-lg">
-            <img src="/images/products/calendario/calendarioA3_2.png" alt="Calendario Ndowéyé" className="w-full h-auto rounded-lg" />
+          <div className="h-fit bg-gray-100">
+            <img src="/images/products/calendario/calendarioA3_2.png" alt="Calendario Ndowéyé" className="w-full h-auto" />
           </div>
-          <div className="h-fit bg-gray-100 rounded-lg">
-            <img src="/images/products/calendario/calendarioA4_1.png" alt="Calendario Ndowéyé" className="w-full h-auto rounded-lg" />
+          <div className="h-fit bg-gray-100">
+            <img src="/images/products/calendario/calendarioA4_1.png" alt="Calendario Ndowéyé" className="w-full h-auto" />
           </div>
-          <div className="h-fit bg-gray-100 rounded-lg">
-            <img src="/images/products/calendario/calendarioA4_2.png" alt="Calendario Ndowéyé" className="w-full h-auto rounded-lg" />
+          <div className="h-fit bg-gray-100">
+            <img src="/images/products/calendario/calendarioA4_2.png" alt="Calendario Ndowéyé" className="w-full h-auto" />
           </div>
         </div>
 

@@ -39,14 +39,14 @@ const products: Product[] = [
     image: "/placeholder.svg?height=600&width=600",
     hoverImage: "/placeholder.svg?height=600&width=600",
   },
-  {
-    id: 4,
-    name: "Epàlwí-rèbbo ekalanga panyólé",
-    tag: "Aplicación móvil",
-    price: 2,
-    image: "/placeholder.svg?height=600&width=600",
-    hoverImage: "/placeholder.svg?height=600&width=600",
-  },
+  // {
+  //   id: 4,
+  //   name: "Epàlwí-rèbbo ekalanga panyólé",
+  //   tag: "Aplicación móvil",
+  //   price: 2,
+  //   image: "/placeholder.svg?height=600&width=600",
+  //   hoverImage: "/placeholder.svg?height=600&width=600",
+  // },
 ]
 
 export default function ProductsOverview() {
