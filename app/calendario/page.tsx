@@ -5,6 +5,31 @@ import { Footer } from "@/components/footer"
 import NavWrapper from "@/components/nav-wrapper"
 
 export default function CalendarioPage() {
+  const productDetails = {
+    en: `Celebrate the upcoming year with the Likano Calendar, inspired by the timeless fables of Likano la bolo nyama. With stunning illustrations, it's available in two linguistic variants, Basekí and Kombe, to honor cultural storytelling.
+
+Choose between A4 size for compact spaces or A3 for a more prominent decorative touch. Each month features unique artworks that combine practicality with cultural heritage.
+
+Key Features:
+
+	•	Illustrated Inspiration: Monthly artwork based on Likano la bolo nyama.
+	•	Bilingual Options: Basekí and Kombe for a personal cultural connection.
+	•	Customizable Sizes: Perfect to fit your space and style.
+
+More than a calendar, it's an artwork to enrich your walls and your daily life. Perfect as a special gift or as a meaningful addition to your home, the Likano Calendar lets you celebrate beauty and tradition every day.`,
+    es: `Celebra el próximo año con el Calendario Likano, inspirado en las fábulas atemporales de Likano la bolo nyama. Con impresionantes ilustraciones, está disponible en dos variantes lingüísticas, Basekí y Kombe, para honrar la narración cultural.
+
+Elige entre el tamaño A4 para espacios reducidos o A3 para un toque decorativo más destacado. Cada mes presenta obras únicas que combinan practicidad con herencia cultural.
+
+Características principales:
+
+	•	Inspiración ilustrada: Arte mensual basado en Likano la bolo nyama.
+	•	Opciones bilingües: Basekí y Kombe para una conexión cultural personal.
+	•	Tamaños personalizables: Perfecto para adaptarse a tu espacio y estilo.
+
+Más que un calendario, es una obra de arte para enriquecer tus paredes y tu día a día. Perfecto como regalo especial o como una adición significativa a tu hogar, el Calendario Likano te permite celebrar la belleza y la tradición cada día.`
+  };
+
   return (
     <>
       <div className="fixed top-0 left-0 right-0 z-50">
@@ -51,6 +76,7 @@ export default function CalendarioPage() {
               },
             ]}
             onAddToCart={() => alert("Added to cart")}
+            productDetails={productDetails}
           />
         </div>
       </div>

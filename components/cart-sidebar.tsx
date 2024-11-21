@@ -54,19 +54,28 @@ export function CartSidebarComponent() {
     try {
       setIsProcessing(true)
 
-      // Format line items
+      // Get the current window origin
+      const origin = window.location.origin
+
+      // Format line items with proper structure
       const lineItems = items.map(item => ({
         name: item.name,
         price: Number((currency === 'EUR' ? item.price * exchangeRate : item.price).toFixed(2)),
         quantity: item.quantity,
-        image: item.image || null,
+        // Ensure image URL is absolute
+        image: item.image?.startsWith('http') 
+          ? item.image 
+          : `${origin}${item.image}`,
+        description: getVariantDisplay(item),
+        metadata: {
+          gender: item.gender || '',
+          size: item.size || '',
+          language: item.language || '',
+          dimensions: item.dimensions || '',
+        }
       }))
 
-      // Log what we're sending
-      console.log('Sending to checkout:', {
-        items: lineItems,
-        currency: currency.toLowerCase()
-      })
+      console.log('Sending to checkout:', { items: lineItems, currency })
 
       const response = await fetch('/api/checkout', {
         method: 'POST',
@@ -80,16 +89,17 @@ export function CartSidebarComponent() {
       })
 
       const data = await response.json()
-      console.log('Checkout response:', data)
 
       if (!response.ok) {
         throw new Error(data.error || 'Checkout failed')
       }
 
-      const stripe = await getStripe()
-      if (!stripe) {
-        throw new Error('Failed to load Stripe')
+      if (!data.id) {
+        throw new Error('No session ID returned from checkout')
       }
+
+      const stripe = await getStripe()
+      if (!stripe) throw new Error('Failed to load Stripe')
 
       const { error } = await stripe.redirectToCheckout({
         sessionId: data.id,

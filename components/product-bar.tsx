@@ -42,6 +42,10 @@ interface ProductBarProps {
     }
   }[]
   onAddToCart: () => void
+  productDetails?: {
+    en: string
+    es: string
+  }
 }
 
 function ProductOption({ type, label, options, selected, onSelect }: ProductOptionProps) {
@@ -87,7 +91,7 @@ function ProductOption({ type, label, options, selected, onSelect }: ProductOpti
   )
 }
 
-export function ProductBarComponent({ name, price, options = [], onAddToCart }: ProductBarProps) {
+export function ProductBarComponent({ name, price, options = [], onAddToCart, productDetails }: ProductBarProps) {
   const [selections, setSelections] = React.useState<Record<string, string>>({})
   const { addItem } = useCart()
   const { formatPrice } = useCurrency()
@@ -130,7 +134,7 @@ export function ProductBarComponent({ name, price, options = [], onAddToCart }: 
     onAddToCart()
   }
 
-  const getFilteredOptions = (option: ProductBarProps['options'][0]) => {
+  const getFilteredOptions = (option: NonNullable<ProductBarProps['options']>[number]) => {
     if (!option.dependsOn) return option.options
 
     const parentValue = selections[option.dependsOn.type]
@@ -176,9 +180,9 @@ export function ProductBarComponent({ name, price, options = [], onAddToCart }: 
             Detalles del producto
           </AccordionTrigger>
           <AccordionContent>
-            <p className="text-sm text-gray-600">
-              Product details and description go here.
-            </p>
+            <div className="text-sm text-gray-600 whitespace-pre-wrap">
+              {productDetails?.es || 'Product details and description go here.'}
+            </div>
           </AccordionContent>
         </AccordionItem>
       </Accordion>

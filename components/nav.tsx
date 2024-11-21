@@ -39,11 +39,10 @@ export default function Nav() {
               About
             </Link>
 
-            {/* Cart */}
-            <CartSidebarComponent />
+
 
             {/* Language Selector */}
-            <Menubar className="border-none bg-transparent">
+            {/* <Menubar className="border-none bg-transparent">
               <MenubarMenu>
                 <MenubarTrigger className="cursor-pointer font-medium data-[state=open]:bg-gray-100">
                   {language}
@@ -63,7 +62,7 @@ export default function Nav() {
                   </MenubarItem>
                 </MenubarContent>
               </MenubarMenu>
-            </Menubar>
+            </Menubar> */}
 
             {/* Add Currency Selector */}
             <Menubar className="border-none bg-transparent ml-2">
@@ -87,6 +86,10 @@ export default function Nav() {
                 </MenubarContent>
               </MenubarMenu>
             </Menubar>
+
+           {/* Cart */}
+            <CartSidebarComponent />
+            
           </div>
         </nav>
       </header>

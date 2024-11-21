@@ -16,22 +16,51 @@ export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
   typescript: true,
 })
 
+// Add this interface above CreateCheckoutSessionParams
+interface ExtendedLineItem extends Stripe.Checkout.SessionCreateParams.LineItem {
+  price_data: {
+    currency: string;
+    product_data: {
+      name: string;
+      description?: string;
+      images?: string[];
+      metadata?: {
+        size?: string;
+        gender?: string;
+        language?: string;
+        dimensions?: string;
+        quantity?: string;
+      };
+    };
+    unit_amount: number;
+  };
+}
+
 export interface CreateCheckoutSessionParams {
-  lineItems: Stripe.Checkout.SessionCreateParams.LineItem[]
-  currency: string
-  successUrl: string
-  cancelUrl: string
+  lineItems: ExtendedLineItem[];
+  currency: string;
+  successUrl: string;
+  cancelUrl: string;
 }
 
 export async function createCheckoutSession(params: CreateCheckoutSessionParams) {
   return stripe.checkout.sessions.create({
     payment_method_types: ['card'],
-    line_items: params.lineItems,
+    line_items: params.lineItems.map(item => ({
+      ...item,
+      price_data: {
+        ...item.price_data,
+        product_data: {
+          ...item.price_data.product_data,
+          description: item.price_data.product_data.description,
+        },
+      },
+    })),
     mode: 'payment',
     success_url: params.successUrl,
     cancel_url: params.cancelUrl,
     shipping_address_collection: {
-      allowed_countries: ['ES', 'GB'], // Spain and UK
+      allowed_countries: ['ES', 'GB'],
     },
     billing_address_collection: 'required',
     shipping_options: [
@@ -39,7 +68,7 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
         shipping_rate_data: {
           type: 'fixed_amount',
           fixed_amount: {
-            amount: 500, // €5.00 or £5.00
+            amount: 500,
             currency: params.currency,
           },
           display_name: 'Standard Shipping',
@@ -62,6 +91,12 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
     },
     metadata: {
       order_id: `order_${Date.now()}`,
+    },
+    invoice_creation: {
+      enabled: true,
+    },
+    payment_intent_data: {
+      description: 'Sópu order',
     },
   })
 } 

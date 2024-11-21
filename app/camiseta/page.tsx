@@ -20,6 +20,17 @@ export default function CamisetaPage() {
     { id: "9", label: "5T", value: "5t" },
   ]
 
+  const productDetails = {
+    en: `Ndowéÿé Heritage T-Shirt – Symbol of Strength and Unity
+Celebrate the resilience and spirit of the Ndowéÿé people with this special-edition T-shirt, created for the Día del Pueblo Ndowé. Featuring the Rhombe (antelope) standing confidently in a serene tropical setting, the design embodies overcoming obstacles and finding strength in unity. Inspired by the legendary moment when the Ndowéÿé crossed a river they thought impassable, encouraged by the sight of the Rhombe, this shirt is a proud symbol of determination.
+
+Crafted from 100% premium cotton, it offers a comfortable fit for all ages and sizes, available in 2T-5T for children and S-XXL for men and women. Whether celebrating Ndowé heritage or embracing the universal message of resilience, this T-shirt serves as a stylish reminder to face life's challenges with courage. Perfect for the festivities or everyday wear, it connects you to a legacy of strength and cultural pride.`,
+    es: `Camiseta del Patrimonio Ndowéÿé – Símbolo de Fuerza y Unidad
+Celebra la resiliencia y el espíritu del pueblo Ndowéÿé con esta camiseta de edición especial, diseñada para el Día del Pueblo Ndowé. Muestra a Rhombe (antílope) representado confiado y de pie al lado del río en un paisaje tropical sereno, el diseño simboliza superar obstáculos y encontrar fuerza en la unidad. Inspirada en la legendaria hazaña de los Ndowéÿé, quienes cruzaron un río que creían intransitable al ver a la Rhombe en el agua, esta camiseta es un símbolo orgulloso de determinación.
+
+Fabricada en algodón 100% de alta calidad, ofrece un ajuste cómodo para todas las edades y tallas, disponible en 2T-5T para niños y S-XXL para hombres y mujeres. Ya sea para celebrar el patrimonio Ndowé o abrazar el mensaje universal de resiliencia, esta camiseta es un recordatorio elegante para enfrentar los retos con valentía. Perfecta para las festividades o el uso diario, conecta con una herencia de fuerza y orgullo cultural.`
+  };
+
   return (
     <>
       <div className="fixed top-0 left-0 right-0 z-50">
@@ -67,7 +78,7 @@ export default function CamisetaPage() {
               {
                 type: "size",
                 label: "Talla",
-                options: [], // Empty default options
+                options: [],
                 dependsOn: {
                   type: "gender",
                   values: {
@@ -79,6 +90,7 @@ export default function CamisetaPage() {
               },
             ]}
             onAddToCart={() => alert("Added to cart")}
+            productDetails={productDetails}
           />
         </div>
       </div>
