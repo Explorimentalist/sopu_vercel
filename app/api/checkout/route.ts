@@ -31,10 +31,14 @@ export async function POST(req: Request) {
         currency: currency,
         product_data: {
           name: item.name,
-          description: item.description || undefined,
-          // Only include images if they are valid URLs
+          description: item.description || `${item.language || ''}, ${item.dimensions || ''}`.trim(),
           images: item.image && new URL(item.image) ? [item.image] : undefined,
-          metadata: item.metadata || {},
+          metadata: {
+            gender: item.gender || '',
+            size: item.size || '',
+            language: item.language || '',
+            dimensions: item.dimensions || ''
+          },
         },
         unit_amount: Math.round(item.price * 100),
       },
@@ -46,6 +50,13 @@ export async function POST(req: Request) {
       mode: 'payment',
       success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/checkout/cancel`,
+      metadata: {
+        items_count: items.length.toString(),
+        item1_gender: items[0]?.gender || '',
+        item1_size: items[0]?.size || '',
+        item1_language: items[0]?.language || '',
+        item1_dimensions: items[0]?.dimensions || ''
+      },
       shipping_address_collection: {
         allowed_countries: ['GB', 'ES'],
       },
