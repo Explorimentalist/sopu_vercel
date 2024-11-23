@@ -14,7 +14,7 @@ export async function POST(req: Request) {
   try {
     // Get headers synchronously in Next.js 13+
     const headersList = headers()
-    const origin = headersList.get('origin') || process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
+    const origin = headersList.get('origin') || process.env.NEXT_PUBLIC_URL || 'http://localhost:3001'
     
     const { items, currency = 'gbp' } = await req.json()
 
@@ -48,8 +48,17 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: 'payment',
+      locale: 'es',
       success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/checkout/cancel`,
+      customer_creation: 'always',
+      billing_address_collection: 'required',
+      invoice_creation: {
+        enabled: true,
+      },
+      payment_intent_data: {
+        description: 'Sópu order',
+      },
       metadata: {
         items_count: items.length.toString(),
         item1_gender: items[0]?.gender || '',

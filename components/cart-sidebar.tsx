@@ -227,9 +227,6 @@ export function CartSidebarComponent({ isOpen, onClose }) {
             {isProcessing ? 'Processing...' : 'CHECKOUT'}
           </Button>
         </div>
-        <SheetClose asChild>
-          <Button onClick={onClose}>Close</Button>
-        </SheetClose>
       </SheetContent>
     </Sheet>
   )
