@@ -2,8 +2,16 @@
 
 import Link from 'next/link'
 import NavWrapper from '@/components/nav-wrapper'
+import { useState } from 'react'
+import { CartSidebarComponent } from '@/components/cart-sidebar'
 
 export default function CheckoutCancelPage() {
+  const [isCartOpen, setIsCartOpen] = useState(false)
+
+  const handleOpenCart = () => {
+    setIsCartOpen(true)
+  }
+
   return (
     <>
       <div className="fixed top-0 left-0 right-0 z-50">
@@ -18,12 +26,12 @@ export default function CheckoutCancelPage() {
             Tu proceso de pago ha sido cancelado. Los artículos de tu carrito siguen guardados si deseas completar tu compra.
           </p>
           <div className="space-x-4">
-            <Link 
-              href="/cart"
+            <button 
+              onClick={handleOpenCart}
               className="inline-block bg-black text-white px-8 py-3 rounded-md hover:bg-gray-800 transition-colors"
             >
               Volver al Carrito
-            </Link>
+            </button>
             <Link 
               href="/"
               className="inline-block bg-gray-200 text-gray-800 px-8 py-3 rounded-md hover:bg-gray-300 transition-colors"
@@ -33,6 +41,7 @@ export default function CheckoutCancelPage() {
           </div>
         </div>
       </div>
+      <CartSidebarComponent isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </>
   )
 } 

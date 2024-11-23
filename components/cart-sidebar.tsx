@@ -19,7 +19,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 
-export function CartSidebarComponent() {
+export function CartSidebarComponent({ isOpen, onClose }) {
   const { items, updateQuantity, removeItem } = useCart()
   const { formatPrice, currency, exchangeRate } = useCurrency()
   const [isProcessing, setIsProcessing] = useState(false)
@@ -120,7 +120,7 @@ export function CartSidebarComponent() {
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0)
 
   return (
-    <Sheet>
+    <Sheet open={isOpen} onOpenChange={onClose}>
       <SheetTrigger asChild>
         <Button
           variant="ghost"
@@ -227,6 +227,9 @@ export function CartSidebarComponent() {
             {isProcessing ? 'Processing...' : 'CHECKOUT'}
           </Button>
         </div>
+        <SheetClose asChild>
+          <Button onClick={onClose}>Close</Button>
+        </SheetClose>
       </SheetContent>
     </Sheet>
   )
