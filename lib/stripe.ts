@@ -104,5 +104,5 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
     payment_intent_data: {
       description: 'Sópu order',
     },
-  })
+  } as Stripe.Checkout.SessionCreateParams)
 } 
