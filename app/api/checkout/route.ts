@@ -13,8 +13,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(req: Request) {
   try {
     // Get headers synchronously in Next.js 13+
-    const headersList = headers()
-    const origin = headersList.get('origin') || process.env.NEXT_PUBLIC_URL || 'http://localhost:3001'
+    const headersList = await headers()
+    const origin = headersList.get('origin') || process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
     
     const { items, currency = 'gbp' } = await req.json()
 

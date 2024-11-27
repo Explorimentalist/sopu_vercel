@@ -19,7 +19,12 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 
-export function CartSidebarComponent({ isOpen, onClose }) {
+interface CartSidebarProps {
+  isOpen: boolean
+  onClose: () => void
+}
+
+export function CartSidebarComponent({ isOpen, onClose }: CartSidebarProps) {
   const { items, updateQuantity, removeItem } = useCart()
   const { formatPrice, currency, exchangeRate } = useCurrency()
   const [isProcessing, setIsProcessing] = useState(false)
