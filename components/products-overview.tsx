@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 import { useState } from "react"
 import { useCurrency } from "@/context/currency-context"
+import { CldImage } from 'next-cloudinary'
 
 interface Product {
   id: number
@@ -20,16 +21,16 @@ const products: Product[] = [
     name: "Camiseta del pueblo Ndowéyé",
     tag: "",
     price: 25,
-    image: "/images/products/camiseta/camiseta1.png",
-    hoverImage: "/images/products/camiseta/camiseta3.png",
+    image: "camiseta1_dsplhs",
+    hoverImage: "camiseta3_yxspok",
   },
   {
     id: 2,
     name: "Calendario Ndowéyé",
     tag: "Kombe o Basèki",
     price: 15,
-    image: "/images/products/calendario/calendarioA3_2.png",
-    hoverImage: "/images/products/calendario/calendarioA4_1.png",
+    image: "calendarioA3_2_ffvkdv",
+    hoverImage: "calendarioA4_1_hvnpsf",
   },
   {
     id: 3,
@@ -63,14 +64,16 @@ export default function ProductsOverview() {
               onMouseEnter={() => setHoveredProduct(product.id)}
               onMouseLeave={() => setHoveredProduct(null)}
             >
-              <Image
+              <CldImage
                 src={hoveredProduct === product.id ? product.hoverImage : product.image}
                 alt={product.name}
-                fill
+                width={800}
+                height={800}
+                className="object-cover object-center transition-opacity duration-300"
                 sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                 priority={product.id === 1}
-                className="object-cover object-center transition-opacity duration-300"
-                quality={100}
+                crop="fill"
+                gravity="center"
               />
             </div>
             <div className="mt-4 space-y-1">

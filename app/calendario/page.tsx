@@ -3,6 +3,7 @@
 import { ProductBarComponent } from "@/components/product-bar"
 import { Footer } from "@/components/footer" 
 import NavWrapper from "@/components/nav-wrapper"
+import { CldImage } from 'next-cloudinary'
 
 export default function CalendarioPage() {
   const productDetails = {
@@ -39,16 +40,44 @@ Más que un calendario, es una obra de arte para enriquecer tus paredes y tu dí
         {/* Main Content Area */}
         <div className="w-full md:w-[70%] p-4">
           <div className="h-fit bg-gray-100">
-            <img src="/images/products/calendario/calendarioA3_1.png" alt="Calendario Ndowéyé" className="w-full h-auto" />
+            <CldImage
+              src="calendarioA3_1_cdxywv"
+              alt="Calendario Ndowéyé"
+              width={1200}
+              height={800}
+              className="w-full h-auto"
+              sizes="(max-width: 768px) 100vw, 70vw"
+            />
           </div>
           <div className="h-fit bg-gray-100">
-            <img src="/images/products/calendario/calendarioA3_2.png" alt="Calendario Ndowéyé" className="w-full h-auto" />
+            <CldImage
+              src="calendarioA3_2_ffvkdv"
+              alt="Calendario Ndowéyé"
+              width={1200}
+              height={800}
+              className="w-full h-auto"
+              sizes="(max-width: 768px) 100vw, 70vw"
+            />
           </div>
           <div className="h-fit bg-gray-100">
-            <img src="/images/products/calendario/calendarioA4_1.png" alt="Calendario Ndowéyé" className="w-full h-auto" />
+            <CldImage
+              src="calendarioA4_1_hvnpsf"
+              alt="Calendario Ndowéyé"
+              width={1200}
+              height={800}
+              className="w-full h-auto"
+              sizes="(max-width: 768px) 100vw, 70vw"
+            />
           </div>
           <div className="h-fit bg-gray-100">
-            <img src="/images/products/calendario/calendarioA4_2.png" alt="Calendario Ndowéyé" className="w-full h-auto" />
+            <CldImage
+              src="calendarioA4_2_bjvpxn"
+              alt="Calendario Ndowéyé"
+              width={1200}
+              height={800}
+              className="w-full h-auto"
+              sizes="(max-width: 768px) 100vw, 70vw"
+            />
           </div>
         </div>
 

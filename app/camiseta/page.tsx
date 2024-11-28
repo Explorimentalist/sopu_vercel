@@ -3,6 +3,7 @@
 import { ProductBarComponent } from "@/components/product-bar"
 import NavWrapper from "@/components/nav-wrapper"
 import { Footer } from "@/components/footer"
+import { CldImage } from 'next-cloudinary'
 
 export default function CamisetaPage() {
   const adultSizes = [
@@ -41,22 +42,76 @@ Fabricada en algodón 100% de alta calidad, ofrece un ajuste cómodo para todas 
         <div className="w-full md:w-[70%] p-4">
           {/* Add your product images/content here */}
           <div className="h-fit bg-gray-100">
-            <img src="/images/products/camiseta/camiseta1.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto" />
+            <CldImage
+              src="camiseta1_dsplhs"
+              alt="Camiseta del pueblo Ndowéyé"
+              width={1200}
+              height={800}
+              className="w-full h-auto"
+              sizes="(max-width: 768px) 100vw, 70vw"
+              crop="fill"
+              gravity="center"
+            />
           </div>
           <div className="h-fit bg-gray-100">
-            <img src="/images/products/camiseta/camiseta2.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto" />
+            <CldImage
+              src="camiseta2_sevhaz"
+              alt="Camiseta del pueblo Ndowéyé"
+              width={1200}
+              height={800}
+              className="w-full h-auto"
+              sizes="(max-width: 768px) 100vw, 70vw"
+              crop="fill"
+              gravity="center"
+            />
           </div>
           <div className="h-fit bg-gray-100">
-            <img src="/images/products/camiseta/camiseta3.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto" />
+            <CldImage
+              src="camiseta3_yxspok"
+              alt="Camiseta del pueblo Ndowéyé"
+              width={1200}
+              height={800}
+              className="w-full h-auto"
+              sizes="(max-width: 768px) 100vw, 70vw"
+              crop="fill"
+              gravity="center"
+            />
           </div>
           <div className="h-fit bg-gray-100">
-            <img src="/images/products/camiseta/camiseta4.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto" />
+            <CldImage
+              src="camiseta4_ciwdkc"
+              alt="Camiseta del pueblo Ndowéyé"
+              width={1200}
+              height={800}
+              className="w-full h-auto"
+              sizes="(max-width: 768px) 100vw, 70vw"
+              crop="fill"
+              gravity="center"
+            />
           </div>
           <div className="h-fit bg-gray-100">
-            <img src="/images/products/camiseta/camiseta5.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto" />
+            <CldImage
+              src="camiseta5_kwwkhb"
+              alt="Camiseta del pueblo Ndowéyé"
+              width={1200}
+              height={800}
+              className="w-full h-auto"
+              sizes="(max-width: 768px) 100vw, 70vw"
+              crop="fill"
+              gravity="center"
+            />
           </div>
           <div className="h-fit bg-gray-100">
-            <img src="/images/products/camiseta/camiseta6.png" alt="Camiseta del pueblo Ndowéyé" className="w-full h-auto" />
+            <CldImage
+              src="camiseta6_m8iktg"
+              alt="Camiseta del pueblo Ndowéyé"
+              width={1200}
+              height={800}
+              className="w-full h-auto"
+              sizes="(max-width: 768px) 100vw, 70vw"
+              crop="fill"
+              gravity="center"
+            />
           </div>
         </div>
 
