@@ -5,6 +5,8 @@ console.log('ENV check:', {
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { headers } from 'next/headers'
+import { getShippingRate } from '@/lib/shipping'
+import axios from 'axios'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2023-10-16',
@@ -12,8 +14,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(req: Request) {
   try {
-    // Get headers synchronously in Next.js 13+
-    const headersList = await headers()
+    const headersList = headers()
     const origin = headersList.get('origin') || process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
     
     const { items, currency = 'gbp' } = await req.json()
@@ -28,7 +29,7 @@ export async function POST(req: Request) {
     // Create Stripe line items with proper structure
     const lineItems = items.map((item: any) => ({
       price_data: {
-        currency: currency,
+        currency: currency.toLowerCase(),
         product_data: {
           name: item.name,
           description: item.description || `${item.language || ''}, ${item.dimensions || ''}`.trim(),
@@ -48,49 +49,26 @@ export async function POST(req: Request) {
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,
       mode: 'payment',
-      locale: 'es',
+      locale: currency.toLowerCase() === 'eur' ? 'es' : 'en',
       success_url: `${origin}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${origin}/checkout/cancel`,
       customer_creation: 'always',
       billing_address_collection: 'required',
-      invoice_creation: {
-        enabled: true,
-      },
+      invoice_creation: { enabled: true },
       payment_intent_data: {
         description: 'Sópu order',
-      },
-      metadata: {
-        items_count: items.length.toString(),
-        item1_gender: items[0]?.gender || '',
-        item1_size: items[0]?.size || '',
-        item1_language: items[0]?.language || '',
-        item1_dimensions: items[0]?.dimensions || ''
       },
       shipping_address_collection: {
         allowed_countries: ['GB', 'ES'],
       },
       shipping_options: [
-        {
-          shipping_rate_data: {
-            type: 'fixed_amount',
-            fixed_amount: {
-              amount: 500,
-              currency: currency,
-            },
-            display_name: 'Standard Shipping',
-            delivery_estimate: {
-              minimum: {
-                unit: 'business_day',
-                value: 5,
-              },
-              maximum: {
-                unit: 'business_day',
-                value: 7,
-              },
-            },
-          },
-        },
+        getShippingRate(
+          currency.toLowerCase() === 'eur' ? 'ES' : 'GB',
+          currency.toLowerCase(),
+          items
+        )
       ],
+      currency: currency.toLowerCase(),
     })
 
     return NextResponse.json({ id: session.id })

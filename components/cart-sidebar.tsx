@@ -50,10 +50,15 @@ export function CartSidebarComponent({ isOpen, onClose }: CartSidebarProps) {
     return variants.join(', ')
   }
 
-  const subtotal = items.reduce((sum, item) => {
-    const itemPrice = currency === 'EUR' ? item.price * exchangeRate : item.price
-    return sum + itemPrice * item.quantity
-  }, 0)
+  // Calculate subtotal in base currency (GBP)
+  const baseSubtotal = items.reduce((sum, item) => 
+    sum + (item.price * item.quantity), 0
+  )
+
+  // Use formatPrice for all price displays
+  const displayPrice = (amount: number) => {
+    return formatPrice(amount)
+  }
 
   const handleCheckout = async () => {
     try {
@@ -203,7 +208,7 @@ export function CartSidebarComponent({ isOpen, onClose }: CartSidebarProps) {
                         </Button>
                       </div>
                       <p className="font-medium">
-                        {formatPrice(item.price * item.quantity)}
+                        {displayPrice(item.price * item.quantity)}
                       </p>
                     </div>
                   </div>
@@ -217,7 +222,7 @@ export function CartSidebarComponent({ isOpen, onClose }: CartSidebarProps) {
             <div className="mb-4 flex items-center justify-between">
               <span className="text-base font-medium">Subtotal</span>
               <span className="text-base font-medium">
-                {formatPrice(subtotal)}
+                {displayPrice(baseSubtotal)}
               </span>
             </div>
           )}
