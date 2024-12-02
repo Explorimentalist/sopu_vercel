@@ -4,6 +4,7 @@ import "./globals.css";
 import { CartProvider } from "@/context/cart-context"
 import { CurrencyProvider } from "@/context/currency-context"
 import { CookieConsent } from "@/components/cookieconsent"
+import { TransitionLayout } from "@/components/transition-layout"
 import Script from 'next/script'
 
 const inknutAntiqua = Inknut_Antiqua({
@@ -53,7 +54,9 @@ export default function RootLayout({
       >
         <CurrencyProvider>
           <CartProvider>
-            {children}
+            <TransitionLayout>
+              {children}
+            </TransitionLayout>
             <CookieConsent />
           </CartProvider>
         </CurrencyProvider>

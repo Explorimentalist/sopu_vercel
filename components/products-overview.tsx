@@ -21,8 +21,8 @@ const products: Product[] = [
     name: "Camiseta del pueblo Ndowéyé",
     tag: "",
     price: 25,
-    image: "camiseta1_dsplhs",
-    hoverImage: "camiseta3_yxspok",
+    image: "camiseta3_yxspok",
+    hoverImage: "camiseta1_dsplhs",
   },
   {
     id: 2,
@@ -30,7 +30,7 @@ const products: Product[] = [
     tag: "Kombe o Basèki",
     price: 15,
     image: "calendarioA3_2_ffvkdv",
-    hoverImage: "calendarioA4_1_hvnpsf",
+    hoverImage: "calendarioA3_1_cdxywv",
   },
   {
     id: 3,
@@ -38,7 +38,7 @@ const products: Product[] = [
     tag: "Libro",
     price: 25,
     image: "/placeholder.svg?height=600&width=600",
-    hoverImage: "/placeholder.svg?height=600&width=600",
+    hoverImage: "/images/products/libro/caracol.png",
   },
   // {
   //   id: 4,
