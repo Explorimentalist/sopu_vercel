@@ -4,8 +4,12 @@ import { ProductBarComponent } from "@/components/product-bar"
 import { Footer } from "@/components/footer" 
 import NavWrapper from "@/components/nav-wrapper"
 import { CldImage } from 'next-cloudinary'
+import { useScroll } from "@/context/scroll-context"
+import { ScrollAnimation } from "@/components/scroll-animation"
 
 export default function CalendarioPage() {
+  const { isNearFooter } = useScroll()
+  
   const productDetails = {
     en: `Celebrate the upcoming year with the Likano Calendar, inspired by the timeless fables of Likano la bolo nyama. With stunning illustrations, it's available in two linguistic variants, Basekí and Kombe, to honor cultural storytelling.
 
@@ -39,50 +43,70 @@ Más que un calendario, es una obra de arte para enriquecer tus paredes y tu dí
       <div className="flex flex-col md:flex-row min-h-screen pt-24">
         {/* Main Content Area */}
         <div className="w-full md:w-[70%] p-4">
-          <div className="h-fit bg-gray-100">
-            <CldImage
-              src="calendarioA3_1_cdxywv"
-              alt="Calendario Ndowéyé"
-              width={1200}
-              height={800}
-              className="w-full h-auto"
-              sizes="(max-width: 768px) 100vw, 70vw"
-            />
-          </div>
-          <div className="h-fit bg-gray-100">
-            <CldImage
-              src="calendarioA3_2_ffvkdv"
-              alt="Calendario Ndowéyé"
-              width={1200}
-              height={800}
-              className="w-full h-auto"
-              sizes="(max-width: 768px) 100vw, 70vw"
-            />
-          </div>
-          <div className="h-fit bg-gray-100">
-            <CldImage
-              src="calendarioA4_1_hvnpsf"
-              alt="Calendario Ndowéyé"
-              width={1200}
-              height={800}
-              className="w-full h-auto"
-              sizes="(max-width: 768px) 100vw, 70vw"
-            />
-          </div>
-          <div className="h-fit bg-gray-100">
-            <CldImage
-              src="calendarioA4_2_bjvpxn"
-              alt="Calendario Ndowéyé"
-              width={1200}
-              height={800}
-              className="w-full h-auto"
-              sizes="(max-width: 768px) 100vw, 70vw"
-            />
-          </div>
+          <ScrollAnimation animation="fadeIn" duration={0.8}>
+            <div className="h-fit bg-gray-100">
+              <CldImage
+                src="calendarioA3_1_cdxywv"
+                alt="Calendario Ndowéyé"
+                width={1200}
+                height={800}
+                className="w-full h-auto"
+                sizes="(max-width: 768px) 100vw, 70vw"
+              />
+            </div>
+          </ScrollAnimation>
+
+          <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.1}>
+            <div className="h-fit bg-gray-100">
+              <CldImage
+                src="calendarioA3_2_ffvkdv"
+                alt="Calendario Ndowéyé"
+                width={1200}
+                height={800}
+                className="w-full h-auto"
+                sizes="(max-width: 768px) 100vw, 70vw"
+              />
+            </div>
+          </ScrollAnimation>
+
+          <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.2}>
+            <div className="h-fit bg-gray-100">
+              <CldImage
+                src="calendarioA4_1_hvnpsf"
+                alt="Calendario Ndowéyé"
+                width={1200}
+                height={800}
+                className="w-full h-auto"
+                sizes="(max-width: 768px) 100vw, 70vw"
+              />
+            </div>
+          </ScrollAnimation>
+
+          <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.3}>
+            <div className="h-fit bg-gray-100">
+              <CldImage
+                src="calendarioA4_2_bjvpxn"
+                alt="Calendario Ndowéyé"
+                width={1200}
+                height={800}
+                className="w-full h-auto"
+                sizes="(max-width: 768px) 100vw, 70vw"
+              />
+            </div>
+          </ScrollAnimation>
         </div>
 
-        {/* Fixed Product Bar */}
-        <div className="w-full md:w-[30%] md:fixed md:right-0 md:top-24 md:bottom-0 overflow-y-auto">
+        {/* Product Bar with dynamic positioning */}
+        <div 
+          className={`
+            w-full md:w-[30%] 
+            ${isNearFooter 
+              ? 'md:relative md:top-auto' 
+              : 'md:fixed md:right-0 md:top-24 md:bottom-0'
+            }
+            overflow-y-auto
+          `}
+        >
           <ProductBarComponent
             name="Calendario Ndowéyé"
             price={15}

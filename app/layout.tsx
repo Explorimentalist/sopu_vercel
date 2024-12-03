@@ -3,6 +3,7 @@ import { Inknut_Antiqua, Noto_Sans } from 'next/font/google'
 import "./globals.css";
 import { CartProvider } from "@/context/cart-context"
 import { CurrencyProvider } from "@/context/currency-context"
+import { ScrollProvider } from "@/context/scroll-context"
 import { CookieConsent } from "@/components/cookieconsent"
 import { TransitionLayout } from "@/components/transition-layout"
 import Script from 'next/script'
@@ -54,10 +55,12 @@ export default function RootLayout({
       >
         <CurrencyProvider>
           <CartProvider>
-            <TransitionLayout>
-              {children}
-            </TransitionLayout>
-            <CookieConsent />
+            <ScrollProvider>
+              <TransitionLayout>
+                {children}
+              </TransitionLayout>
+              <CookieConsent />
+            </ScrollProvider>
           </CartProvider>
         </CurrencyProvider>
       </body>

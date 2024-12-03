@@ -4,8 +4,12 @@ import { ProductBarComponent } from "@/components/product-bar"
 import NavWrapper from "@/components/nav-wrapper"
 import { Footer } from "@/components/footer"
 import { CldImage } from 'next-cloudinary'
+import { useScroll } from "@/context/scroll-context"
+import { ScrollAnimation } from "@/components/scroll-animation"
 
 export default function CamisetaPage() {
+  const { isNearFooter } = useScroll()
+  
   const adultSizes = [
     { id: "1", label: "S", value: "s" },
     { id: "2", label: "M", value: "m" },
@@ -40,83 +44,108 @@ Fabricada en algodón 100% de alta calidad, ofrece un ajuste cómodo para todas 
       <div className="flex flex-col md:flex-row min-h-screen pt-24">
         {/* Main Content Area */}
         <div className="w-full md:w-[70%] p-4">
-          {/* Add your product images/content here */}
-          <div className="h-fit bg-gray-100">
-            <CldImage
-              src="camiseta1_dsplhs"
-              alt="Camiseta del pueblo Ndowéyé"
-              width={1200}
-              height={800}
-              className="w-full h-auto"
-              sizes="(max-width: 768px) 100vw, 70vw"
-              crop="fill"
-              gravity="center"
-            />
-          </div>
-          <div className="h-fit bg-gray-100">
-            <CldImage
-              src="camiseta2_sevhaz"
-              alt="Camiseta del pueblo Ndowéyé"
-              width={1200}
-              height={800}
-              className="w-full h-auto"
-              sizes="(max-width: 768px) 100vw, 70vw"
-              crop="fill"
-              gravity="center"
-            />
-          </div>
-          <div className="h-fit bg-gray-100">
-            <CldImage
-              src="camiseta3_yxspok"
-              alt="Camiseta del pueblo Ndowéyé"
-              width={1200}
-              height={800}
-              className="w-full h-auto"
-              sizes="(max-width: 768px) 100vw, 70vw"
-              crop="fill"
-              gravity="center"
-            />
-          </div>
-          <div className="h-fit bg-gray-100">
-            <CldImage
-              src="camiseta4_ciwdkc"
-              alt="Camiseta del pueblo Ndowéyé"
-              width={1200}
-              height={800}
-              className="w-full h-auto"
-              sizes="(max-width: 768px) 100vw, 70vw"
-              crop="fill"
-              gravity="center"
-            />
-          </div>
-          <div className="h-fit bg-gray-100">
-            <CldImage
-              src="camiseta5_kwwkhb"
-              alt="Camiseta del pueblo Ndowéyé"
-              width={1200}
-              height={800}
-              className="w-full h-auto"
-              sizes="(max-width: 768px) 100vw, 70vw"
-              crop="fill"
-              gravity="center"
-            />
-          </div>
-          <div className="h-fit bg-gray-100">
-            <CldImage
-              src="camiseta6_m8iktg"
-              alt="Camiseta del pueblo Ndowéyé"
-              width={1200}
-              height={800}
-              className="w-full h-auto"
-              sizes="(max-width: 768px) 100vw, 70vw"
-              crop="fill"
-              gravity="center"
-            />
-          </div>
+          <ScrollAnimation animation="fadeIn" duration={0.8}>
+            <div className="h-fit bg-gray-100">
+              <CldImage
+                src="camiseta1_dsplhs"
+                alt="Camiseta del pueblo Ndowéyé"
+                width={1200}
+                height={800}
+                className="w-full h-auto"
+                sizes="(max-width: 768px) 100vw, 70vw"
+                crop="fill"
+                gravity="center"
+              />
+            </div>
+          </ScrollAnimation>
+
+          <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.1}>
+            <div className="h-fit bg-gray-100">
+              <CldImage
+                src="camiseta2_sevhaz"
+                alt="Camiseta del pueblo Ndowéyé"
+                width={1200}
+                height={800}
+                className="w-full h-auto"
+                sizes="(max-width: 768px) 100vw, 70vw"
+                crop="fill"
+                gravity="center"
+              />
+            </div>
+          </ScrollAnimation>
+
+          <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.2}>
+            <div className="h-fit bg-gray-100">
+              <CldImage
+                src="camiseta3_yxspok"
+                alt="Camiseta del pueblo Ndowéyé"
+                width={1200}
+                height={800}
+                className="w-full h-auto"
+                sizes="(max-width: 768px) 100vw, 70vw"
+                crop="fill"
+                gravity="center"
+              />
+            </div>
+          </ScrollAnimation>
+
+          <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.3}>
+            <div className="h-fit bg-gray-100">
+              <CldImage
+                src="camiseta4_ciwdkc"
+                alt="Camiseta del pueblo Ndowéyé"
+                width={1200}
+                height={800}
+                className="w-full h-auto"
+                sizes="(max-width: 768px) 100vw, 70vw"
+                crop="fill"
+                gravity="center"
+              />
+            </div>
+          </ScrollAnimation>
+
+          <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.4}>
+            <div className="h-fit bg-gray-100">
+              <CldImage
+                src="camiseta5_kwwkhb"
+                alt="Camiseta del pueblo Ndowéyé"
+                width={1200}
+                height={800}
+                className="w-full h-auto"
+                sizes="(max-width: 768px) 100vw, 70vw"
+                crop="fill"
+                gravity="center"
+              />
+            </div>
+          </ScrollAnimation>
+
+          <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.5}>
+            <div className="h-fit bg-gray-100">
+              <CldImage
+                src="camiseta6_m8iktg"
+                alt="Camiseta del pueblo Ndowéyé"
+                width={1200}
+                height={800}
+                className="w-full h-auto"
+                sizes="(max-width: 768px) 100vw, 70vw"
+                crop="fill"
+                gravity="center"
+              />
+            </div>
+          </ScrollAnimation>
         </div>
 
-        {/* Fixed Product Bar */}
-        <div className="w-full md:w-[30%] md:fixed md:right-0 md:top-24 md:bottom-0 overflow-y-auto">
+        {/* Product Bar with dynamic positioning */}
+        <div 
+          className={`
+            w-full md:w-[30%] 
+            ${isNearFooter 
+              ? 'md:relative md:top-auto' 
+              : 'md:fixed md:right-0 md:top-24 md:bottom-0'
+            }
+            overflow-y-auto
+          `}
+        >
           <ProductBarComponent
             name="Camiseta del pueblo Ndowéyé"
             price={25}
