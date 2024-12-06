@@ -113,7 +113,7 @@ export default function CheckoutSuccessPage() {
             <h1 className="text-4xl font-bold text-green-600 mb-6">
               ¡Gracias por tu compra!
             </h1>
-            <p className="text-lg text-gray-600">
+            <p className="text-lg text-zinc-600">
               Tu pedido ha sido procesado con éxito. Recibirás un correo electrónico de confirmación en breve.
             </p>
           </div>
@@ -133,9 +133,9 @@ export default function CheckoutSuccessPage() {
           {orderDetails && (
             <div className="bg-white shadow-lg rounded-lg overflow-hidden">
               {/* Order Summary Header */}
-              <div className="bg-gray-50 px-6 py-4 border-b">
+              <div className="bg-zinc-50 px-6 py-4 border-b">
                 <h2 className="text-xl font-semibold">Resumen del Pedido</h2>
-                <p className="text-sm text-gray-600">Pedido #{orderDetails.orderDetails.id}</p>
+                <p className="text-sm text-zinc-600">Pedido #{orderDetails.orderDetails.id}</p>
               </div>
 
               {/* Customer Details */}
@@ -162,7 +162,7 @@ export default function CheckoutSuccessPage() {
                     <div key={index} className="flex justify-between items-center">
                       <div>
                         <p className="font-medium">{item.description}</p>
-                        <p className="text-sm text-gray-600">Cantidad: {item.quantity}</p>
+                        <p className="text-sm text-zinc-600">Cantidad: {item.quantity}</p>
                       </div>
                       <p className="font-medium">
                         {formatPrice(item.amount_total / 100)}
@@ -173,7 +173,7 @@ export default function CheckoutSuccessPage() {
               </div>
 
               {/* Order Totals */}
-              <div className="bg-gray-50 px-6 py-4">
+              <div className="bg-zinc-50 px-6 py-4">
                 <div className="space-y-2">
                   <div className="flex justify-between">
                     <p>Subtotal</p>
@@ -195,7 +195,7 @@ export default function CheckoutSuccessPage() {
           <div className="text-center mt-8">
             <Link 
               href="/"
-              className="inline-block bg-black text-white px-8 py-3 rounded-md hover:bg-gray-800 transition-colors"
+              className="inline-block bg-black text-white px-8 py-3 rounded-md hover:bg-zinc-800 transition-colors"
             >
               Continuar Comprando
             </Link>

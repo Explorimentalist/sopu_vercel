@@ -66,7 +66,7 @@ function ProductOption({ type, label, options, selected, onSelect }: ProductOpti
 
   return (
     <div className="mb-6">
-      <div className="mb-4 flex items-center gap-2 text-sm text-gray-600">
+      <div className="mb-4 flex items-center gap-2 text-sm text-zinc-600">
         {getIcon()}
         <span>{label}</span>
       </div>
@@ -79,7 +79,7 @@ function ProductOption({ type, label, options, selected, onSelect }: ProductOpti
             className={`rounded-md ${
               selected === option.value
                 ? "bg-black text-white hover:bg-black/90"
-                : "bg-gray-50 hover:bg-gray-100"
+                : "bg-zinc-50 hover:bg-zinc-100"
             }`}
             onClick={() => onSelect(option.value)}
           >
@@ -180,7 +180,7 @@ export function ProductBarComponent({ name, price, options = [], onAddToCart, pr
             Detalles del producto
           </AccordionTrigger>
           <AccordionContent>
-            <div className="text-sm text-gray-600 whitespace-pre-wrap">
+            <div className="text-sm text-zinc-600 whitespace-pre-wrap">
               {productDetails?.es || 'Product details and description go here.'}
             </div>
           </AccordionContent>

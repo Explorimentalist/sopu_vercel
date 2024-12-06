@@ -3,9 +3,9 @@
 import { ProductBarComponent } from "@/components/product-bar"
 import NavWrapper from "@/components/nav-wrapper"
 import { Footer } from "@/components/footer"
-import { CldImage } from 'next-cloudinary'
 import { useScroll } from "@/context/scroll-context"
 import { ScrollAnimation } from "@/components/scroll-animation"
+import { ParallaxImage } from "@/components/parallax-image"
 
 export default function CamisetaPage() {
   const { isNearFooter } = useScroll()
@@ -44,95 +44,118 @@ Fabricada en algodón 100% de alta calidad, ofrece un ajuste cómodo para todas 
       <div className="flex flex-col md:flex-row min-h-screen pt-24">
         {/* Main Content Area */}
         <div className="w-full md:w-[70%] p-4">
-          <ScrollAnimation animation="fadeIn" duration={0.8}>
-            <div className="h-fit bg-gray-100">
-              <CldImage
-                src="camiseta1_dsplhs"
-                alt="Camiseta del pueblo Ndowéyé"
-                width={1200}
-                height={800}
-                className="w-full h-auto"
-                sizes="(max-width: 768px) 100vw, 70vw"
-                crop="fill"
-                gravity="center"
-              />
-            </div>
-          </ScrollAnimation>
+          <div className="flex flex-col">
+            <ScrollAnimation animation="fadeIn" duration={0.8}>
+              <div className="h-[80vh]">
+                <ParallaxImage
+                  src="camiseta1_dsplhs"
+                  alt="Camiseta del pueblo Ndowéyé"
+                  width={1200}
+                  height={900}
+                  priority
+                />
+              </div>
+            </ScrollAnimation>
 
-          <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.1}>
-            <div className="h-fit bg-gray-100">
-              <CldImage
-                src="camiseta2_sevhaz"
-                alt="Camiseta del pueblo Ndowéyé"
-                width={1200}
-                height={800}
-                className="w-full h-auto"
-                sizes="(max-width: 768px) 100vw, 70vw"
-                crop="fill"
-                gravity="center"
-              />
-            </div>
-          </ScrollAnimation>
+            <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.1}>
+              <div className="h-[80vh]">
+                <ParallaxImage
+                  src="camiseta2_sevhaz"
+                  alt="Camiseta del pueblo Ndowéyé"
+                  width={1200}
+                  height={900}
+                />
+              </div>
+            </ScrollAnimation>
 
-          <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.2}>
-            <div className="h-fit bg-gray-100">
-              <CldImage
-                src="camiseta3_yxspok"
-                alt="Camiseta del pueblo Ndowéyé"
-                width={1200}
-                height={800}
-                className="w-full h-auto"
-                sizes="(max-width: 768px) 100vw, 70vw"
-                crop="fill"
-                gravity="center"
-              />
-            </div>
-          </ScrollAnimation>
+            <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.2}>
+              <div className="h-[80vh]">
+                <ParallaxImage
+                  src="camiseta3_yxspok"
+                  alt="Camiseta del pueblo Ndowéyé"
+                  width={1200}
+                  height={900}
+                />
+              </div>
+            </ScrollAnimation>
 
-          <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.3}>
-            <div className="h-fit bg-gray-100">
-              <CldImage
-                src="camiseta4_ciwdkc"
-                alt="Camiseta del pueblo Ndowéyé"
-                width={1200}
-                height={800}
-                className="w-full h-auto"
-                sizes="(max-width: 768px) 100vw, 70vw"
-                crop="fill"
-                gravity="center"
-              />
-            </div>
-          </ScrollAnimation>
+            <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.3}>
+              <div className="h-[80vh]">
+                <ParallaxImage
+                  src="camiseta4_ciwdkc"
+                  alt="Camiseta del pueblo Ndowéyé"
+                  width={1200}
+                  height={900}
+                />
+              </div>
+            </ScrollAnimation>
 
-          <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.4}>
-            <div className="h-fit bg-gray-100">
-              <CldImage
-                src="camiseta5_kwwkhb"
-                alt="Camiseta del pueblo Ndowéyé"
-                width={1200}
-                height={800}
-                className="w-full h-auto"
-                sizes="(max-width: 768px) 100vw, 70vw"
-                crop="fill"
-                gravity="center"
-              />
-            </div>
-          </ScrollAnimation>
+            <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.4}>
+              <div className="h-[80vh]">
+                <ParallaxImage
+                  src="camiseta5_kwwkhb"
+                  alt="Camiseta del pueblo Ndowéyé"
+                  width={1200}
+                  height={900}
+                />
+              </div>
+            </ScrollAnimation>
 
-          <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.5}>
-            <div className="h-fit bg-gray-100">
-              <CldImage
-                src="camiseta6_m8iktg"
-                alt="Camiseta del pueblo Ndowéyé"
-                width={1200}
-                height={800}
-                className="w-full h-auto"
-                sizes="(max-width: 768px) 100vw, 70vw"
-                crop="fill"
-                gravity="center"
-              />
-            </div>
-          </ScrollAnimation>
+            <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.5}>
+              <div className="h-[80vh]">
+                <ParallaxImage
+                  src="camiseta6_m8iktg"
+                  alt="Camiseta del pueblo Ndowéyé"
+                  width={1200}
+                  height={900}
+                />
+              </div>
+            </ScrollAnimation>
+
+            <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.5}>
+              <div className="h-[80vh]">
+                <ParallaxImage
+                  src="camiseta7_ixfawb"
+                  alt="Camiseta del pueblo Ndowéyé"
+                  width={1200}
+                  height={900}
+                />
+              </div>
+            </ScrollAnimation>
+
+            <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.5}>
+              <div className="h-[80vh]">
+                <ParallaxImage
+                  src="camiseta8_ueaij6"
+                  alt="Camiseta del pueblo Ndowéyé"
+                  width={1200}
+                  height={900}
+                />
+              </div>
+            </ScrollAnimation>
+
+            <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.5}>
+              <div className="h-[80vh]">
+                <ParallaxImage
+                  src="camiseta9_jpy6i4"
+                  alt="Camiseta del pueblo Ndowéyé"
+                  width={1200}
+                  height={900}
+                />
+              </div>
+            </ScrollAnimation>
+
+            <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.5}>
+              <div className="h-[80vh]">
+                <ParallaxImage
+                  src="camiseta10_c8nco3"
+                  alt="Camiseta del pueblo Ndowéyé"
+                  width={1200}
+                  height={900}
+                />
+              </div>
+            </ScrollAnimation>
+          </div>
         </div>
 
         {/* Product Bar with dynamic positioning */}

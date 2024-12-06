@@ -140,7 +140,7 @@ export function CartSidebarComponent({ isOpen, onClose }: CartSidebarProps) {
         >
           <ShoppingCart className="h-5 w-5" />
           {totalQuantity > 0 && (
-            <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-black text-xs text-white">
+            <span className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-full bg-black text-xs text-white">
               {totalQuantity}
             </span>
           )}
@@ -149,13 +149,13 @@ export function CartSidebarComponent({ isOpen, onClose }: CartSidebarProps) {
       <SheetContent className="flex w-full flex-col border-l px-0 sm:max-w-md">
         <SheetHeader className="space-y-0 px-6 pt-6">
           <div className="flex items-center justify-between">
-            <SheetTitle className="text-xl font-normal">Shopping Cart</SheetTitle>
+            <SheetTitle className="text-xl font-normal">Carrito de la compra</SheetTitle>
           </div>
         </SheetHeader>
         <div className="flex-1 border-t px-6 pt-6">
           {items.length === 0 ? (
             <div className="flex h-full flex-col items-center justify-center">
-              <p className="text-lg text-gray-500">Your cart is currently empty</p>
+              <p className="text-lg text-gray-500">El carrito está vacío</p>
             </div>
           ) : (
             <div className="space-y-6">
@@ -227,7 +227,7 @@ export function CartSidebarComponent({ isOpen, onClose }: CartSidebarProps) {
             </div>
           )}
           <p className="mb-4 text-center text-sm text-gray-500">
-            Shipping & taxes calculated at checkout
+            Envio & tasas son calculadas en la caja
           </p>
           <Button 
             className="w-full bg-black text-white hover:bg-gray-800 disabled:opacity-50 disabled:cursor-not-allowed" 
