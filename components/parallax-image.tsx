@@ -1,8 +1,8 @@
 'use client'
 
 import { motion, useScroll, useTransform } from 'framer-motion'
-import { CldImage } from 'next-cloudinary'
 import { useRef } from 'react'
+import { CloudinaryImage } from './cloudinary-image'
 
 interface ParallaxImageProps {
   src: string
@@ -38,16 +38,13 @@ export function ParallaxImage({
         style={{ y }}
         className="absolute inset-0 h-[120%] -top-[10%]"
       >
-        <CldImage
+        <CloudinaryImage
           src={src}
           alt={alt}
           width={width}
           height={height}
           className={`absolute w-full h-full object-cover object-center ${className}`}
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           priority={priority}
-          crop="fill"
-          gravity="center"
         />
       </motion.div>
     </div>

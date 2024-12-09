@@ -6,6 +6,7 @@ import NavWrapper from "@/components/nav-wrapper"
 import { useScroll } from "@/context/scroll-context"
 import { ScrollAnimation } from "@/components/scroll-animation"
 import { ParallaxImage } from "@/components/parallax-image"
+import { ProductImageCarousel } from "@/components/product-image-carousel"
 
 export default function CalendarioPage() {
   const { isNearFooter } = useScroll()
@@ -35,6 +36,13 @@ Características principales:
 Más que un calendario, es una obra de arte para enriquecer tus paredes y tu día a día. Perfecto como regalo especial o como una adición significativa a tu hogar, el Calendario Likano te permite celebrar la belleza y la tradición cada día.`
   };
 
+  const images = [
+    { src: "calendarioA3_1_cdxywv", alt: "Calendario Ndowéyé" },
+    { src: "calendarioA3_2_ffvkdv", alt: "Calendario Ndowéyé" },
+    { src: "calendarioA4_1_hvnpsf", alt: "Calendario Ndowéyé" },
+    { src: "calendarioA4_2_bjvpxn", alt: "Calendario Ndowéyé" },
+  ]
+
   return (
     <>
       <div className="fixed top-0 left-0 right-0 z-50">
@@ -43,52 +51,7 @@ Más que un calendario, es una obra de arte para enriquecer tus paredes y tu dí
       <div className="flex flex-col md:flex-row min-h-screen pt-24">
         {/* Main Content Area */}
         <div className="w-full md:w-[70%] p-4">
-          <div className="flex flex-col">
-            <ScrollAnimation animation="fadeIn" duration={0.8}>
-              <div className="h-[80vh]">
-                <ParallaxImage
-                  src="calendarioA3_1_cdxywv"
-                  alt="Calendario Ndowéyé"
-                  width={1200}
-                  height={900}
-                  priority
-                />
-              </div>
-            </ScrollAnimation>
-
-            <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.1}>
-              <div className="h-[80vh]">
-                <ParallaxImage
-                  src="calendarioA3_2_ffvkdv"
-                  alt="Calendario Ndowéyé"
-                  width={1200}
-                  height={900}
-                />
-              </div>
-            </ScrollAnimation>
-
-            <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.2}>
-              <div className="h-[80vh]">
-                <ParallaxImage
-                  src="calendarioA4_1_hvnpsf"
-                  alt="Calendario Ndowéyé"
-                  width={1200}
-                  height={900}
-                />
-              </div>
-            </ScrollAnimation>
-
-            <ScrollAnimation animation="fadeIn" duration={0.8} delay={0.3}>
-              <div className="h-[80vh]">
-                <ParallaxImage
-                  src="calendarioA4_2_bjvpxn"
-                  alt="Calendario Ndowéyé"
-                  width={1200}
-                  height={900}
-                />
-              </div>
-            </ScrollAnimation>
-          </div>
+          <ProductImageCarousel images={images} />
         </div>
 
         {/* Product Bar with dynamic positioning */}

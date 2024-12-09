@@ -57,15 +57,12 @@ export default function ProductsOverview() {
           duration={0.6}
         >
           <div 
-            className="grid grid-cols-12 gap-6"
-            style={{ 
-              gridTemplateRows: 'auto',
-            }}
+            className="grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-4 md:gap-6"
           >
-            {/* Image section - 9 columns */}
+            {/* Image section - responsive columns */}
             <Link 
               href={product.id === 1 ? "/camiseta" : product.id === 2 ? "/calendario" : "#"}
-              className="col-span-9 relative aspect-[16/9] overflow-hidden bg-zinc-100"
+              className="col-span-4 md:col-span-8 lg:col-span-9 relative aspect-[5/6] md:aspect-[16/9] overflow-hidden bg-zinc-100"
               onMouseEnter={() => setHoveredProduct(product.id)}
               onMouseLeave={() => setHoveredProduct(null)}
             >
@@ -110,8 +107,8 @@ export default function ProductsOverview() {
               </div>
             </Link>
 
-            {/* Product info section - 3 columns */}
-            <div className="col-span-3 flex flex-col justify-end">
+            {/* Product info section - responsive columns */}
+            <div className="col-span-4 md:col-span-8 lg:col-span-3 flex flex-col lg:justify-end mt-0 lg:mt-0">
               <div className="space-y-2">
                 <h3 className="text-lg font-medium text-zinc-900">{product.name}</h3>
                 {product.tag && (

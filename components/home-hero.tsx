@@ -41,21 +41,11 @@ export function HomeHero() {
     <ScrollAnimation animation="fadeIn" duration={0.8}>
       <section 
         ref={ref} 
-        className="container mx-auto max-w-[1240px] min-h-[calc(100vh-80px)] relative"
-        style={{ 
-          display: 'grid',
-          gridTemplateColumns: 'repeat(12, 1fr)',
-          gridTemplateRows: 'repeat(3, auto)',
-          gap: '24px',
-          padding: '24px',
-          paddingTop: '10vh',
-          paddingBottom: '5vh',
-          marginBottom: '180px'
-        }}
+        className="container mx-auto max-w-[1240px] min-h-[calc(76vh-80px)] relative grid grid-cols-4 md:grid-cols-8 lg:grid-cols-12 gap-6 p-6 pt-[10vh] pb-[5vh] mb-[180px]"
       >
         {/* First row - "La" */}
         <motion.div 
-          className="col-start-1 col-span-2 row-start-1"
+          className="col-span-2 row-start-1"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -72,7 +62,7 @@ export function HomeHero() {
 
         {/* Second row - "tienda" */}
         <motion.div 
-          className="col-start-9 col-span-4 row-start-2"
+          className="col-span-3 md:col-span-4 lg:col-span-4 col-start-2 md:col-start-5 lg:col-start-9 row-start-2"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -81,7 +71,7 @@ export function HomeHero() {
             variants={createWordVariants(0.4)}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
-            className="text-5xl md:text-8xl font-semibold text-zinc-900 block"
+            className="text-5xl md:text-8xl font-semibold text-right text-zinc-900 block"
           >
             tienda
           </motion.span>
@@ -89,7 +79,7 @@ export function HomeHero() {
 
         {/* Third row - "Ndowéÿé" */}
         <motion.div 
-          className="col-start-3 col-span-6 row-start-3"
+          className="col-span-4 xs:col-span-3 xs:col-start-2 md:col-span-5 lg:col-span-6 col-start-1 xs:col-start-2 md:col-start-2 lg:col-start-3 row-start-3"
           variants={containerVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
@@ -104,7 +94,7 @@ export function HomeHero() {
           </motion.span>
         </motion.div>
 
-        {/* Grid row gaps for 80px spacing */}
+        {/* Grid row gaps */}
         <div className="row-start-1 row-end-2 h-[80px]" aria-hidden="true" />
         <div className="row-start-2 row-end-3 h-[80px]" aria-hidden="true" />
       </section>
