@@ -7,9 +7,11 @@ import { useScroll } from "@/context/scroll-context"
 import { ScrollAnimation } from "@/components/scroll-animation"
 import { ParallaxImage } from "@/components/parallax-image"
 import { ProductImageCarousel } from "@/components/product-image-carousel"
+import { getProductBySlug } from "@/config/products"
 
 export default function CalendarioPage() {
   const { isNearFooter } = useScroll()
+  const product = getProductBySlug("calendario")
   
   const productDetails = {
     en: `Celebrate the upcoming year with the Likano Calendar, inspired by the timeless fables of Likano la bolo nyama. With stunning illustrations, it's available in two linguistic variants, Basekí and Kombe, to honor cultural storytelling.
@@ -66,8 +68,8 @@ Más que un calendario, es una obra de arte para enriquecer tus paredes y tu dí
           `}
         >
           <ProductBarComponent
-            name="Calendario Ndowéyé"
-            price={15}
+            name={product?.name || "Calendario Ndowéyé"}
+            price={product?.price || 19.99}
             options={[
               {
                 type: "language",

@@ -6,46 +6,7 @@ import { useState } from "react"
 import { useCurrency } from "@/context/currency-context"
 import { CldImage } from 'next-cloudinary'
 import { ScrollAnimation } from './scroll-animation'
-
-interface Product {
-  id: number
-  name: string
-  tag: string
-  price: number
-  image: string
-  hoverImage: string
-  thumbnailImage: string
-}
-
-const products: Product[] = [
-  {
-    id: 1,
-    name: "Camiseta del pueblo Ndowéyé",
-    tag: "Hombre, Mujer y Niños",
-    price: 20,
-    image: "camiseta3_yxspok",
-    hoverImage: "camiseta1_dsplhs",
-    thumbnailImage: "camiseta3_yxspok",
-  },
-  {
-    id: 2,
-    name: "Calendario Ndowéyé",
-    tag: "Kombe o Basèki",
-    price: 15,
-    image: "calendarioA3_1_cdxywv",
-    hoverImage: "calendarioA3_2_ffvkdv",
-    thumbnailImage: "calendarioA3_1_cdxywv",
-  },
-  {
-    id: 3,
-    name: "Likano la bolo nyama 2024",
-    tag: "Libro para colorear",
-    price: 10,
-    image: "pronto_x2yscr",
-    hoverImage: "pronto_x2yscr",
-    thumbnailImage: "pronto_x2yscr",
-  },
-]
+import { products, type Product } from "@/config/products"
 
 export default function ProductsOverview() {
   const [hoveredProduct, setHoveredProduct] = useState<number | null>(null)

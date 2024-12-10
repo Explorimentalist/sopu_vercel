@@ -7,9 +7,11 @@ import { useScroll } from "@/context/scroll-context"
 import { ScrollAnimation } from "@/components/scroll-animation"
 import { ParallaxImage } from "@/components/parallax-image"
 import { ProductImageCarousel } from "@/components/product-image-carousel"
+import { getProductBySlug } from "@/config/products"
 
 export default function CamisetaPage() {
   const { isNearFooter } = useScroll()
+  const product = getProductBySlug("camiseta")
   
   const adultSizes = [
     { id: "1", label: "S", value: "s" },
@@ -73,8 +75,8 @@ Fabricada en algodón 100% de alta calidad, ofrece un ajuste cómodo para todas 
           `}
         >
           <ProductBarComponent
-            name="Camiseta del pueblo Ndowéyé"
-            price={25}
+            name={product?.name || "Camiseta del pueblo Ndowéyé"}
+            price={product?.price || 24.99}
             options={[
               {
                 type: "gender",
