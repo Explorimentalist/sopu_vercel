@@ -14,6 +14,7 @@ interface Product {
   price: number
   image: string
   hoverImage: string
+  thumbnailImage: string
 }
 
 const products: Product[] = [
@@ -24,22 +25,25 @@ const products: Product[] = [
     price: 20,
     image: "camiseta3_yxspok",
     hoverImage: "camiseta1_dsplhs",
+    thumbnailImage: "camiseta3_yxspok",
   },
   {
     id: 2,
     name: "Calendario Ndowéyé",
     tag: "Kombe o Basèki",
     price: 15,
-    image: "calendarioA3_2_ffvkdv",
-    hoverImage: "calendarioA3_1_cdxywv",
+    image: "calendarioA3_1_cdxywv",
+    hoverImage: "calendarioA3_2_ffvkdv",
+    thumbnailImage: "calendarioA3_1_cdxywv",
   },
   {
     id: 3,
     name: "Likano la bolo nyama 2024",
     tag: "Libro para colorear",
     price: 10,
-    image: "/placeholder.svg?height=600&width=600",
-    hoverImage: "/images/products/libro/caracol.png",
+    image: "pronto_x2yscr",
+    hoverImage: "pronto_x2yscr",
+    thumbnailImage: "pronto_x2yscr",
   },
 ]
 
@@ -83,7 +87,7 @@ export default function ProductsOverview() {
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw"
                   priority={product.id === 1}
                   crop="fill"
-                  gravity="center"
+                  gravity="face:center"
                 />
               </div>
               <div 
@@ -102,7 +106,7 @@ export default function ProductsOverview() {
                   className="object-cover object-center h-full w-full"
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 75vw"
                   crop="fill"
-                  gravity="center"
+                  gravity="face:center"
                 />
               </div>
             </Link>

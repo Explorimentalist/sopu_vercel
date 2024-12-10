@@ -34,7 +34,7 @@ export function CloudinaryImage({
       quality="auto"
       loading={priority ? "eager" : "lazy"}
       crop="fill"
-      gravity="auto"
+      gravity="face:center"
     />
   )
 } 

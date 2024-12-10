@@ -75,7 +75,7 @@ export function Footer() {
               <ul className="flex flex-wrap gap-8 text-sm font-medium">
                 <li>
                   <Link
-                    href="#"
+                    href="mailto:brianoko@gmail.com"
                     className="transition-colors hover:text-gray-400"
                   >
                     Contáctanos

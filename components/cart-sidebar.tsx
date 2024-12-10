@@ -1,7 +1,6 @@
 "use client"
 
 import * as React from "react"
-import Image from "next/image"
 import { Minus, Plus, ShoppingCart, X } from "lucide-react"
 import { useCart } from "@/context/cart-context"
 import type { CartItem } from "@/context/cart-context"
@@ -18,6 +17,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { CartImage } from './cart-image'
 
 interface CartSidebarProps {
   isOpen: boolean
@@ -162,12 +162,10 @@ export function CartSidebarComponent({ isOpen, onClose }: CartSidebarProps) {
               {items.map(item => (
                 <div key={`${item.id}-${item.timestamp}`} className="flex gap-4">
                   <div className="relative h-24 w-24 flex-none">
-                    <Image
+                    <CartImage
                       src={item.image}
                       alt={item.name}
-                      fill
-                      sizes="(max-width: 768px) 96px, 96px"
-                      className="rounded-md object-cover"
+                      className="w-full h-full"
                     />
                   </div>
                   <div className="flex flex-1 flex-col justify-between">

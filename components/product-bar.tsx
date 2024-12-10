@@ -105,8 +105,6 @@ export function ProductBarComponent({ name, price, options = [], onAddToCart, pr
   const handleAddToCart = () => {
     if (!isComplete) return
 
-    console.log('Selections:', selections)
-
     const uniqueId = `${name}-${Date.now()}-${
       selections.size || ''}-${
       selections.language || ''}-${
@@ -114,15 +112,19 @@ export function ProductBarComponent({ name, price, options = [], onAddToCart, pr
       selections.gender || ''
     }`
 
+    const getProductImage = () => {
+      if (name.includes("Calendario")) return "calendarioA3_1_cdxywv"
+      if (name.includes("Camiseta")) return "camiseta1_dsplhs"
+      return "/placeholder.svg"
+    }
+
     const cartItem = {
       id: uniqueId,
       name,
       price,
       quantity: 1,
       timestamp: Date.now(),
-      image: name.includes("Calendario") 
-        ? "/images/products/calendario/calendarioA3_1.png"
-        : "/images/products/camiseta/camiseta1.png",
+      image: getProductImage(),
       ...(selections.size && { size: selections.size }),
       ...(selections.gender && { gender: selections.gender }),
       ...(selections.language && { language: selections.language }),
