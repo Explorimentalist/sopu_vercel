@@ -63,6 +63,12 @@ export function CartSidebarComponent({ isOpen, onClose }: CartSidebarProps) {
   const handleCheckout = async () => {
     try {
       setIsProcessing(true)
+      
+      // Add environment check
+      if (process.env.NODE_ENV === 'development' && 
+          process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY?.startsWith('pk_live_')) {
+        throw new Error('Live mode keys cannot be used in development environment')
+      }
 
       // Get the current window origin
       const origin = window.location.origin
@@ -72,10 +78,10 @@ export function CartSidebarComponent({ isOpen, onClose }: CartSidebarProps) {
         name: item.name,
         price: Number((currency === 'EUR' ? item.price * exchangeRate : item.price).toFixed(2)),
         quantity: item.quantity,
-        // Ensure image URL is absolute
-        image: item.image?.startsWith('http') 
+        // Use Cloudinary URL directly
+        image: item.image.startsWith('http') 
           ? item.image 
-          : `${origin}${item.image}`,
+          : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${item.image}`,
         description: getVariantDisplay(item),
         metadata: {
           gender: item.gender || '',
@@ -120,7 +126,7 @@ export function CartSidebarComponent({ isOpen, onClose }: CartSidebarProps) {
       }
     } catch (error: any) {
       console.error('Checkout error:', error)
-      alert(error.message || 'Payment initialization failed. Please try again.')
+      alert(error.message || 'Payment initialization failed. Please ensure you are using test mode keys in development.')
     } finally {
       setIsProcessing(false)
     }

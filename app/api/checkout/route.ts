@@ -57,6 +57,9 @@ export async function POST(req: Request) {
       invoice_creation: { enabled: true },
       payment_intent_data: {
         description: 'Sópu order',
+        metadata: {
+          order_source: 'web_checkout'
+        }
       },
       shipping_address_collection: {
         allowed_countries: ['GB', 'ES'],
@@ -68,6 +71,10 @@ export async function POST(req: Request) {
           items
         )
       ],
+      metadata: {
+        order_id: `order_${Date.now()}`,
+        items_count: items.length.toString()
+      },
       currency: currency.toLowerCase(),
     })
 

@@ -18,7 +18,7 @@ export async function GET(request: Request) {
 
   try {
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ['line_items', 'shipping_details', 'customer']
+      expand: ['line_items.data.price.product', 'shipping_details', 'customer']
     })
 
     return NextResponse.json({
@@ -32,7 +32,17 @@ export async function GET(request: Request) {
         id: session.metadata?.order_id,
         amount: session.amount_total,
         currency: session.currency,
-        items: session.line_items?.data,
+        items: session.line_items?.data.map(item => ({
+          description: item.description,
+          quantity: item.quantity,
+          amount_total: item.amount_total,
+          metadata: {
+            gender: (item.price?.product as Stripe.Product)?.metadata?.gender,
+            size: (item.price?.product as Stripe.Product)?.metadata?.size,
+            language: (item.price?.product as Stripe.Product)?.metadata?.language,
+            dimensions: (item.price?.product as Stripe.Product)?.metadata?.dimensions
+          }
+        })),
         shipping: {
           carrier: session.shipping_cost?.shipping_rate?.display_name,
           amount: session.shipping_cost?.amount_total

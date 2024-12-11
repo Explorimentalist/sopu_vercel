@@ -4,10 +4,14 @@ let stripePromise: Promise<Stripe | null>;
 
 const validateStripeKey = (key: string): void => {
   if (!key.startsWith('pk_live_') && !key.startsWith('pk_test_')) {
-    throw new Error('Invalid Stripe publishable key format. Key must start with pk_live_ or pk_test_');
+    throw new Error('Invalid Stripe publishable key format');
   }
   
-  // Check for special characters (excluding underscores and hyphens)
+  // Add environment check
+  if (process.env.NODE_ENV === 'development' && key.startsWith('pk_live_')) {
+    throw new Error('Live mode Stripe keys cannot be used in development environment');
+  }
+  
   if (/[^a-zA-Z0-9_-]/.test(key)) {
     throw new Error('Invalid characters in Stripe publishable key');
   }

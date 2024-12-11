@@ -1,7 +1,6 @@
 'use client'
 
 import Link from 'next/link'
-import NavWrapper from '@/components/nav-wrapper'
 import { useState } from 'react'
 import { CartSidebarComponent } from '@/components/cart-sidebar'
 
@@ -14,9 +13,6 @@ export default function CheckoutCancelPage() {
 
   return (
     <>
-      <div className="fixed top-0 left-0 right-0 z-50">
-        <NavWrapper />
-      </div>
       <div className="min-h-screen flex items-center justify-center px-4">
         <div className="max-w-3xl mx-auto text-center -mt-24">
           <h1 className="text-4xl font-bold text-zinc-900 mb-6">
