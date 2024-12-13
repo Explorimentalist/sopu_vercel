@@ -1,5 +1,4 @@
 import { NextResponse } from 'next/server'
-import { headers } from 'next/headers'
 import axios from 'axios'
 
 interface IpApiResponse {
@@ -10,11 +9,9 @@ interface IpApiResponse {
 
 export async function GET(request: Request) {
   try {
-    const headersList = headers()
     const url = new URL(request.url)
-    
-    // Development testing support
     const testCountry = url.searchParams.get('country')
+    
     if (testCountry) {
       console.log('Using test country:', testCountry)
       return NextResponse.json({
@@ -25,38 +22,21 @@ export async function GET(request: Request) {
       })
     }
 
-    // Get client IP
-    const forwardedFor = headersList.get('x-forwarded-for')
-    const realIp = headersList.get('x-real-ip')
-    const clientIp = forwardedFor?.split(',')[0].trim() || 
-                    realIp || 
-                    '147.161.105.115' // Fallback to UK IP for development
+    const clientIp = request.headers.get('x-forwarded-for')?.split(',')[0].trim() || 
+                    request.headers.get('x-real-ip') || 
+                    '147.161.105.115'
 
-    try {
-      const response = await axios.get<IpApiResponse>(
-        `https://freeipapi.com/api/json/${clientIp}`,
-        { timeout: 5000 }
-      )
+    const response = await axios.get<IpApiResponse>(
+      `https://freeipapi.com/api/json/${clientIp}`,
+      { timeout: 5000 }
+    )
 
-      const country = response.data.countryCode
-      const isEU = response.data.isEU
-
-      return NextResponse.json({
-        country,
-        isEU,
-        shippingZone: country === 'GB' ? 'domestic' : 'eu',
-        currency: country === 'ES' ? 'EUR' : 'GBP'
-      })
-    } catch (ipError) {
-      console.error('IP API error:', ipError)
-      // Fallback to UK if IP detection fails
-      return NextResponse.json({
-        country: 'GB',
-        isEU: false,
-        shippingZone: 'domestic',
-        currency: 'GBP'
-      })
-    }
+    return NextResponse.json({
+      country: response.data.countryCode,
+      isEU: response.data.isEU,
+      shippingZone: response.data.countryCode === 'GB' ? 'domestic' : 'eu',
+      currency: response.data.countryCode === 'ES' ? 'EUR' : 'GBP'
+    })
   } catch (error) {
     console.error('Location detection error:', error)
     return NextResponse.json({

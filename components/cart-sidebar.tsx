@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { Minus, Plus, ShoppingCart, X } from "lucide-react"
+import { Minus, Plus, ShoppingCart } from "lucide-react"
 import { useCart } from "@/context/cart-context"
 import type { CartItem } from "@/context/cart-context"
 import { useCurrency } from "@/context/currency-context"
@@ -11,7 +11,6 @@ import getStripe from '@/lib/getStripe'
 import { Button } from "@/components/ui/button"
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetHeader,
   SheetTitle,
@@ -19,12 +18,8 @@ import {
 } from "@/components/ui/sheet"
 import { CartImage } from './cart-image'
 
-interface CartSidebarProps {
-  isOpen: boolean
-  onClose: () => void
-}
-
-export function CartSidebarComponent({ isOpen, onClose }: CartSidebarProps) {
+export function CartSidebarComponent() {
+  const [isOpen, setIsOpen] = useState(false)
   const { items, updateQuantity, removeItem } = useCart()
   const { formatPrice, currency, exchangeRate } = useCurrency()
   const [isProcessing, setIsProcessing] = useState(false)
@@ -136,7 +131,7 @@ export function CartSidebarComponent({ isOpen, onClose }: CartSidebarProps) {
   const totalQuantity = items.reduce((sum, item) => sum + item.quantity, 0)
 
   return (
-    <Sheet open={isOpen} onOpenChange={onClose}>
+    <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button
           variant="ghost"

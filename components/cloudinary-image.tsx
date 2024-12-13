@@ -10,6 +10,8 @@ interface CloudinaryImageProps {
   sizes?: string
   priority?: boolean
   className?: string
+  crop?: 'fill' | 'crop' | 'scale' | 'thumb'
+  gravity?: 'auto' | 'face' | 'center' | string
 }
 
 export function CloudinaryImage({
@@ -20,6 +22,8 @@ export function CloudinaryImage({
   sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw",
   priority = false,
   className = "",
+  crop = "fill",
+  gravity = "auto"
 }: CloudinaryImageProps) {
   return (
     <CldImage
@@ -33,8 +37,8 @@ export function CloudinaryImage({
       format="auto"
       quality="auto"
       loading={priority ? "eager" : "lazy"}
-      crop="fill"
-      gravity="face:center"
+      crop={crop}
+      gravity={gravity}
     />
   )
 } 

@@ -18,7 +18,7 @@ export async function GET(request: Request) {
 
   try {
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ['line_items.data.price.product', 'shipping_details', 'customer']
+      expand: ['line_items.data.price.product', 'shipping_details', 'customer', 'shipping_cost.shipping_rate']
     })
 
     return NextResponse.json({
@@ -44,7 +44,9 @@ export async function GET(request: Request) {
           }
         })),
         shipping: {
-          carrier: session.shipping_cost?.shipping_rate?.display_name,
+          carrier: session.shipping_cost?.shipping_rate && typeof session.shipping_cost.shipping_rate === 'object'
+            ? session.shipping_cost.shipping_rate?.display_name ?? 'Standard Shipping'
+            : 'Standard Shipping',
           amount: session.shipping_cost?.amount_total
         }
       }

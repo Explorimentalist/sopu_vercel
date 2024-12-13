@@ -70,7 +70,8 @@ export default function CheckoutSuccessPage() {
 
     const fetchOrderDetails = async () => {
       try {
-        const response = await fetch(`/api/order-details?session_id=${sessionId}`, {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
+        const response = await fetch(`${apiUrl}/api/order-details?session_id=${sessionId}`, {
           headers: {
             'Cache-Control': 'no-cache',
             'Pragma': 'no-cache'

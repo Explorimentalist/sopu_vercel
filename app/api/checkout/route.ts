@@ -6,7 +6,6 @@ import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 import { headers } from 'next/headers'
 import { getShippingRate } from '@/lib/shipping'
-import axios from 'axios'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2023-10-16',
@@ -14,10 +13,26 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(req: Request) {
   try {
-    const headersList = headers()
-    const origin = headersList.get('origin') || process.env.NEXT_PUBLIC_URL || 'http://localhost:3000'
+    const origin = process.env.NODE_ENV === 'production' 
+      ? 'https://sopu.netlify.app' 
+      : 'http://localhost:3000'
     
-    const { items, currency = 'gbp' } = await req.json()
+    interface LineItem {
+      name: string;
+      price: number;
+      quantity: number;
+      description?: string;
+      image?: string;
+      language?: string;
+      dimensions?: string;
+      gender?: string;
+      size?: string;
+    }
+
+    const { items, currency = 'gbp' } = await req.json() as { 
+      items: LineItem[];
+      currency: string;
+    }
 
     if (!items?.length) {
       return NextResponse.json(

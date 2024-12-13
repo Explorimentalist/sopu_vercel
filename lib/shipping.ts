@@ -75,51 +75,47 @@ export function calculateShippingCost(
 }
 
 export function getShippingRate(country: string, currency: string, items: Array<{ name: string; quantity: number }>) {
-  // For UK orders, check free shipping threshold
+  // For UK orders
   if (country === 'GB') {
-    // Calculate total in GBP for threshold check
     const subtotal = items.reduce((sum, item) => 
       sum + (item.price * item.quantity), 0
     )
 
-    // If subtotal is over threshold, shipping is free
     if (subtotal >= shippingConfig.domestic.freeShippingThreshold) {
       return {
         shipping_rate_data: {
-          type: 'fixed_amount',
+          type: 'fixed_amount' as const,
           fixed_amount: {
-            amount: 0, // Free shipping
+            amount: 0,
             currency: 'gbp',
           },
           display_name: 'Free Shipping',
           delivery_estimate: {
-            minimum: { unit: 'business_day', value: 5 },
-            maximum: { unit: 'business_day', value: 7 },
+            minimum: { unit: 'business_day' as const, value: 5 },
+            maximum: { unit: 'business_day' as const, value: 7 },
           },
         },
       }
     }
 
-    // Otherwise, use standard UK shipping rate
     return {
       shipping_rate_data: {
-        type: 'fixed_amount',
+        type: 'fixed_amount' as const,
         fixed_amount: {
-          amount: 550, // 5.50 GBP
+          amount: 550,
           currency: 'gbp',
         },
         display_name: 'Standard Shipping',
         delivery_estimate: {
-          minimum: { unit: 'business_day', value: 5 },
-          maximum: { unit: 'business_day', value: 7 },
+          minimum: { unit: 'business_day' as const, value: 5 },
+          maximum: { unit: 'business_day' as const, value: 7 },
         },
       },
     }
   }
 
-  // For Spanish orders, keep the existing weight-based logic
+  // For Spanish orders
   if (country === 'ES') {
-    // Calculate total weight
     const totalWeight = items.reduce((weight, item) => {
       const itemWeight = item.name.toLowerCase().includes('camiseta') 
         ? productWeights.tshirt 
@@ -127,22 +123,21 @@ export function getShippingRate(country: string, currency: string, items: Array<
       return weight + (itemWeight * item.quantity)
     }, 0)
 
-    // Find the appropriate shipping bracket
     const bracket = shippingConfig.international.eu.find(
       b => totalWeight <= b.maxWeight
     ) ?? shippingConfig.international.eu[shippingConfig.international.eu.length - 1]
 
     return {
       shipping_rate_data: {
-        type: 'fixed_amount',
+        type: 'fixed_amount' as const,
         fixed_amount: {
-          amount: Math.round(bracket.cost * 100), // Convert to cents
+          amount: Math.round(bracket.cost * 100),
           currency: 'eur',
         },
         display_name: 'Standard Shipping',
         delivery_estimate: {
-          minimum: { unit: 'business_day', value: 5 },
-          maximum: { unit: 'business_day', value: 7 },
+          minimum: { unit: 'business_day' as const, value: 5 },
+          maximum: { unit: 'business_day' as const, value: 7 },
         },
       },
     }

@@ -4,19 +4,11 @@ import * as React from "react"
 import Link from "next/link"
 import { motion } from "framer-motion"
 import { CartSidebarComponent } from "@/components/cart-sidebar"
-import {
-  MenubarContent,
-  MenubarItem,
-  MenubarMenu,
-  MenubarTrigger,
-  Menubar,
-} from "@/components/ui/menubar"
 import { useCurrency } from "@/context/currency-context"
 
 export default function Nav() {
-  const [language, setLanguage] = React.useState("EN")
-  const { currency, setCurrency } = useCurrency()
   const [isHovered, setIsHovered] = React.useState(false)
+  const { currency } = useCurrency()
 
   return (
     <div className="w-full px-4 py-6">
