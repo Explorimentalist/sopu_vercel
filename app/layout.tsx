@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import { Inknut_Antiqua, Noto_Sans } from 'next/font/google'
 import "./globals.css";
+import { CartProvider } from "@/context/cart-context"
+import { CurrencyProvider } from "@/context/currency-context"
+import { ScrollProvider } from "@/context/scroll-context"
+import { CookieConsent } from "@/components/cookieconsent"
+import { TransitionLayout } from "@/components/transition-layout"
+import Script from 'next/script'
 
 const inknutAntiqua = Inknut_Antiqua({
   subsets: ['latin'],
@@ -25,9 +31,38 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${inknutAntiqua.variable} ${notoSans.variable} antialiased`}>
-        {children}
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <Script 
+          strategy="afterInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-9SYNGE7FKX" 
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+        >
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-9SYNGE7FKX');
+          `}
+        </Script>
+      </head>
+      <body 
+        className={`${inknutAntiqua.variable} ${notoSans.variable} antialiased`}
+        suppressHydrationWarning
+      >
+        <CurrencyProvider>
+          <CartProvider>
+            <ScrollProvider>
+              <TransitionLayout>
+                {children}
+              </TransitionLayout>
+              <CookieConsent />
+            </ScrollProvider>
+          </CartProvider>
+        </CurrencyProvider>
       </body>
     </html>
   );

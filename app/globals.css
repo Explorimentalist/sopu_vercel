@@ -25,7 +25,7 @@
     --ring: 0 0% 3.9%;
     --radius: 0.5rem;
   }
- 
+
   .dark {
     --background: 0 0% 3.9%;
     --foreground: 0 0% 98%;
@@ -54,6 +54,10 @@
     @apply border-border;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-sans;
+  }
+  /* Apply Noto Sans to all text elements by default */
+  h1, h2, h3, h4, h5, h6, p, span, div, button, a, input, textarea {
+    @apply font-sans;
   }
 }
