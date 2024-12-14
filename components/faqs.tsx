@@ -30,7 +30,7 @@ export function Faqs() {
               {index === 0 && (
                 <>
                   <AccordionTrigger className="text-xl font-medium hover:no-underline [&[data-state=open]>div>svg]:rotate-180 flex w-full">
-                    <div className="flex-1 text-left">¿Qu�� productos ofrece Sópu?</div>
+                    <div className="flex-1 text-left">¿Qué productos ofrece Sópu?</div>
                   </AccordionTrigger>
                   <AccordionContent className="text-base text-zinc-500 leading-relaxed pr-4">
                     <p>Sópu ofrece una selección exclusiva de productos Ndowéÿé:</p>
