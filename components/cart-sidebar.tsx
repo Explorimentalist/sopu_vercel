@@ -133,16 +133,11 @@ export function CartSidebarComponent() {
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="relative"
-          aria-label="Open cart"
-        >
+        <Button variant="ghost" size="icon" className="relative">
           <ShoppingCart className="h-5 w-5" />
-          {totalQuantity > 0 && (
-            <span className="absolute right-0 top-0 flex h-5 w-5 items-center justify-center rounded-full bg-black text-xs text-white">
-              {totalQuantity}
+          {items.length > 0 && (
+            <span className="absolute -right-1 -top-1 h-4 w-4 rounded-full bg-black text-xs text-white flex items-center justify-center">
+              {items.length}
             </span>
           )}
         </Button>

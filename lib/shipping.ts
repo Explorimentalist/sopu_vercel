@@ -74,7 +74,17 @@ export function calculateShippingCost(
   throw new Error(`Unsupported shipping country: ${country}`)
 }
 
-export function getShippingRate(country: string, currency: string, items: Array<{ name: string; quantity: number }>) {
+interface ShippingItem {
+  name: string
+  quantity: number
+  price: number
+}
+
+export function getShippingRate(
+  country: string, 
+  currency: string, 
+  items: ShippingItem[]
+) {
   // For UK orders
   if (country === 'GB') {
     const subtotal = items.reduce((sum, item) => 
