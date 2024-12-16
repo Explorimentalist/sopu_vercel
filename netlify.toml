@@ -1,5 +1,5 @@
 [build]
-  command = "next build"
+  command = "npm install && next build"
   publish = ".next"
 
 [[plugins]]
@@ -11,4 +11,14 @@
   NEXT_FORCE_EDGE_IMAGES = "true"
 
 [functions]
-  included_files = ["node_modules/@netlify/plugin-nextjs/**/*"]
+  included_files = [
+    "node_modules/@netlify/plugin-nextjs/**/*",
+    "node_modules/stripe/**/*",
+    "node_modules/axios/**/*"
+  ]
+
+# Handle i18n redirects
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/nextjs-handler"
+  status = 200
