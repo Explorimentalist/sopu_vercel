@@ -4,7 +4,6 @@ console.log('ENV check:', {
 })
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
-import { headers } from 'next/headers'
 import { getShippingRate } from '@/lib/shipping'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -29,6 +28,10 @@ export async function POST(req: Request) {
       size?: string;
     }
 
+    interface LineItemInput extends LineItem {
+      // existing LineItem interface properties...
+    }
+
     const { items, currency = 'gbp' } = await req.json() as { 
       items: LineItem[];
       currency: string;
@@ -42,7 +45,7 @@ export async function POST(req: Request) {
     }
 
     // Create Stripe line items with proper structure
-    const lineItems = items.map((item: any) => ({
+    const lineItems = items.map((item: LineItemInput) => ({
       price_data: {
         currency: currency.toLowerCase(),
         product_data: {
