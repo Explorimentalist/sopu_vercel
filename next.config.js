@@ -15,12 +15,7 @@ const nextConfig = {
   },
   typescript: {
     ignoreBuildErrors: true,
-  },
-  i18n: {
-    locales: ['en-GB', 'es-ES'],
-    defaultLocale: 'en-GB',
-  },
-  output: 'standalone',
+  }
 }
 
 module.exports = nextConfig
