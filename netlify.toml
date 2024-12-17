@@ -11,6 +11,17 @@
   NEXT_FORCE_EDGE_IMAGES = "true"
   NEXT_TELEMETRY_DISABLED = "1"
 
+[functions]
+  # Include necessary node_modules in functions
+  included_files = [
+    "node_modules/@netlify/plugin-nextjs/**/*",
+    "node_modules/stripe/**/*",
+    "node_modules/axios/**/*"
+  ]
+  # Increase function timeout for SSR
+  node_bundler = "esbuild"
+  external_node_modules = ["sharp"]
+
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/nextjs-handler"

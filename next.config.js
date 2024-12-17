@@ -8,6 +8,7 @@ const nextConfig = {
         hostname: 'res.cloudinary.com',
       },
     ],
+    domains: ['res.cloudinary.com'],
   },
   eslint: {
     ignoreDuringBuilds: true,
@@ -18,7 +19,8 @@ const nextConfig = {
   i18n: {
     locales: ['en-GB', 'es-ES'],
     defaultLocale: 'en-GB',
-  }
+  },
+  output: 'standalone',
 }
 
 module.exports = nextConfig
