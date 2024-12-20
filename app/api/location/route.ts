@@ -28,7 +28,13 @@ export async function GET(request: Request) {
 
     const response = await axios.get<IpApiResponse>(
       `https://freeipapi.com/api/json/${clientIp}`,
-      { timeout: 5000 }
+      { 
+        timeout: 5000,
+        validateStatus: (status) => {
+          console.log(`Location API response status: ${status}`)
+          return status === 200
+        }
+      }
     )
 
     return NextResponse.json({
@@ -38,6 +44,11 @@ export async function GET(request: Request) {
       currency: response.data.countryCode === 'ES' ? 'EUR' : 'GBP'
     })
   } catch (error) {
+    console.error('Location API error:', {
+      message: error.message,
+      status: error.response?.status,
+      data: error.response?.data
+    })
     console.error('Location detection error:', error)
     return NextResponse.json({
       country: 'GB',

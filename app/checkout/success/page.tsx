@@ -78,14 +78,15 @@ export default function CheckoutSuccessPage() {
           }
         })
         
-        if (!isMounted) return
-        
-        const data = await response.json()
-        
         if (!response.ok) {
-          throw new Error(data.error || 'Failed to fetch order details')
+          if (response.status === 404) {
+            throw new Error('Order not found - please check your order ID')
+          } else {
+            throw new Error(`Server error: ${response.status}`)
+          }
         }
         
+        const data = await response.json()
         if (data.error) {
           throw new Error(data.error)
         }
@@ -93,13 +94,8 @@ export default function CheckoutSuccessPage() {
         setOrderDetails(data)
         setError(null)
       } catch (err) {
-        if (!isMounted) return
-        console.error('Error fetching order details:', err)
-        setError('Unable to load order details')
-      } finally {
-        if (isMounted) {
-          setLoading(false)
-        }
+        console.error('Error details:', err)
+        setError(err.message || 'Unable to load order details')
       }
     }
 
