@@ -1,6 +1,7 @@
 'use client'
 
 import { CldImage } from 'next-cloudinary'
+import Image from 'next/image'
 
 interface CloudinaryImageProps {
   src: string
@@ -25,6 +26,17 @@ export function CloudinaryImage({
   crop = "fill",
   gravity = "auto"
 }: CloudinaryImageProps) {
+  const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
+
+  if (!cloudName) {
+    // Fallback to a placeholder or local image when Cloudinary is not configured
+    return (
+      <div className={`${className} bg-zinc-100 flex items-center justify-center`}>
+        <span className="text-zinc-400">Image placeholder</span>
+      </div>
+    )
+  }
+
   return (
     <CldImage
       src={src}
