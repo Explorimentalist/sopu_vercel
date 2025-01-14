@@ -13,7 +13,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(req: Request) {
   try {
     const origin = process.env.NODE_ENV === 'production' 
-      ? 'https://www.xn--spu-gna.com' 
+      ? 'https://sopuvercel-dszp1ljfa-explorimentalists-projects.vercel.app/' 
       : 'http://localhost:3000'
     
     interface LineItem {
