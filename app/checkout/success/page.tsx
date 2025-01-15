@@ -71,32 +71,66 @@ export default function CheckoutSuccessPage() {
 
     const fetchOrderDetails = async () => {
       try {
-        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3000'
-        const response = await fetch(`${apiUrl}/api/order-details?session_id=${sessionId}`, {
+        setLoading(true)
+        // Ensure we're using the correct API path
+        const apiUrl = `${window.location.origin}/api/order-details`
+        
+        console.log('Fetching from:', apiUrl) // Debug log
+        
+        const response = await fetch(`${apiUrl}?session_id=${sessionId}`, {
+          method: 'GET',
           headers: {
+            'Accept': 'application/json',
             'Cache-Control': 'no-cache',
-            'Pragma': 'no-cache'
-          }
+            'Content-Type': 'application/json'
+          },
+          next: { revalidate: 0 } // Disable cache
         })
-        
-        if (!response.ok) {
-          if (response.status === 404) {
-            throw new Error('Order not found - please check your order ID')
-          } else {
-            throw new Error(`Server error: ${response.status}`)
+
+        // Log the response details for debugging
+        console.log('Response status:', response.status)
+        console.log('Response headers:', Object.fromEntries(response.headers))
+
+        // Check if response is redirect
+        if (response.redirected) {
+          throw new Error('Request was redirected - check your API route configuration')
+        }
+
+        let data
+        try {
+          const textData = await response.text() // Get raw response
+          console.log('Raw response:', textData) // Debug log
+          
+          try {
+            data = JSON.parse(textData)
+          } catch (e) {
+            console.error('JSON parse error:', e)
+            throw new Error('Invalid JSON response from server')
           }
+        } catch (e) {
+          console.error('Response parsing error:', e)
+          throw new Error('Failed to parse server response')
         }
-        
-        const data = await response.json()
-        if (data.error) {
-          throw new Error(data.error)
+
+        if (!response.ok || data.error) {
+          throw new Error(data.error || `Server error: ${response.status}`)
         }
-        
-        setOrderDetails(data)
-        setError(null)
-      } catch (err) {
-        console.error('Error details:', err)
-        setError(err.message || 'Unable to load order details')
+
+        if (!data.orderDetails) {
+          throw new Error('Invalid order details received')
+        }
+
+        if (isMounted) {
+          setOrderDetails(data)
+          setError(null)
+          setLoading(false)
+        }
+      } catch (err: any) {
+        console.error('Error fetching order details:', err)
+        if (isMounted) {
+          setError(err.message || 'Unable to load order details')
+          setLoading(false)
+        }
       }
     }
 
