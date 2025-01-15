@@ -29,18 +29,19 @@ export async function GET(request: Request) {
         address: session.shipping_details?.address
       },
       orderDetails: {
-        id: session.metadata?.order_id,
+        id: session.metadata?.order_id || session.id,
         amount: session.amount_total,
         currency: session.currency,
         items: session.line_items?.data.map(item => ({
           description: item.description,
           quantity: item.quantity,
           amount_total: item.amount_total,
+          name: (item.price?.product as Stripe.Product)?.name,
           metadata: {
-            gender: (item.price?.product as Stripe.Product)?.metadata?.gender,
-            size: (item.price?.product as Stripe.Product)?.metadata?.size,
-            language: (item.price?.product as Stripe.Product)?.metadata?.language,
-            dimensions: (item.price?.product as Stripe.Product)?.metadata?.dimensions
+            gender: (item.price?.product as Stripe.Product)?.metadata?.gender || '',
+            size: (item.price?.product as Stripe.Product)?.metadata?.size || '',
+            language: (item.price?.product as Stripe.Product)?.metadata?.language || '',
+            dimensions: (item.price?.product as Stripe.Product)?.metadata?.dimensions || ''
           }
         })),
         shipping: {

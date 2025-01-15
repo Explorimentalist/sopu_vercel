@@ -26,6 +26,7 @@ interface OrderDetails {
     currency: string;
     items: Array<{
       description: string;
+      name: string;
       quantity: number;
       amount_total: number;
       metadata: {
@@ -160,11 +161,17 @@ export default function CheckoutSuccessPage() {
               <div className="space-y-4">
                 {orderDetails.orderDetails.items.map((item, index) => (
                   <div key={index} className="flex justify-between items-center">
-                    <div>
-                      <p className="font-medium">{item.description}</p>
-                      <p className="text-sm text-zinc-600">Cantidad: {item.quantity}</p>
+                    <div className="flex-1">
+                      <p className="font-medium">{item.name || item.description}</p>
+                      <div className="text-sm text-zinc-600 space-y-1">
+                        <p>Cantidad: {item.quantity}</p>
+                        {item.metadata.size && <p>Talla: {item.metadata.size}</p>}
+                        {item.metadata.gender && <p>Para: {item.metadata.gender}</p>}
+                        {item.metadata.language && <p>Idioma: {item.metadata.language}</p>}
+                        {item.metadata.dimensions && <p>Dimensiones: {item.metadata.dimensions}</p>}
+                      </div>
                     </div>
-                    <p className="font-medium">
+                    <p className="font-medium ml-4">
                       {formatPrice(item.amount_total / 100)}
                     </p>
                   </div>
