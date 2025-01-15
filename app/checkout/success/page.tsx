@@ -156,7 +156,7 @@ export default function CheckoutSuccessPage() {
       if (item.metadata.size) variants.push(`Talla: ${item.metadata.size.toUpperCase()}`)
     }
     
-    return variants.length > 0 ? variants.join(' | ') : ''
+    return variants.join(' | ')
   }
 
   return (
