@@ -107,6 +107,24 @@ export default function CheckoutSuccessPage() {
     }
   }, [searchParams])
 
+  const getVariantDisplay = (item: OrderDetails['orderDetails']['items'][0]) => {
+    const variants = []
+    
+    if (item.name.toLowerCase().includes('calendario')) {
+      if (item.metadata.dimensions) variants.push(`Dimensiones: ${item.metadata.dimensions}`)
+      if (item.metadata.language) variants.push(`Idioma: ${item.metadata.language.charAt(0).toUpperCase() + item.metadata.language.slice(1)}`)
+    } else if (item.name.toLowerCase().includes('camiseta')) {
+      if (item.metadata.gender) variants.push(
+        `Género: ${item.metadata.gender === 'male' ? 'Hombre' :
+        item.metadata.gender === 'female' ? 'Mujer' :
+        item.metadata.gender === 'kids' ? 'Niños' : item.metadata.gender}`
+      )
+      if (item.metadata.size) variants.push(`Talla: ${item.metadata.size.toUpperCase()}`)
+    }
+    
+    return variants.length > 0 ? variants.join(' | ') : ''
+  }
+
   return (
     <main className="min-h-screen pt-24 px-4 pb-16">
       <div className="max-w-3xl mx-auto">
@@ -132,7 +150,7 @@ export default function CheckoutSuccessPage() {
         )}
 
         {orderDetails && (
-          <div className="bg-white shadow-lg rounded-lg overflow-hidden">
+          <div className="bg-white rounded-lg shadow-md overflow-hidden mt-8">
             {/* Order Summary Header */}
             <div className="bg-zinc-50 px-6 py-4 border-b">
               <h2 className="text-xl font-semibold">Resumen del Pedido</h2>
@@ -156,27 +174,28 @@ export default function CheckoutSuccessPage() {
             </div>
 
             {/* Order Items */}
-            <div className="px-6 py-4">
-              <h3 className="font-medium mb-4">Artículos</h3>
-              <div className="space-y-4">
-                {orderDetails.orderDetails.items.map((item, index) => (
-                  <div key={index} className="flex justify-between items-center">
-                    <div className="flex-1">
-                      <p className="font-medium">{item.name || item.description}</p>
-                      <div className="text-sm text-zinc-600 space-y-1">
-                        <p>Cantidad: {item.quantity}</p>
-                        {item.metadata.size && <p>Talla: {item.metadata.size}</p>}
-                        {item.metadata.gender && <p>Para: {item.metadata.gender}</p>}
-                        {item.metadata.language && <p>Idioma: {item.metadata.language}</p>}
-                        {item.metadata.dimensions && <p>Dimensiones: {item.metadata.dimensions}</p>}
+            <div className="divide-y">
+              {orderDetails.orderDetails.items.map((item, index) => (
+                <div key={index} className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="flex-grow">
+                      <h3 className="font-medium">{item.name}</h3>
+                      {/* Add variant display */}
+                      {getVariantDisplay(item) && (
+                        <p className="text-sm text-zinc-600 mt-1">
+                          {getVariantDisplay(item)}
+                        </p>
+                      )}
+                      <div className="mt-1 text-sm text-zinc-600">
+                        Cantidad: {item.quantity}
                       </div>
                     </div>
-                    <p className="font-medium ml-4">
+                    <p className="font-medium">
                       {formatPrice(item.amount_total / 100)}
                     </p>
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
 
             {/* Order Totals */}
