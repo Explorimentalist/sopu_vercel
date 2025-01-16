@@ -21,6 +21,11 @@ export async function GET(request: Request) {
       expand: ['line_items.data.price.product', 'shipping_details', 'customer', 'shipping_cost.shipping_rate']
     })
 
+    console.log('Session line items:', JSON.stringify(session.line_items?.data.map(item => ({
+      name: (item.price?.product as Stripe.Product)?.name,
+      metadata: (item.price?.product as Stripe.Product)?.metadata
+    })), null, 2))
+
     return NextResponse.json({
       customerDetails: {
         email: session.customer_details?.email,
@@ -32,18 +37,16 @@ export async function GET(request: Request) {
         id: session.metadata?.order_id || session.id,
         amount: session.amount_total,
         currency: session.currency,
-        items: session.line_items?.data.map(item => ({
-          description: item.description,
-          quantity: item.quantity,
-          amount_total: item.amount_total,
-          name: (item.price?.product as Stripe.Product)?.name,
-          metadata: {
-            gender: (item.price?.product as Stripe.Product)?.metadata?.gender || '',
-            size: (item.price?.product as Stripe.Product)?.metadata?.size || '',
-            language: (item.price?.product as Stripe.Product)?.metadata?.language || '',
-            dimensions: (item.price?.product as Stripe.Product)?.metadata?.dimensions || ''
+        items: session.line_items?.data.map(item => {
+          const product = item.price?.product as Stripe.Product
+          return {
+            description: item.description,
+            quantity: item.quantity,
+            amount_total: item.amount_total,
+            name: product?.name,
+            metadata: product?.metadata || {}
           }
-        })),
+        }),
         shipping: {
           carrier: session.shipping_cost?.shipping_rate && typeof session.shipping_cost.shipping_rate === 'object'
             ? session.shipping_cost.shipping_rate?.display_name ?? 'Standard Shipping'
