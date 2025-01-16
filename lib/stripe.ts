@@ -53,14 +53,10 @@ export async function createCheckoutSession(params: CreateCheckoutSessionParams)
         product_data: {
           ...item.price_data.product_data,
           description: item.price_data.product_data.description,
-          metadata: {
-            size: item.price_data.product_data.metadata?.size,
-            gender: item.price_data.product_data.metadata?.gender,
-            language: item.price_data.product_data.metadata?.language,
-            dimensions: item.price_data.product_data.metadata?.dimensions,
-          }
+          metadata: item.price_data.product_data.metadata
         },
       },
+      metadata: item.price_data.product_data.metadata
     })),
     mode: 'payment',
     success_url: params.successUrl,

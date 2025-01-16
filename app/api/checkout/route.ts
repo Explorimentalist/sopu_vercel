@@ -45,24 +45,35 @@ export async function POST(req: Request) {
     }
 
     // Create Stripe line items with proper structure
-    const lineItems = items.map((item: LineItemInput) => ({
-      price_data: {
-        currency: currency.toLowerCase(),
-        product_data: {
-          name: item.name,
-          description: item.description || `${item.language || ''}, ${item.dimensions || ''}`.trim(),
-          images: item.image && new URL(item.image) ? [item.image] : undefined,
-          metadata: {
-            gender: item.gender || '',
-            size: item.size || '',
-            language: item.language || '',
-            dimensions: item.dimensions || ''
+    const lineItems = items.map((item: LineItemInput) => {
+      console.log('Processing line item:', item)
+      return {
+        price_data: {
+          currency: currency.toLowerCase(),
+          product_data: {
+            name: item.name,
+            description: item.description || `${item.language || ''}, ${item.dimensions || ''}`.trim(),
+            images: item.image && new URL(item.image) ? [item.image] : undefined,
+            metadata: {
+              gender: item.gender || '',
+              size: item.size || '',
+              language: item.language || '',
+              dimensions: item.dimensions || ''
+            },
           },
+          unit_amount: Math.round(item.price * 100),
         },
-        unit_amount: Math.round(item.price * 100),
-      },
-      quantity: item.quantity,
-    }))
+        quantity: item.quantity,
+        metadata: {
+          gender: item.gender || '',
+          size: item.size || '',
+          language: item.language || '',
+          dimensions: item.dimensions || ''
+        }
+      }
+    })
+
+    console.log('Creating checkout session with:', { lineItems, currency })
 
     const session = await stripe.checkout.sessions.create({
       line_items: lineItems,

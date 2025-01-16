@@ -69,22 +69,26 @@ export function CartSidebarComponent() {
       const origin = window.location.origin
 
       // Format line items with proper structure
-      const lineItems = items.map(item => ({
-        name: item.name,
-        price: Number((currency === 'EUR' ? item.price * exchangeRate : item.price).toFixed(2)),
-        quantity: item.quantity,
-        // Use Cloudinary URL directly
-        image: item.image.startsWith('http') 
-          ? item.image 
-          : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${item.image}`,
-        description: getVariantDisplay(item),
-        metadata: {
-          gender: item.gender || '',
-          size: item.size || '',
-          language: item.language || '',
-          dimensions: item.dimensions || '',
+      const lineItems = items.map(item => {
+        const formattedItem = {
+          name: item.name,
+          price: Number((currency === 'EUR' ? item.price * exchangeRate : item.price).toFixed(2)),
+          quantity: item.quantity,
+          // Use Cloudinary URL directly
+          image: item.image.startsWith('http') 
+            ? item.image 
+            : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${item.image}`,
+          description: getVariantDisplay(item),
+          metadata: {
+            gender: item.gender || '',
+            size: item.size || '',
+            language: item.language || '',
+            dimensions: item.dimensions || '',
+          }
         }
-      }))
+        console.log('Sending to checkout:', formattedItem)
+        return formattedItem
+      })
 
       console.log('Sending to checkout:', { items: lineItems, currency })
 

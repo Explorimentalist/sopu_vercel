@@ -5,6 +5,27 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2023-10-16',
 })
 
+interface LineItemMetadata {
+  gender?: string;
+  size?: string;
+  language?: string;
+  dimensions?: string;
+}
+
+// Define the shape of our line item
+interface LineItem {
+  description?: string;
+  quantity?: number;
+  amount_total?: number;
+  metadata?: LineItemMetadata;
+  price?: {
+    product?: Stripe.Product & {
+      name?: string;
+      metadata?: LineItemMetadata;
+    };
+  };
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const sessionId = searchParams.get('session_id')
@@ -21,10 +42,8 @@ export async function GET(request: Request) {
       expand: ['line_items.data.price.product', 'shipping_details', 'customer', 'shipping_cost.shipping_rate']
     })
 
-    console.log('Session line items:', JSON.stringify(session.line_items?.data.map(item => ({
-      name: (item.price?.product as Stripe.Product)?.name,
-      metadata: (item.price?.product as Stripe.Product)?.metadata
-    })), null, 2))
+    // Debug log the full line items data
+    console.log('Full line items data:', JSON.stringify(session.line_items?.data, null, 2))
 
     return NextResponse.json({
       customerDetails: {
@@ -39,12 +58,17 @@ export async function GET(request: Request) {
         currency: session.currency,
         items: session.line_items?.data.map(item => {
           const product = item.price?.product as Stripe.Product
+          const metadata = {
+            ...(item as any).metadata || {},
+            ...(product?.metadata || {})
+          }
+          console.log('Item metadata:', metadata)
           return {
             description: item.description,
             quantity: item.quantity,
             amount_total: item.amount_total,
             name: product?.name,
-            metadata: product?.metadata || {}
+            metadata
           }
         }),
         shipping: {
