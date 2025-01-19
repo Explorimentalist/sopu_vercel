@@ -59,7 +59,6 @@ export async function GET(request: Request) {
         items: session.line_items?.data.map(item => {
           const product = item.price?.product as Stripe.Product
           const metadata = {
-            ...(item as any).metadata || {},
             ...(product?.metadata || {})
           }
           console.log('Item metadata:', metadata)
