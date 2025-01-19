@@ -144,19 +144,32 @@ export default function CheckoutSuccessPage() {
   const getVariantDisplay = (item: OrderDetails['orderDetails']['items'][0]) => {
     const variants = []
     
+    // For Calendar
     if (item.name.toLowerCase().includes('calendario')) {
-      if (item.metadata.dimensions) variants.push(`Dimensiones: ${item.metadata.dimensions}`)
-      if (item.metadata.language) variants.push(`Idioma: ${item.metadata.language.charAt(0).toUpperCase() + item.metadata.language.slice(1)}`)
-    } else if (item.name.toLowerCase().includes('camiseta')) {
-      if (item.metadata.gender) variants.push(
-        `Género: ${item.metadata.gender === 'male' ? 'Hombre' :
-        item.metadata.gender === 'female' ? 'Mujer' :
-        item.metadata.gender === 'kids' ? 'Niños' : item.metadata.gender}`
-      )
-      if (item.metadata.size) variants.push(`Talla: ${item.metadata.size.toUpperCase()}`)
+      if (item.metadata?.dimensions) {
+        variants.push(`Dimensiones: ${item.metadata.dimensions}`)
+      }
+      if (item.metadata?.language) {
+        const language = item.metadata.language
+        variants.push(`Idioma: ${language.charAt(0).toUpperCase() + language.slice(1)}`)
+      }
     }
-    
-    return variants.join(' | ')
+    // For T-shirt
+    else if (item.name.toLowerCase().includes('camiseta')) {
+      if (item.metadata?.gender) {
+        const genderMap: Record<string, string> = {
+          'male': 'Hombre',
+          'female': 'Mujer',
+          'kids': 'Niños'
+        }
+        variants.push(`Género: ${genderMap[item.metadata.gender] || item.metadata.gender}`)
+      }
+      if (item.metadata?.size) {
+        variants.push(`Talla: ${item.metadata.size.toUpperCase()}`)
+      }
+    }
+
+    return variants.length > 0 ? variants.join(' | ') : ''
   }
 
   return (
