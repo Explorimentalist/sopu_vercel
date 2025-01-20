@@ -231,20 +231,10 @@ export default function CheckoutSuccessPage() {
                 <div key={index} className="p-6">
                   <div className="flex items-start gap-4">
                     <div className="flex-grow">
-                      <h3 className="font-medium">
-                        {/* Extract base name without variants */}
-                        {item.name.split(' - ')[0]}
-                      </h3>
-                      {/* Display the variants part */}
-                      {item.name.includes(' - ') && (
+                      <h3 className="font-medium">{item.name}</h3>
+                      {item.description && (
                         <p className="text-sm text-zinc-600 mt-1">
-                          {item.name.split(' - ')[1]}
-                        </p>
-                      )}
-                      {/* Display additional variant info if available */}
-                      {getVariantDisplay(item) && (
-                        <p className="text-sm text-zinc-600 mt-1">
-                          {getVariantDisplay(item)}
+                          {item.description}
                         </p>
                       )}
                       <div className="mt-1 text-sm text-zinc-600">

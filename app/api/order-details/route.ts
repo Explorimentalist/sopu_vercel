@@ -87,26 +87,16 @@ export async function GET(request: Request) {
             }
           })
 
-          // Get metadata from product
-          const metadata = product?.metadata || {}
-          
-          // Use the item description (which contains the variant info)
-          // or construct it from metadata if not available
-          const description = item.description || 
-            [metadata.language, metadata.dimensions]
-              .filter(Boolean)
-              .join(', ')
-
           return {
-            description,
+            description: item.description || '',
             name: product?.name || '',
             quantity: item.quantity,
             amount_total: item.amount_total,
-            metadata: {
-              gender: metadata.gender || '',
-              size: metadata.size || '',
-              language: metadata.language || '',
-              dimensions: metadata.dimensions || ''
+            metadata: product?.metadata || {
+              gender: '',
+              size: '',
+              language: '',
+              dimensions: ''
             }
           }
         }),
