@@ -144,37 +144,21 @@ export default function CheckoutSuccessPage() {
   const getVariantDisplay = (item: OrderDetails['orderDetails']['items'][0]) => {
     const variants: string[] = []
     
-    // Debug log
-    console.log('Processing variant display for item:', {
-      name: item.name,
-      metadata: item.metadata
-    })
-
-    if (item.name?.toLowerCase().includes('calendario')) {
-      if (item.metadata?.dimensions) {
-        variants.push(`Dimensiones: ${item.metadata.dimensions}`)
-      }
-      if (item.metadata?.language) {
-        const language = item.metadata.language
-        variants.push(`Idioma: ${language.charAt(0).toUpperCase() + language.slice(1)}`)
-      }
-    } else if (item.name?.toLowerCase().includes('camiseta')) {
-      if (item.metadata?.gender) {
-        const genderMap: Record<string, string> = {
-          'male': 'Hombre',
-          'female': 'Mujer',
-          'kids': 'Niños'
+    // Handle any metadata keys present
+    if (item.metadata) {
+      Object.entries(item.metadata).forEach(([key, value]) => {
+        if (value) {
+          // Capitalize first letter of key and value
+          const formattedKey = key.charAt(0).toUpperCase() + key.slice(1)
+          const formattedValue = typeof value === 'string' 
+            ? value.charAt(0).toUpperCase() + value.slice(1)
+            : value
+          variants.push(`${formattedKey}: ${formattedValue}`)
         }
-        variants.push(`Género: ${genderMap[item.metadata.gender] || item.metadata.gender}`)
-      }
-      if (item.metadata?.size) {
-        variants.push(`Talla: ${item.metadata.size.toUpperCase()}`)
-      }
+      })
     }
 
-    const result = variants.join(' | ')
-    console.log('Variant display result:', result)
-    return result
+    return variants.join(' | ')
   }
 
   return (
