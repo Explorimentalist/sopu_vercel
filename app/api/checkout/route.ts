@@ -47,12 +47,19 @@ export async function POST(req: Request) {
     // Create Stripe line items with proper structure
     const lineItems = items.map((item: LineItemInput) => {
       console.log('Processing line item:', item)
+      
+      // Construct a proper description that includes variants
+      const variantParts = []
+      if (item.language) variantParts.push(item.language)
+      if (item.dimensions) variantParts.push(item.dimensions)
+      const variantDescription = variantParts.join(', ')
+
       return {
         price_data: {
           currency: currency.toLowerCase(),
           product_data: {
             name: item.name,
-            description: item.description || undefined,
+            description: variantDescription || undefined,
             images: item.image && new URL(item.image) ? [item.image] : undefined,
             metadata: {
               gender: item.gender || '',
@@ -63,7 +70,8 @@ export async function POST(req: Request) {
           },
           unit_amount: Math.round(item.price * 100),
         },
-        quantity: item.quantity
+        quantity: item.quantity,
+        description: variantDescription || undefined
       }
     })
 
