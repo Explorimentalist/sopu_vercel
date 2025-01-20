@@ -42,18 +42,18 @@ export async function GET(request: Request) {
   }
 
   try {
+    // Expand all necessary fields including line_items and prices
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
-      expand: ['line_items.data.price.product', 'shipping_details', 'customer', 'shipping_cost.shipping_rate']
+      expand: [
+        'line_items.data.price.product',
+        'shipping_details',
+        'customer',
+        'shipping_cost.shipping_rate'
+      ]
     })
 
-    console.log('Session:', {
-      lineItems: session.line_items?.data.map(item => ({
-        price: item.price,
-        product: item.price?.product,
-        metadata: item.price?.product?.metadata,
-        description: item.description
-      }))
-    })
+    // Debug the entire line items data
+    console.log('Full Session Line Items:', JSON.stringify(session.line_items?.data, null, 2))
 
     return NextResponse.json({
       customerDetails: {
@@ -67,28 +67,27 @@ export async function GET(request: Request) {
         amount: session.amount_total,
         currency: session.currency,
         items: session.line_items?.data.map(item => {
-          const product = item.price?.product
-          const metadata = product && typeof product === 'object' && 'metadata' in product
-            ? product.metadata as LineItemMetadata
-            : null
+          // Access the product data directly from the price object
+          const product = item.price?.product as Stripe.Product
           
-          // Debug log for each item's metadata
-          console.log('Processing line item:', {
-            name: product && typeof product === 'object' ? product.name : null,
-            metadata,
+          // Debug log the raw product data
+          console.log('Raw Product Data:', {
+            id: product?.id,
+            name: product?.name,
+            metadata: product?.metadata,
             description: item.description
           })
-          
+
           return {
             description: item.description,
+            name: product?.name || '',
             quantity: item.quantity,
             amount_total: item.amount_total,
-            name: product && typeof product === 'object' ? product.name : undefined,
-            metadata: metadata || {
-              gender: '',
-              size: '',
-              language: '',
-              dimensions: ''
+            metadata: {
+              gender: product?.metadata?.gender || '',
+              size: product?.metadata?.size || '',
+              language: product?.metadata?.language || '',
+              dimensions: product?.metadata?.dimensions || ''
             }
           }
         }),
