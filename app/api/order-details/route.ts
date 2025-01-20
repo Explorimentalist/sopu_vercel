@@ -14,9 +14,16 @@ interface LineItemMetadata {
 
 // Define the shape of our line item
 interface LineItem {
+  id?: string;
   description?: string;
   quantity?: number;
   amount_total?: number;
+  metadata?: {
+    gender?: string;
+    size?: string;
+    language?: string;
+    dimensions?: string;
+  };
   price?: {
     product?: Stripe.Product & {
       name?: string;
@@ -67,28 +74,34 @@ export async function GET(request: Request) {
         amount: session.amount_total,
         currency: session.currency,
         items: session.line_items?.data.map(item => {
-          // Access the product data directly from the price object
           const product = item.price?.product as Stripe.Product
           
-          // Debug log the raw product data
-          console.log('Raw Product Data:', {
-            id: product?.id,
-            name: product?.name,
-            metadata: product?.metadata,
-            description: item.description
+          // Debug log the raw data
+          console.log('Raw Item Data:', {
+            id: item.id,
+            description: item.description,
+            metadata: item.metadata,
+            product: {
+              id: product?.id,
+              name: product?.name,
+              metadata: product?.metadata
+            }
           })
+
+          // Combine metadata from both product and line item
+          const combinedMetadata = {
+            gender: item.metadata?.gender || product?.metadata?.gender || '',
+            size: item.metadata?.size || product?.metadata?.size || '',
+            language: item.metadata?.language || product?.metadata?.language || '',
+            dimensions: item.metadata?.dimensions || product?.metadata?.dimensions || ''
+          }
 
           return {
             description: item.description,
             name: product?.name || '',
             quantity: item.quantity,
             amount_total: item.amount_total,
-            metadata: {
-              gender: product?.metadata?.gender || '',
-              size: product?.metadata?.size || '',
-              language: product?.metadata?.language || '',
-              dimensions: product?.metadata?.dimensions || ''
-            }
+            metadata: combinedMetadata
           }
         }),
         shipping: {
