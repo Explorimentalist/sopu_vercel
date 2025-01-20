@@ -10,29 +10,16 @@ interface LineItemMetadata {
   size?: string;
   language?: string;
   dimensions?: string;
+  original_name?: string;
 }
 
 // Define the shape of our line item
-interface LineItem {
-  id?: string;
-  description?: string;
-  quantity?: number;
-  amount_total?: number;
-  metadata?: {
-    gender?: string;
-    size?: string;
-    language?: string;
-    dimensions?: string;
-  };
+type LineItem = Stripe.Response<Stripe.ApiList<Stripe.LineItem>>['data'][0] & {
+  metadata?: LineItemMetadata;
   price?: {
     product?: Stripe.Product & {
       name?: string;
-      metadata?: {
-        gender?: string;
-        size?: string;
-        language?: string;
-        dimensions?: string;
-      };
+      metadata?: LineItemMetadata;
     };
   };
 }
@@ -96,26 +83,37 @@ export async function GET(request: Request) {
               id: product?.id,
               name: product?.name,
               metadata: product?.metadata
-            }
+            },
+            lineItemMetadata: item.metadata
           })
 
-          // Construct the description from metadata if not present
+          // Get metadata from both product and line item
+          const metadata = {
+            ...product?.metadata,
+            ...item.metadata // Line item metadata takes precedence
+          }
+
+          // Construct the variant description
           const variantParts = []
-          if (product?.metadata?.language) variantParts.push(product.metadata.language)
-          if (product?.metadata?.dimensions) variantParts.push(product.metadata.dimensions)
+          if (metadata.language) variantParts.push(metadata.language)
+          if (metadata.dimensions) variantParts.push(metadata.dimensions)
+          if (metadata.gender) variantParts.push(
+            metadata.gender === 'male' ? 'Hombre' :
+            metadata.gender === 'female' ? 'Mujer' :
+            metadata.gender === 'kids' ? 'Niños' : 
+            metadata.gender
+          )
+          if (metadata.size) variantParts.push(metadata.size.toUpperCase())
+          
           const variantDescription = variantParts.join(', ')
 
           return {
             description: item.description || variantDescription,
-            name: product?.name || '',
+            // Use original name if available, otherwise fallback to product name
+            name: metadata.original_name || product?.name || '',
             quantity: item.quantity,
             amount_total: item.amount_total,
-            metadata: product?.metadata || {
-              gender: '',
-              size: '',
-              language: '',
-              dimensions: ''
-            }
+            metadata: metadata
           }
         }),
         shipping: {

@@ -48,14 +48,23 @@ export async function POST(req: Request) {
     const lineItems = items.map((item: LineItemInput) => {
       console.log('Processing line item:', item)
 
+      // Construct variant description for the product name
+      const variantParts = []
+      if (item.language) variantParts.push(item.language)
+      if (item.dimensions) variantParts.push(item.dimensions)
+      const variantDescription = variantParts.join(', ')
+
       return {
         price_data: {
           currency: currency.toLowerCase(),
           product_data: {
-            name: item.name,
+            name: `${item.name}${variantDescription ? ` - ${variantDescription}` : ''}`,
             description: item.description,
             images: item.image && new URL(item.image) ? [item.image] : undefined,
             metadata: {
+              // Store original name without variants
+              original_name: item.name,
+              // Store variant information
               gender: item.gender || '',
               size: item.size || '',
               language: item.language || '',
@@ -64,7 +73,14 @@ export async function POST(req: Request) {
           },
           unit_amount: Math.round(item.price * 100),
         },
-        quantity: item.quantity
+        quantity: item.quantity,
+        // Add metadata at line item level for better tracking
+        metadata: {
+          language: item.language || '',
+          dimensions: item.dimensions || '',
+          gender: item.gender || '',
+          size: item.size || ''
+        }
       }
     })
 
