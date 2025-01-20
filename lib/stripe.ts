@@ -44,20 +44,35 @@ export interface CreateCheckoutSessionParams {
 }
 
 export async function createCheckoutSession(params: CreateCheckoutSessionParams) {
-  return stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
-    line_items: params.lineItems.map(item => ({
+  const lineItems = params.lineItems.map(item => {
+    // Create a descriptive name that includes variants
+    const variantParts = []
+    if (item.price_data.product_data.metadata?.language) {
+      variantParts.push(item.price_data.product_data.metadata.language)
+    }
+    if (item.price_data.product_data.metadata?.dimensions) {
+      variantParts.push(item.price_data.product_data.metadata.dimensions)
+    }
+    const variantDescription = variantParts.join(', ')
+
+    return {
       ...item,
       price_data: {
         ...item.price_data,
         product_data: {
           ...item.price_data.product_data,
-          description: item.price_data.product_data.description,
+          // Include variants in the name itself
+          name: `${item.price_data.product_data.name}${variantDescription ? ` - ${variantDescription}` : ''}`,
+          description: variantDescription || undefined,
           metadata: item.price_data.product_data.metadata
         },
-      },
-      metadata: item.price_data.product_data.metadata
-    })),
+      }
+    }
+  })
+
+  return stripe.checkout.sessions.create({
+    payment_method_types: ['card'],
+    line_items: lineItems,
     mode: 'payment',
     success_url: params.successUrl,
     cancel_url: params.cancelUrl,

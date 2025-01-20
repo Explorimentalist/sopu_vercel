@@ -58,7 +58,8 @@ export async function POST(req: Request) {
         price_data: {
           currency: currency.toLowerCase(),
           product_data: {
-            name: item.name,
+            // Include variants in the name itself
+            name: `${item.name}${variantDescription ? ` - ${variantDescription}` : ''}`,
             description: variantDescription || undefined,
             images: item.image && new URL(item.image) ? [item.image] : undefined,
             metadata: {
@@ -70,8 +71,7 @@ export async function POST(req: Request) {
           },
           unit_amount: Math.round(item.price * 100),
         },
-        quantity: item.quantity,
-        description: variantDescription || undefined
+        quantity: item.quantity
       }
     })
 
