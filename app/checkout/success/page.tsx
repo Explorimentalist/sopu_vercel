@@ -145,7 +145,7 @@ export default function CheckoutSuccessPage() {
     const variants: string[] = []
     
     // Debug log
-    console.log('Processing variant display for:', {
+    console.log('Processing variant display for item:', {
       name: item.name,
       metadata: item.metadata
     })

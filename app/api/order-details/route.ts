@@ -50,7 +50,8 @@ export async function GET(request: Request) {
       lineItems: session.line_items?.data.map(item => ({
         price: item.price,
         product: item.price?.product,
-        metadata: item.price?.product?.metadata
+        metadata: item.price?.product?.metadata,
+        description: item.description
       }))
     })
 
@@ -66,17 +67,28 @@ export async function GET(request: Request) {
         amount: session.amount_total,
         currency: session.currency,
         items: session.line_items?.data.map(item => {
-          const product = item.price?.product as Stripe.Product
+          const product = item.price?.product
+          const metadata = product && typeof product === 'object' && 'metadata' in product
+            ? product.metadata as LineItemMetadata
+            : null
+          
+          // Debug log for each item's metadata
+          console.log('Processing line item:', {
+            name: product && typeof product === 'object' ? product.name : null,
+            metadata,
+            description: item.description
+          })
+          
           return {
             description: item.description,
             quantity: item.quantity,
             amount_total: item.amount_total,
-            name: product?.name,
-            metadata: {
-              gender: product?.metadata?.gender || '',
-              size: product?.metadata?.size || '',
-              language: product?.metadata?.language || '',
-              dimensions: product?.metadata?.dimensions || ''
+            name: product && typeof product === 'object' ? product.name : undefined,
+            metadata: metadata || {
+              gender: '',
+              size: '',
+              language: '',
+              dimensions: ''
             }
           }
         }),
