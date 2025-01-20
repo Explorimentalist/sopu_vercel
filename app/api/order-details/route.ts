@@ -59,8 +59,20 @@ export async function GET(request: Request) {
       ]
     })
 
-    // Debug the entire line items data
-    console.log('Full Session Line Items:', JSON.stringify(session.line_items?.data, null, 2))
+    // Debug logs
+    console.log('Session Data:', {
+      lineItems: session.line_items?.data.map(item => ({
+        id: item.id,
+        description: item.description,
+        price: {
+          product: item.price?.product && typeof item.price.product === 'object' ? {
+            name: (item.price.product as Stripe.Product).name,
+            metadata: (item.price.product as Stripe.Product).metadata,
+            description: (item.price.product as Stripe.Product).description
+          } : null
+        }
+      }))
+    })
 
     return NextResponse.json({
       customerDetails: {
@@ -77,7 +89,7 @@ export async function GET(request: Request) {
           const product = item.price?.product as Stripe.Product
           
           // Debug log the raw data
-          console.log('Raw Item Data:', {
+          console.log('Processing Order Item:', {
             id: item.id,
             description: item.description,
             product: {
@@ -87,8 +99,14 @@ export async function GET(request: Request) {
             }
           })
 
+          // Construct the description from metadata if not present
+          const variantParts = []
+          if (product?.metadata?.language) variantParts.push(product.metadata.language)
+          if (product?.metadata?.dimensions) variantParts.push(product.metadata.dimensions)
+          const variantDescription = variantParts.join(', ')
+
           return {
-            description: item.description || '',
+            description: item.description || variantDescription,
             name: product?.name || '',
             quantity: item.quantity,
             amount_total: item.amount_total,

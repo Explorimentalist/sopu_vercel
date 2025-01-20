@@ -232,6 +232,12 @@ export default function CheckoutSuccessPage() {
                   <div className="flex items-start gap-4">
                     <div className="flex-grow">
                       <h3 className="font-medium">{item.name}</h3>
+                      {/* Display variant information */}
+                      {getVariantDisplay(item) && (
+                        <p className="text-sm text-zinc-500 mt-1">
+                          {getVariantDisplay(item)}
+                        </p>
+                      )}
                       {item.description && (
                         <p className="text-sm text-zinc-600 mt-1">
                           {item.description}
