@@ -142,23 +142,31 @@ export default function CheckoutSuccessPage() {
   }, [searchParams])
 
   const getVariantDisplay = (item: OrderDetails['orderDetails']['items'][0]) => {
-    const variants: string[] = []
+    // Maintain consistency with cart-sidebar.tsx display logic
+    const variants = []
     
-    // Handle any metadata keys present
     if (item.metadata) {
-      Object.entries(item.metadata).forEach(([key, value]) => {
-        if (value) {
-          // Capitalize first letter of key and value
-          const formattedKey = key.charAt(0).toUpperCase() + key.slice(1)
-          const formattedValue = typeof value === 'string' 
-            ? value.charAt(0).toUpperCase() + value.slice(1)
-            : value
-          variants.push(`${formattedKey}: ${formattedValue}`)
+      // Handle dimensions and language for Calendario
+      if (item.name.toLowerCase().includes('calendario')) {
+        if (item.metadata.dimensions) variants.push(item.metadata.dimensions)
+        if (item.metadata.language) {
+          const language = item.metadata.language
+          variants.push(language.charAt(0).toUpperCase() + language.slice(1))
         }
-      })
+      }
+      // Handle gender and size for other products
+      else {
+        if (item.metadata.gender) variants.push(
+          item.metadata.gender === 'male' ? 'Hombre' :
+          item.metadata.gender === 'female' ? 'Mujer' :
+          item.metadata.gender === 'kids' ? 'Niños' : 
+          item.metadata.gender
+        )
+        if (item.metadata.size) variants.push(item.metadata.size.toUpperCase())
+      }
     }
-
-    return variants.join(' | ')
+    
+    return variants.join(', ')
   }
 
   return (
