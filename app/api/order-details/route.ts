@@ -17,11 +17,15 @@ interface LineItem {
   description?: string;
   quantity?: number;
   amount_total?: number;
-  metadata?: LineItemMetadata;
   price?: {
     product?: Stripe.Product & {
       name?: string;
-      metadata?: LineItemMetadata;
+      metadata?: {
+        gender?: string;
+        size?: string;
+        language?: string;
+        dimensions?: string;
+      };
     };
   };
 }
@@ -42,8 +46,13 @@ export async function GET(request: Request) {
       expand: ['line_items.data.price.product', 'shipping_details', 'customer', 'shipping_cost.shipping_rate']
     })
 
-    // Debug log the full line items data
-    console.log('Full line items data:', JSON.stringify(session.line_items?.data, null, 2))
+    console.log('Session:', {
+      lineItems: session.line_items?.data.map(item => ({
+        price: item.price,
+        product: item.price?.product,
+        metadata: item.price?.product?.metadata
+      }))
+    })
 
     return NextResponse.json({
       customerDetails: {
@@ -58,16 +67,17 @@ export async function GET(request: Request) {
         currency: session.currency,
         items: session.line_items?.data.map(item => {
           const product = item.price?.product as Stripe.Product
-          const metadata = {
-            ...(product?.metadata || {})
-          }
-          console.log('Item metadata:', metadata)
           return {
             description: item.description,
             quantity: item.quantity,
             amount_total: item.amount_total,
             name: product?.name,
-            metadata
+            metadata: {
+              gender: product?.metadata?.gender || '',
+              size: product?.metadata?.size || '',
+              language: product?.metadata?.language || '',
+              dimensions: product?.metadata?.dimensions || ''
+            }
           }
         }),
         shipping: {

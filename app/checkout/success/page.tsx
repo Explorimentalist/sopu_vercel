@@ -142,10 +142,15 @@ export default function CheckoutSuccessPage() {
   }, [searchParams])
 
   const getVariantDisplay = (item: OrderDetails['orderDetails']['items'][0]) => {
-    const variants = []
+    const variants: string[] = []
     
-    // For Calendar
-    if (item.name.toLowerCase().includes('calendario')) {
+    // Debug log
+    console.log('Processing variant display for:', {
+      name: item.name,
+      metadata: item.metadata
+    })
+
+    if (item.name?.toLowerCase().includes('calendario')) {
       if (item.metadata?.dimensions) {
         variants.push(`Dimensiones: ${item.metadata.dimensions}`)
       }
@@ -153,9 +158,7 @@ export default function CheckoutSuccessPage() {
         const language = item.metadata.language
         variants.push(`Idioma: ${language.charAt(0).toUpperCase() + language.slice(1)}`)
       }
-    }
-    // For T-shirt
-    else if (item.name.toLowerCase().includes('camiseta')) {
+    } else if (item.name?.toLowerCase().includes('camiseta')) {
       if (item.metadata?.gender) {
         const genderMap: Record<string, string> = {
           'male': 'Hombre',
@@ -169,7 +172,9 @@ export default function CheckoutSuccessPage() {
       }
     }
 
-    return variants.length > 0 ? variants.join(' | ') : ''
+    const result = variants.join(' | ')
+    console.log('Variant display result:', result)
+    return result
   }
 
   return (
