@@ -63,13 +63,7 @@ export async function POST(req: Request) {
           },
           unit_amount: Math.round(item.price * 100),
         },
-        quantity: item.quantity,
-        metadata: {
-          gender: item.gender || '',
-          size: item.size || '',
-          language: item.language || '',
-          dimensions: item.dimensions || ''
-        }
+        quantity: item.quantity
       }
     })
 

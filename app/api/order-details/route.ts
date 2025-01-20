@@ -80,7 +80,6 @@ export async function GET(request: Request) {
           console.log('Raw Item Data:', {
             id: item.id,
             description: item.description,
-            metadata: item.metadata,
             product: {
               id: product?.id,
               name: product?.name,
@@ -88,20 +87,17 @@ export async function GET(request: Request) {
             }
           })
 
-          // Combine metadata from both product and line item
-          const combinedMetadata = {
-            gender: item.metadata?.gender || product?.metadata?.gender || '',
-            size: item.metadata?.size || product?.metadata?.size || '',
-            language: item.metadata?.language || product?.metadata?.language || '',
-            dimensions: item.metadata?.dimensions || product?.metadata?.dimensions || ''
-          }
-
           return {
             description: item.description,
             name: product?.name || '',
             quantity: item.quantity,
             amount_total: item.amount_total,
-            metadata: combinedMetadata
+            metadata: {
+              gender: product?.metadata?.gender || '',
+              size: product?.metadata?.size || '',
+              language: product?.metadata?.language || '',
+              dimensions: product?.metadata?.dimensions || ''
+            }
           }
         }),
         shipping: {
