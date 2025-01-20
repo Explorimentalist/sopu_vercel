@@ -88,7 +88,7 @@ export async function GET(request: Request) {
           })
 
           return {
-            description: item.description,
+            description: item.description || `${item.price?.product?.metadata?.language || ''}, ${item.price?.product?.metadata?.dimensions || ''}`.trim(),
             name: product?.name || '',
             quantity: item.quantity,
             amount_total: item.amount_total,

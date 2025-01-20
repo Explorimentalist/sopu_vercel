@@ -232,7 +232,13 @@ export default function CheckoutSuccessPage() {
                   <div className="flex items-start gap-4">
                     <div className="flex-grow">
                       <h3 className="font-medium">{item.name}</h3>
-                      {/* Add variant display */}
+                      {/* Display description first */}
+                      {item.description && (
+                        <p className="text-sm text-zinc-600 mt-1">
+                          {item.description}
+                        </p>
+                      )}
+                      {/* Then display variant info if any */}
                       {getVariantDisplay(item) && (
                         <p className="text-sm text-zinc-600 mt-1">
                           {getVariantDisplay(item)}
