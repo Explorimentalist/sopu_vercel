@@ -54,6 +54,15 @@ export async function POST(req: Request) {
       if (item.dimensions) variantParts.push(item.dimensions)
       const variantDescription = variantParts.join(', ')
 
+      // Create metadata object
+      const itemMetadata = {
+        original_name: item.name,
+        gender: item.gender || '',
+        size: item.size || '',
+        language: item.language || '',
+        dimensions: item.dimensions || ''
+      }
+
       return {
         price_data: {
           currency: currency.toLowerCase(),
@@ -61,26 +70,12 @@ export async function POST(req: Request) {
             name: `${item.name}${variantDescription ? ` - ${variantDescription}` : ''}`,
             description: item.description,
             images: item.image && new URL(item.image) ? [item.image] : undefined,
-            metadata: {
-              // Store original name without variants
-              original_name: item.name,
-              // Store variant information
-              gender: item.gender || '',
-              size: item.size || '',
-              language: item.language || '',
-              dimensions: item.dimensions || ''
-            },
+            metadata: itemMetadata,
           },
           unit_amount: Math.round(item.price * 100),
         },
         quantity: item.quantity,
-        // Add metadata at line item level for better tracking
-        metadata: {
-          language: item.language || '',
-          dimensions: item.dimensions || '',
-          gender: item.gender || '',
-          size: item.size || ''
-        }
+        metadata: itemMetadata // Use the same metadata at line item level
       }
     })
 
