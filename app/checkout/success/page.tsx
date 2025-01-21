@@ -30,11 +30,10 @@ interface OrderDetails {
       quantity: number;
       amount_total: number;
       metadata: {
+        dimensions?: string;
+        language?: string;
         gender?: string;
         size?: string;
-        language?: string;
-        dimensions?: string;
-        [key: string]: string | undefined;
       };
     }>;
     shipping: {
@@ -73,21 +72,54 @@ export default function CheckoutSuccessPage() {
     const fetchOrderDetails = async () => {
       try {
         setLoading(true)
+        // Ensure we're using the correct API path
         const apiUrl = `${window.location.origin}/api/order-details`
         
-        console.log('Fetching order details from:', apiUrl)
+        console.log('Fetching from:', apiUrl) // Debug log
         
-        const response = await fetch(`${apiUrl}?session_id=${sessionId}`)
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
+        const response = await fetch(`${apiUrl}?session_id=${sessionId}`, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'application/json'
+          },
+          next: { revalidate: 0 } // Disable cache
+        })
+
+        // Log the response details for debugging
+        console.log('Response status:', response.status)
+        console.log('Response headers:', Object.fromEntries(response.headers))
+
+        // Check if response is redirect
+        if (response.redirected) {
+          throw new Error('Request was redirected - check your API route configuration')
         }
-        
-        const data = await response.json()
-        
-        // Debug log to verify metadata
-        console.log('Received order details:', data)
-        
+
+        let data
+        try {
+          const textData = await response.text() // Get raw response
+          console.log('Raw response:', textData) // Debug log
+          
+          try {
+            data = JSON.parse(textData)
+          } catch (e) {
+            console.error('JSON parse error:', e)
+            throw new Error('Invalid JSON response from server')
+          }
+        } catch (e) {
+          console.error('Response parsing error:', e)
+          throw new Error('Failed to parse server response')
+        }
+
+        if (!response.ok || data.error) {
+          throw new Error(data.error || `Server error: ${response.status}`)
+        }
+
+        if (!data.orderDetails) {
+          throw new Error('Invalid order details received')
+        }
+
         if (isMounted) {
           setOrderDetails(data)
           setError(null)
@@ -110,31 +142,33 @@ export default function CheckoutSuccessPage() {
   }, [searchParams])
 
   const getVariantDisplay = (item: OrderDetails['orderDetails']['items'][0]) => {
-    // Maintain consistency with cart-sidebar.tsx display logic
     const variants = []
     
     if (item.metadata) {
-      // Handle dimensions and language for Calendario
+      // Handle Calendario variants
       if (item.name.toLowerCase().includes('calendario')) {
-        if (item.metadata.dimensions) variants.push(item.metadata.dimensions)
-        if (item.metadata.language) {
-          const language = item.metadata.language
+        const { dimensions, language } = item.metadata
+        if (dimensions) variants.push(dimensions)
+        if (language) {
           variants.push(language.charAt(0).toUpperCase() + language.slice(1))
         }
       }
-      // Handle gender and size for other products
+      // Handle clothing variants
       else {
-        if (item.metadata.gender) variants.push(
-          item.metadata.gender === 'male' ? 'Hombre' :
-          item.metadata.gender === 'female' ? 'Mujer' :
-          item.metadata.gender === 'kids' ? 'Niños' : 
-          item.metadata.gender
-        )
-        if (item.metadata.size) variants.push(item.metadata.size.toUpperCase())
+        const { gender, size } = item.metadata
+        if (gender) {
+          const genderMap: Record<string, string> = {
+            male: 'Hombre',
+            female: 'Mujer',
+            kids: 'Niños'
+          }
+          variants.push(genderMap[gender] || gender)
+        }
+        if (size) variants.push(size.toUpperCase())
       }
     }
     
-    return variants.join(', ')
+    return variants.length > 0 ? variants.join(', ') : null
   }
 
   return (

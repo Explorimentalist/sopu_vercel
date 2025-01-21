@@ -5,6 +5,25 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2023-10-16'
 })
 
+interface LineItemMetadata {
+  gender?: string;
+  size?: string;
+  language?: string;
+  dimensions?: string;
+  original_name?: string;
+}
+
+// Define the shape of our line item
+type LineItem = Stripe.Response<Stripe.ApiList<Stripe.LineItem>>['data'][0] & {
+  metadata?: LineItemMetadata;
+  price?: {
+    product?: Stripe.Product & {
+      name?: string;
+      metadata?: LineItemMetadata;
+    };
+  };
+}
+
 export async function GET(request: NextRequest) {
   try {
     const searchParams = request.nextUrl.searchParams
@@ -17,12 +36,12 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    // Retrieve session with expanded line items and product metadata
+    // Retrieve session with expanded line items to access product metadata
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: ['line_items.data.price.product']
     })
 
-    // Map the line items to include product metadata
+    // Extract line items with their product metadata
     const items = session.line_items?.data.map(item => ({
       description: item.description,
       name: item.description,
@@ -46,8 +65,8 @@ export async function GET(request: NextRequest) {
         currency: session.currency,
         items: items,
         shipping: {
-          carrier: 'Standard Shipping', // Or get from session if available
-          amount: session.shipping_cost || 0
+          carrier: session.shipping_cost?.shipping_rate?.display_name || 'Standard Shipping',
+          amount: session.shipping_cost?.amount_total || 0
         }
       }
     }
