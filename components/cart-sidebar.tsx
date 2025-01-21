@@ -70,24 +70,40 @@ export function CartSidebarComponent() {
 
       // Format line items with proper structure
       const lineItems = items.map(item => {
-        const formattedItem = {
+        // Create product description including variants
+        const variantInfo = []
+        if (item.gender) variantInfo.push(
+          item.gender === 'male' ? 'Hombre' :
+          item.gender === 'female' ? 'Mujer' :
+          item.gender === 'kids' ? 'Niños' : item.gender
+        )
+        if (item.size) variantInfo.push(item.size.toUpperCase())
+        if (item.language) variantInfo.push(item.language)
+        if (item.dimensions) variantInfo.push(item.dimensions)
+
+        // Format description with variants
+        const description = variantInfo.length > 0 
+          ? `${item.name} (${variantInfo.join(', ')})`
+          : item.name
+
+        return {
           name: item.name,
+          description: description,
           price: Number((currency === 'EUR' ? item.price * exchangeRate : item.price).toFixed(2)),
           quantity: item.quantity,
-          // Use Cloudinary URL directly
           image: item.image.startsWith('http') 
             ? item.image 
             : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${item.image}`,
-          description: getVariantDisplay(item),
-          metadata: {
-            gender: item.gender || '',
-            size: item.size || '',
-            language: item.language || '',
-            dimensions: item.dimensions || '',
+          // Store variant info in product metadata
+          product_data: {
+            metadata: {
+              gender: item.gender || '',
+              size: item.size || '',
+              language: item.language || '',
+              dimensions: item.dimensions || '',
+            }
           }
         }
-        console.log('Sending to checkout:', formattedItem)
-        return formattedItem
       })
 
       console.log('Sending to checkout:', { items: lineItems, currency })
