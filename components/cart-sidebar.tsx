@@ -65,6 +65,9 @@ export function CartSidebarComponent() {
         throw new Error('Live mode keys cannot be used in development environment')
       }
 
+      // Get the current window origin
+      const origin = window.location.origin
+
       // Format line items with proper structure
       const lineItems = items.map(item => {
         // Create product description including variants
@@ -84,21 +87,22 @@ export function CartSidebarComponent() {
           : item.name
 
         return {
-          price_data: {
-            currency: currency.toLowerCase(),
-            product_data: {
-              name: item.name,
-              description: description,
-              metadata: {
-                gender: item.gender || '',
-                size: item.size || '',
-                language: item.language || '',
-                dimensions: item.dimensions || '',
-              }
-            },
-            unit_amount: Math.round(item.price * 100), // Stripe expects amount in cents
-          },
+          name: item.name,
+          description: description,
+          price: Number((currency === 'EUR' ? item.price * exchangeRate : item.price).toFixed(2)),
           quantity: item.quantity,
+          image: item.image.startsWith('http') 
+            ? item.image 
+            : `https://res.cloudinary.com/${process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME}/image/upload/${item.image}`,
+          // Store variant info in product metadata
+          product_data: {
+            metadata: {
+              gender: item.gender || '',
+              size: item.size || '',
+              language: item.language || '',
+              dimensions: item.dimensions || '',
+            }
+          }
         }
       })
 
@@ -110,7 +114,7 @@ export function CartSidebarComponent() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          line_items: lineItems,
+          items: lineItems,
           currency: currency.toLowerCase(),
         }),
       })
