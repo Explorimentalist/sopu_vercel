@@ -13,18 +13,15 @@ interface LineItemMetadata {
   original_name?: string;
 }
 
-// Define custom types for Stripe entities with metadata
-interface CustomProduct extends Omit<Stripe.Product, 'metadata'> {
-  metadata: LineItemMetadata;
-}
-
-interface CustomPrice extends Omit<Stripe.Price, 'product'> {
-  product: CustomProduct;
-}
-
-interface CustomLineItem extends Omit<Stripe.LineItem, 'price' | 'metadata'> {
-  metadata: LineItemMetadata;
-  price: CustomPrice;
+// Define the shape of our line item
+type LineItem = Stripe.Response<Stripe.ApiList<Stripe.LineItem>>['data'][0] & {
+  metadata?: LineItemMetadata;
+  price?: {
+    product?: Stripe.Product & {
+      name?: string;
+      metadata?: LineItemMetadata;
+    };
+  };
 }
 
 export async function GET(request: Request) {
@@ -39,28 +36,26 @@ export async function GET(request: Request) {
   }
 
   try {
-    // Expand all necessary fields including line_items and prices
+    // Expand line_items and product data as recommended in Stripe's best practices
     const session = await stripe.checkout.sessions.retrieve(sessionId, {
       expand: [
-        'line_items.data.price.product',
+        'line_items.data.price.product', // Essential for accessing product metadata
         'shipping_details',
         'customer',
         'shipping_cost.shipping_rate'
       ]
     })
 
-    // Debug logs
+    // Debug logs to trace metadata flow
     console.log('Session Data:', {
       lineItems: session.line_items?.data.map(item => ({
         id: item.id,
         description: item.description,
-        price: {
-          product: item.price?.product && typeof item.price.product === 'object' ? {
-            name: (item.price.product as CustomProduct).name,
-            metadata: (item.price.product as CustomProduct).metadata,
-            description: (item.price.product as CustomProduct).description
-          } : null
-        }
+        // Extract both line item and product metadata
+        metadata: item.metadata,
+        product_metadata: item.price?.product && typeof item.price.product === 'object' 
+          ? (item.price.product as Stripe.Product).metadata 
+          : null
       }))
     })
 
@@ -76,28 +71,29 @@ export async function GET(request: Request) {
         amount: session.amount_total,
         currency: session.currency,
         items: session.line_items?.data.map(item => {
-          const lineItem = item as unknown as CustomLineItem
-          const product = lineItem.price.product
+          const product = item.price?.product as Stripe.Product
           
-          // Debug log the raw data
+          // Debug log the raw data with both metadata sources
           console.log('Processing Order Item:', {
-            id: lineItem.id,
-            description: lineItem.description,
+            id: item.id,
+            description: item.description,
             product: {
               id: product?.id,
               name: product?.name,
               metadata: product?.metadata
             },
-            lineItemMetadata: lineItem.metadata
+            // Include both metadata sources
+            product_metadata: product?.metadata || {},
+            line_item_metadata: item.metadata || {}
           })
 
-          // Get metadata from both product and line item
+          // Combine metadata from both sources, with line item taking precedence
           const metadata = {
-            ...product?.metadata,
-            ...lineItem.metadata // Line item metadata takes precedence
+            ...(product?.metadata || {}),
+            ...(item.metadata || {})
           }
 
-          // Construct the variant description
+          // Construct the variant description from the combined metadata
           const variantParts = []
           if (metadata.language) variantParts.push(metadata.language)
           if (metadata.dimensions) variantParts.push(metadata.dimensions)
@@ -112,11 +108,14 @@ export async function GET(request: Request) {
           const variantDescription = variantParts.join(', ')
 
           return {
-            description: lineItem.description || variantDescription,
+            description: item.description || variantDescription,
             name: metadata.original_name || product?.name || '',
-            quantity: lineItem.quantity,
-            amount_total: lineItem.amount_total,
-            metadata: metadata
+            quantity: item.quantity,
+            amount_total: item.amount_total,
+            // Include both metadata sources in the response
+            metadata: metadata,
+            product_metadata: product?.metadata || {},
+            line_item_metadata: item.metadata || {}
           }
         }),
         shipping: {

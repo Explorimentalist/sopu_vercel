@@ -34,6 +34,21 @@ interface OrderDetails {
         size?: string;
         language?: string;
         dimensions?: string;
+        original_name?: string;
+      };
+      product_metadata: {
+        gender?: string;
+        size?: string;
+        language?: string;
+        dimensions?: string;
+        original_name?: string;
+      };
+      line_item_metadata: {
+        gender?: string;
+        size?: string;
+        language?: string;
+        dimensions?: string;
+        original_name?: string;
       };
     }>;
     shipping: {
@@ -142,32 +157,51 @@ export default function CheckoutSuccessPage() {
   }, [searchParams])
 
   const getVariantDisplay = (item: OrderDetails['orderDetails']['items'][0]) => {
+    // First try to get metadata from product_metadata (recommended by Stripe)
+    const metadata = {
+      ...item.product_metadata,
+      ...item.line_item_metadata, // Line item metadata takes precedence
+      ...item.metadata // Combined metadata as fallback
+    }
+
     // Maintain consistency with cart-sidebar.tsx display logic
     const variants = []
     
-    if (item.metadata) {
+    if (metadata) {
       // Handle dimensions and language for Calendario
       if (item.name.toLowerCase().includes('calendario')) {
-        if (item.metadata.dimensions) variants.push(item.metadata.dimensions)
-        if (item.metadata.language) {
-          const language = item.metadata.language
+        if (metadata.dimensions) variants.push(metadata.dimensions)
+        if (metadata.language) {
+          const language = metadata.language
           variants.push(language.charAt(0).toUpperCase() + language.slice(1))
         }
       }
       // Handle gender and size for other products
       else {
-        if (item.metadata.gender) variants.push(
-          item.metadata.gender === 'male' ? 'Hombre' :
-          item.metadata.gender === 'female' ? 'Mujer' :
-          item.metadata.gender === 'kids' ? 'Niños' : 
-          item.metadata.gender
+        if (metadata.gender) variants.push(
+          metadata.gender === 'male' ? 'Hombre' :
+          metadata.gender === 'female' ? 'Mujer' :
+          metadata.gender === 'kids' ? 'Niños' : 
+          metadata.gender
         )
-        if (item.metadata.size) variants.push(item.metadata.size.toUpperCase())
+        if (metadata.size) variants.push(metadata.size.toUpperCase())
       }
     }
     
     return variants.join(', ')
   }
+
+  // Debug log for metadata tracking
+  useEffect(() => {
+    if (orderDetails) {
+      console.log('Order Details Metadata:', orderDetails.orderDetails.items.map(item => ({
+        name: item.name,
+        product_metadata: item.product_metadata,
+        line_item_metadata: item.line_item_metadata,
+        combined_metadata: item.metadata
+      })))
+    }
+  }, [orderDetails])
 
   return (
     <main className="min-h-screen pt-24 px-4 pb-16">
