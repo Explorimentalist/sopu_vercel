@@ -219,28 +219,45 @@ export default function CheckoutSuccessPage() {
               <p>{orderDetails.customerDetails.email}</p>
             </div>
 
-            {/* Order Items */}
-            <div className="divide-y">
+            {/* Order Items Section: Displays a list of all purchased items */}
+            <div className="divide-y"> {/* Uses divide-y for visual separation between items */}
+              {/* Iterate through each item in the order */}
               {orderDetails.orderDetails.items.map((item, index) => (
+                /* Individual Item Container */
                 <div key={index} className="p-6">
+                  {/* Flex container for item details and price */}
                   <div className="flex items-start gap-4">
+                    {/* Left side: Item details container */}
                     <div className="flex-grow">
+                      {/* Item name/title */}
                       <h3 className="font-medium">{item.name}</h3>
-                      {/* Display variant information */}
+
+                      {/* Variant Information Display (e.g., size, color, language) 
+                          Only renders if getVariantDisplay returns a value */}
                       {getVariantDisplay(item) && (
                         <p className="text-sm text-zinc-500 mt-1">
-                          {getVariantDisplay(item)}
+                          {getVariantDisplay(item)} {/* Formats variant info like "Large, Red" */}
                         </p>
                       )}
-                      {item.description && (
+
+                      {/* Item Description - Optional
+                          Only displays if item has a description */}
+                      {/* {item.description && (
                         <p className="text-sm text-zinc-600 mt-1">
                           {item.description}
                         </p>
-                      )}
+                      )} */}
+
+                      {/* Quantity Display 
+                          Shows how many of this item were purchased */}
                       <div className="mt-1 text-sm text-zinc-600">
                         Cantidad: {item.quantity}
                       </div>
                     </div>
+
+                    {/* Right side: Price Display
+                        Uses formatPrice to display in correct currency
+                        Divides by 100 because Stripe stores amounts in cents */}
                     <p className="font-medium">
                       {formatPrice(item.amount_total / 100)}
                     </p>
