@@ -21,7 +21,7 @@ export const products: Product[] = [
   {
     id: 2,
     name: "Calendario Ndowéyé",
-    price: 0.01,
+    price: 9.97,
     image: "calendarioA3_1_cdxywv",
     hoverImage: "calendarioA3_2_ffvkdv",
     tag: "Edición limitada",
