@@ -44,8 +44,18 @@ export default function RootLayout({
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
+            
+            // Initialize with consent mode
+            gtag('consent', 'default', {
+              'analytics_storage': 'denied'
+            });
+            
             gtag('js', new Date());
-            gtag('config', 'G-9SYNGE7FKX');
+            gtag('config', 'G-9SYNGE7FKX', {
+              page_location: window.location.href,
+              page_path: window.location.pathname,
+              cookie_domain: '.xn--spu-gna.com'
+            });
           `}
         </Script>
       </head>

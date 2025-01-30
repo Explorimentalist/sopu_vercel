@@ -33,7 +33,8 @@ export function CookieConsent() {
     localStorage.setItem('cookieConsent', 'accepted_all')
     setIsOpen(false)
     window.gtag?.('consent', 'update', {
-      'analytics_storage': 'granted'
+      'analytics_storage': 'granted',
+      'functionality_storage': 'granted'
     });
     console.log('Accepted all cookies')
   }
@@ -42,7 +43,8 @@ export function CookieConsent() {
     localStorage.setItem('cookieConsent', 'rejected_all')
     setIsOpen(false)
     window.gtag?.('consent', 'update', {
-      'analytics_storage': 'denied'
+      'analytics_storage': 'denied',
+      'functionality_storage': 'denied'
     });
     console.log('Rejected all cookies')
   }
