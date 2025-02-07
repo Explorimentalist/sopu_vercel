@@ -26,7 +26,7 @@ export default function ProductsOverview() {
           >
             {/* Image section - responsive columns */}
             <Link 
-              href={product.id === 1 ? "/camiseta" : product.id === 2 ? "/calendario" : "#"}
+              href={product.id === 1 ? "/camiseta" : product.id === 2 ? "/calendario" : product.id === 3 ? "/preorder" : "#"}
               className="col-span-4 md:col-span-8 lg:col-span-9 relative aspect-[5/6] md:aspect-[16/9] overflow-hidden bg-zinc-100"
               onMouseEnter={() => setHoveredProduct(product.id)}
               onMouseLeave={() => setHoveredProduct(null)}

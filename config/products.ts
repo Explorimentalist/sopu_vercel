@@ -26,6 +26,15 @@ export const products: Product[] = [
     hoverImage: "calendarioA3_2_ffvkdv",
     tag: "Edición limitada",
     slug: "calendario"
+  },
+  {
+    id: 3,
+    name: "Dina",
+    price: 15.00,
+    image: "pronto_x2yscr",
+    hoverImage: "pronto_x2yscr",
+    tag: "Libro ilustrado",
+    slug: "preorder"
   }
 ]
 
