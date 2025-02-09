@@ -23,12 +23,40 @@ export default function PreorderForm() {
     quantity: 1,
     message: "",
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Here you would typically send the data to your API
-    console.log(formData);
-    window.location.href = "/preorder/success";
+    setIsLoading(true);
+    setError(null);
+    
+    try {
+      const response = await fetch('/api/preorder', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || `Error ${response.status}: ${response.statusText}`);
+      }
+
+      window.location.href = "/preorder/success";
+    } catch (error) {
+      console.error('Form submission error:', error);
+      setError(
+        error instanceof Error 
+          ? error.message 
+          : 'Failed to submit form. Please try again. If the problem persists, please contact support.'
+      );
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -48,6 +76,12 @@ export default function PreorderForm() {
       <form onSubmit={handleSubmit} className="w-full max-w-md space-y-6">
         <h1 className="text-3xl font-bold mb-8">Reserva Dina</h1>
         
+        {error && (
+          <div className="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-md">
+            {error}
+          </div>
+        )}
+
         <div className="space-y-2">
           <Label htmlFor="name">Nombre</Label>
           <Input
@@ -98,8 +132,9 @@ export default function PreorderForm() {
           <Button 
             type="submit"
             className="w-full bg-black hover:bg-gray-800 text-white transition-colors"
+            disabled={isLoading}
           >
-            Enviar Reserva
+            {isLoading ? 'Enviando...' : 'Enviar Reserva'}
           </Button>
         </div>
       </form>

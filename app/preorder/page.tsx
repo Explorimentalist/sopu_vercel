@@ -22,9 +22,9 @@ const product = getProductBySlug("preorder");
 const sections: Section[] = [
   {
     id: 1,
-    title: product?.name || "Dina",
-    description: "Un libro ilustrado que te conecta con la lengua Ndowéÿé de una manera natural y divertida. Perfecto para quienes quieren mantener viva su lengua o comenzar a aprenderla.",
-    position: "middle-right",
+    title: product?.name || "",
+    description: "",
+    position: "middle-center",
     imageUrl: "dina_cover_uwchsi"
   },
   {
@@ -100,8 +100,11 @@ export default function PreorderPage() {
             isNearFooter 
               ? 'absolute bottom-8' 
               : 'fixed bottom-8'
-            } left-1/2 -translate-x-1/2 z-10`}
+            } left-1/2 -translate-x-1/2 z-10 text-center`}
           >
+            <p className="text-lg font-medium mb-4 text-zinc-800 px-6 py-2 rounded-full">
+              Reserva tu copia y mantén el Ndowéÿé vivo. 
+            </p>
             <Link href="/preorder/form">
               <Button 
                 size="lg"

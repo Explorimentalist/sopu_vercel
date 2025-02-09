@@ -29,12 +29,12 @@ export const products: Product[] = [
   },
   {
     id: 3,
-    name: "Dina",
+    name: "Dina (reserva)",
     price: 15.00,
     image: "pronto_x2yscr",
-    hoverImage: "pronto_x2yscr",
+    hoverImage: "dina_cover_uwchsi",
     tag: "Libro ilustrado",
-    slug: "preorder"
+    slug: "reserva"
   }
 ]
 
