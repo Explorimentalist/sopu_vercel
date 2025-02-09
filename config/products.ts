@@ -26,6 +26,15 @@ export const products: Product[] = [
     hoverImage: "calendarioA3_2_ffvkdv",
     tag: "Edición limitada",
     slug: "calendario"
+  },
+  {
+    id: 3,
+    name: "Dina (reserva)",
+    price: 15.00,
+    image: "pronto_x2yscr",
+    hoverImage: "dina_cover_uwchsi",
+    tag: "Libro ilustrado",
+    slug: "reserva"
   }
 ]
 
