@@ -119,7 +119,7 @@ export default function PreorderForm() {
         </div>
 
         <div className="space-y-2">
-          <Label htmlFor="message">Mensaje (Opcional)</Label>
+          <Label htmlFor="message">Para quien lo reseras? (Opcional)</Label>
           <Textarea
             id="message"
             value={formData.message}
@@ -134,7 +134,7 @@ export default function PreorderForm() {
             className="w-full bg-black hover:bg-gray-800 text-white transition-colors"
             disabled={isLoading}
           >
-            {isLoading ? 'Enviando...' : 'Enviar Reserva'}
+            {isLoading ? 'Enviando...' : 'Reservar'}
           </Button>
         </div>
       </form>

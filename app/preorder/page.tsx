@@ -103,14 +103,14 @@ export default function PreorderPage() {
             } left-1/2 -translate-x-1/2 z-10 text-center`}
           >
             <p className="text-lg font-medium mb-4 text-zinc-800 px-6 py-2 rounded-full">
-              Reserva tu copia y mantén el Ndowéÿé vivo. 
+              Reserva tu copia y mantén el Ndowéÿé vivo.
             </p>
             <Link href="/preorder/form">
               <Button 
                 size="lg"
                 className="bg-red-500 hover:bg-red-800 text-white transition-colors px-8 py-6 text-lg"
               >
-                Reserva ahora
+                Reserva para el 3 de Abril
               </Button>
             </Link>
           </div>

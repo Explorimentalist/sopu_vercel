@@ -10,7 +10,7 @@ export default function PreorderSuccess() {
             ¡Gracias por tu Reserva!
           </h1>
           <p className="text-lg text-zinc-600">
-            Te contactaremos pronto con más detalles.
+            Conntactaremos contigo pronto con más detalles.
           </p>
         </div>
 

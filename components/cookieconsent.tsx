@@ -34,8 +34,16 @@ export function CookieConsent() {
     setIsOpen(false)
     window.gtag?.('consent', 'update', {
       'analytics_storage': 'granted',
-      'functionality_storage': 'granted'
+      'functionality_storage': 'granted',
+      'security_storage': 'granted'
     });
+    
+    // Trigger a pageview after consent is granted
+    window.gtag?.('event', 'page_view', {
+      page_path: window.location.pathname,
+      send_to: process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID
+    });
+    
     console.log('Accepted all cookies')
   }
 

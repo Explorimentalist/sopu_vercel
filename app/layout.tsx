@@ -35,7 +35,7 @@ export default function RootLayout({
       <head>
         <Script 
           strategy="afterInteractive"
-          src="https://www.googletagmanager.com/gtag/js?id=G-9SYNGE7FKX" 
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}`}
         />
         <Script
           id="google-analytics"
@@ -44,17 +44,14 @@ export default function RootLayout({
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
-            
-            // Initialize with consent mode
-            gtag('consent', 'default', {
-              'analytics_storage': 'denied'
-            });
-            
             gtag('js', new Date());
-            gtag('config', 'G-9SYNGE7FKX', {
-              page_location: window.location.href,
+            
+            // Initialize GA4 with default consent mode
+            gtag('config', '${process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID}', {
               page_path: window.location.pathname,
-              cookie_domain: '.xn--spu-gna.com'
+              cookie_domain: '.xn--spu-gna.com',
+              cookie_flags: 'SameSite=None;Secure',
+              send_page_view: true
             });
           `}
         </Script>
